@@ -1,0 +1,11 @@
+{
+  "name": "pixen-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "node server/index.js",
+    "dev:server": "npx nodemon server/index.js",
+    "install:all": "npm install --prefix client && npm install --prefix server"
+  }
+}

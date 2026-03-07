@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-white font-sans antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-brand-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brand-purple rounded-full;
+  }
+}
+
+@layer components {
+  .section-heading {
+    @apply text-3xl md:text-4xl font-semibold leading-tight;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    letter-spacing: -0.3px;
+  }
+
+  .section-sub {
+    @apply text-gray-400 text-sm md:text-base;
+  }
+
+  .btn-primary {
+    @apply bg-brand-purple hover:bg-brand-violet text-white font-medium px-6 py-2.5 rounded-full transition-all duration-300 cursor-pointer text-sm;
+  }
+
+  .btn-outline {
+    @apply border border-brand-purple text-brand-purple hover:bg-brand-purple hover:text-white font-medium px-6 py-2.5 rounded-full transition-all duration-300 cursor-pointer text-sm;
+  }
+
+  .card {
+    @apply bg-brand-card border border-white/[.06] rounded-3xl p-6;
+  }
+
+  .badge {
+    @apply text-[9px] uppercase tracking-widest;
+    color: #888888;
+    font-family: 'Unbounded', system-ui, sans-serif;
+  }
+
+  .icon-btn {
+    @apply w-[50px] h-[50px] rounded-full bg-brand-card-2 flex items-center justify-center text-brand-muted hover:bg-brand-purple hover:text-white transition-all duration-200 cursor-pointer;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #6B35D9, #9B6BFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
