@@ -69,24 +69,30 @@ function useReveal(delay = 0) {
 /* ── Bento Card ── */
 function BentoCard({ tech, layout, index }) {
   const { ref, visible } = useReveal(index * 80);
-  const { colSpan, rowSpan, size } = layout;
+  const { size } = layout;
 
   const isLg   = size === "lg";
   const isTall = size === "tall";
   const isWide = size === "wide";
 
+  const getSpans = () => {
+    switch (size) {
+      case "lg": return "col-span-2 row-span-2"; // Full width on mobile, 1/3 on desktop
+      case "tall": return "col-span-1 lg:row-span-2"; // Half width on mobile
+      case "wide": return "col-span-1 lg:col-span-2"; // NOW: Half width on mobile, Double on desktop
+      default: return "col-span-1"; // Next.js, HTML, etc.
+    }
+  };
+
   return (
     <div
       ref={ref}
-      className="group relative overflow-hidden rounded-3xl border border-white/[.06] transition-all duration-700 ease-out"
+      className={`group relative overflow-hidden rounded-3xl border border-white/[.06] transition-all duration-700 ease-out bg-[#141414] ${getSpans()}`}
       style={{
-        gridColumn: `span ${colSpan}`,
-        gridRow: `span ${rowSpan}`,
         opacity: visible ? 1 : 0,
         transform: visible
           ? "translateY(0) scale(1)"
           : "translateY(40px) scale(0.96)",
-        background: "#141414",
       }}
     >
       {/* Gradient glow on hover */}
@@ -242,11 +248,7 @@ export default function Technologies() {
 
         {/* ── Bento Grid ── */}
         <div
-          className="grid gap-3 sm:gap-4"
-          style={{
-            gridTemplateColumns: "repeat(6, 1fr)",
-            gridAutoRows: "minmax(120px, auto)",
-          }}
+          className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 grid-rows-[repeat(auto-fill,minmax(120px,auto))]"
         >
           {techs.map((tech, i) => (
             <BentoCard

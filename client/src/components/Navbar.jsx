@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowUpRight } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/#about' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Our Work', href: '/our-work' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export default function Navbar() {
@@ -36,7 +37,7 @@ export default function Navbar() {
       >
         <div className="max-w-[1200px] mx-auto px-6 py-6 flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2.5">
+          <Link to="/" className="flex items-center gap-2.5">
             <div
               className="w-[22px] h-[22px] bg-brand-purple rounded-[4px] grid place-items-center text-white"
               style={{ fontSize: 11 }}
@@ -46,20 +47,31 @@ export default function Navbar() {
             <span className="font-display font-bold text-white text-sm tracking-tight">
               PIXEN.STUDIO
             </span>
-          </a>
+          </Link>
 
-          {/* MENU */}
-          <button
-            onClick={() => setOpen(true)}
-            className="flex items-center gap-3 text-brand-muted hover:text-white transition-colors duration-200 cursor-pointer"
-            aria-label="Open menu"
-          >
-            <span className="font-display text-[10px] uppercase tracking-widest">Menu</span>
-            <div className="flex flex-col gap-[5px]">
-              <span className="w-5 h-[1.5px] bg-white block" />
-              <span className="w-5 h-[1.5px] bg-white block" />
-            </div>
-          </button>
+          {/* Header Right */}
+          <div className="flex items-center gap-6 sm:gap-8">
+            {/* The 'Our Work' link is already hidden on mobile by 'hidden sm:block' */}
+            <Link
+              to="/our-work"
+              className="hidden sm:block font-display text-[10px] uppercase tracking-widest text-brand-muted hover:text-white transition-colors duration-200"
+            >
+              Our Work
+            </Link>
+
+            {/* MENU */}
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-3 text-brand-muted hover:text-white transition-colors duration-200 cursor-pointer"
+              aria-label="Open menu"
+            >
+              <span className="font-display text-[10px] uppercase tracking-widest">Menu</span>
+              <div className="flex flex-col gap-[5px]">
+                <span className="w-5 h-[1.5px] bg-white block" />
+                <span className="w-5 h-[1.5px] bg-white block" />
+              </div>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -75,10 +87,10 @@ export default function Navbar() {
           >
             {/* Top bar */}
             <div className="max-w-[1200px] mx-auto px-6 py-6 flex items-center justify-between w-full">
-              <a href="#home" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
+              <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
                 <div className="w-[22px] h-[22px] bg-brand-purple rounded-[4px] grid place-items-center text-white" style={{ fontSize: 11 }}>⊞</div>
                 <span className="font-display font-bold text-white text-sm tracking-tight">PIXEN.STUDIO</span>
-              </a>
+              </Link>
               <button
                 onClick={() => setOpen(false)}
                 className="font-display text-[10px] uppercase tracking-widest text-brand-muted hover:text-white transition-colors cursor-pointer"
@@ -90,26 +102,29 @@ export default function Navbar() {
             {/* Nav links */}
             <nav className="flex-1 flex flex-col justify-center max-w-[1200px] mx-auto px-6 w-full">
               {navLinks.map((l, i) => (
-                <motion.a
+                <motion.div
                   key={l.label}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.04 + i * 0.06 }}
-                  className="group flex items-center justify-between py-5 border-b border-white/[.06] last:border-0"
                 >
-                  <span
-                    className="font-display font-black uppercase text-white group-hover:text-brand-purple transition-colors duration-200"
-                    style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}
+                  <Link
+                    to={l.href}
+                    onClick={() => setOpen(false)}
+                    className="group flex items-center justify-between py-5 border-b border-white/[.06] last:border-0"
                   >
-                    {l.label}
-                  </span>
-                  <FiArrowUpRight
-                    size={24}
-                    className="text-brand-muted group-hover:text-brand-purple transition-colors opacity-0 group-hover:opacity-100"
-                  />
-                </motion.a>
+                    <span
+                      className="font-display font-black uppercase text-white group-hover:text-brand-purple transition-colors duration-200"
+                      style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}
+                    >
+                      {l.label}
+                    </span>
+                    <FiArrowUpRight
+                      size={24}
+                      className="text-brand-muted group-hover:text-brand-purple transition-colors opacity-0 group-hover:opacity-100"
+                    />
+                  </Link>
+                </motion.div>
               ))}
             </nav>
 
@@ -118,13 +133,13 @@ export default function Navbar() {
               <p className="text-brand-muted font-display text-[10px] uppercase tracking-widest">
                 © {new Date().getFullYear()} PIXEN.STUDIO
               </p>
-              <a
-                href="#contact"
+              <Link
+                to="/#contact"
                 onClick={() => setOpen(false)}
                 className="bg-brand-purple hover:bg-brand-violet text-white font-semibold text-xs px-6 py-3 rounded-full transition-colors duration-200"
               >
                 Hire us →
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { FiCode, FiLayers, FiPenTool } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -48,18 +49,18 @@ export default function Hero() {
               >
                 Start Your Project
               </a>
-              <a
-                href="#services"
+              <Link
+                to="/our-work"
                 className="bg-transparent border border-white/20 text-white hover:bg-white/10 text-[15px] font-medium px-8 py-3.5 rounded-[12px] transition-all duration-300"
               >
-                Our Services
-              </a>
+                 Our Work
+              </Link>
             </motion.div>
 
             
           </div>
 
-          <div className="grid grid-cols-1 gap-5 lg:gap-6">
+          <div className="hidden lg:grid grid-cols-1 gap-5 lg:gap-6">
             {/* ── Card 1: Web & App Development ── */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}

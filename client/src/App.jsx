@@ -1,26 +1,17 @@
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Process from './components/Process';
-import WhyUs from './components/WhyUs';
-import Technologies from './components/Technologies';
-import Testimonials from './components/Testimonials';
-import CTA from './components/CTA';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import OurWork from './pages/OurWork';
 
 function App() {
   return (
     <div className="min-h-screen bg-brand-bg">
       <Navbar />
-      <Hero />
-      {/* <Clients /> */}
-      <Services />
-      {/* <Portfolio /> */}
-      <Process />
-      <Technologies />
-      <WhyUs />
-      <Testimonials />
-      <CTA />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/our-work" element={<OurWork />} />
+      </Routes>
       <Footer />
     </div>
   );

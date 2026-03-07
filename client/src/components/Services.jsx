@@ -80,8 +80,7 @@ export default function Services() {
 
         {/* ── FLEX ACCORDION CARDS ── */}
         <div
-          className="flex flex-col lg:flex-row gap-3"
-          style={{ height: 540 }}
+          className="flex flex-col lg:flex-row gap-3 lg:h-[540px]"
         >
           {services.map((s, idx) => {
             const isActive = active === idx;
@@ -173,10 +172,12 @@ export default function Services() {
                       </h3>
                     </div>
 
-                    {/* Mobile always-visible title */}
-                    <div className="lg:hidden mt-2">
-                      <h3 className="font-display font-semibold text-white text-base">{s.title}</h3>
-                    </div>
+                    {/* Mobile always-visible title (hidden when active to avoid duplication) */}
+                    {!isActive && (
+                      <div className="lg:hidden mt-2">
+                        <h3 className="font-display font-semibold text-white text-base">{s.title}</h3>
+                      </div>
+                    )}
                   </div>
 
                   {/* Bottom — description, visible when active */}
@@ -212,5 +213,3 @@ export default function Services() {
     </section>
   );
 }
-
-
