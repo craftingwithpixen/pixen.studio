@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion';
-import { FiMail, FiInstagram, FiTwitter, FiLinkedin, FiGithub, FiArrowUpRight } from 'react-icons/fi';
+import { FiMail, FiInstagram, FiLinkedin, FiGithub, FiArrowUpRight } from 'react-icons/fi';
 
 const socials = [
-  { icon: <FiInstagram size={18} />, href: '#', label: 'Instagram' },
-  { icon: <FiTwitter size={18} />, href: '#', label: 'Twitter' },
-  { icon: <FiLinkedin size={18} />, href: '#', label: 'LinkedIn' },
-  { icon: <FiGithub size={18} />, href: '#', label: 'GitHub' },
-  { icon: <FiMail size={18} />, href: 'mailto:hello@pixen.studio', label: 'Email' },
+  { icon: <FiInstagram size={18} />, href: 'https://www.instagram.com/craftingwithpixen', label: 'Instagram' },
+  { icon: <FiLinkedin size={18} />, href: 'https://www.linkedin.com/company/crafting-with-pixen', label: 'LinkedIn' },
+  { icon: <FiGithub size={18} />, href: 'https://github.com/craftingwithpixen', label: 'GitHub' },
+  { icon: <FiMail size={18} />, href: 'mailto:craftingwithpixen@gmail.com', label: 'Email' },
 ];
 
 export default function CTA() {
@@ -79,7 +78,7 @@ export default function CTA() {
                   className="flex flex-wrap items-center gap-4 mb-10"
                 >
                   <a
-                    href="mailto:hello@pixen.studio"
+                    href="mailto:craftingwithpixen@gmail.com"
                     className="bg-brand-purple hover:bg-brand-violet text-white text-[15px] font-medium px-8 py-3.5 rounded-[12px] transition-all duration-300 inline-flex items-center gap-2"
                   >
                     Start Your Project <FiArrowUpRight size={16} />
@@ -92,27 +91,7 @@ export default function CTA() {
                   </a>
                 </motion.div>
 
-                {/* Social icons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                  className="flex gap-3"
-                >
-                  {socials.map((s, i) => (
-                    <motion.a
-                      key={s.label}
-                      href={s.href}
-                      aria-label={s.label}
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-11 h-11 rounded-full bg-white/[.04] border border-white/[.08] flex items-center justify-center text-brand-muted hover:bg-brand-purple hover:text-white hover:border-brand-purple/50 transition-all duration-300"
-                    >
-                      {s.icon}
-                    </motion.a>
-                  ))}
-                </motion.div>
+                
               </div>
 
               {/* Right — decorative visual */}

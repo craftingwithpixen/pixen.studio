@@ -35,41 +35,30 @@ export default function Navbar() {
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5">
-            <div
-              className="w-[22px] h-[22px] bg-brand-purple rounded-[4px] grid place-items-center text-white"
-              style={{ fontSize: 11 }}
-            >
-              ⊞
-            </div>
-            <span className="font-display font-bold text-white text-sm tracking-tight">
-              PIXEN.STUDIO
-            </span>
+          <Link to="/" className="flex items-center">
+            <img src="/logo.png" alt="Pixen Studio" className="h-10 w-auto" />
           </Link>
 
           {/* Header Right */}
           <div className="flex items-center gap-6 sm:gap-8">
-            {/* The 'Our Work' link is already hidden on mobile by 'hidden sm:block' */}
-            <Link
+              <Link
               to="/our-work"
-              className="hidden sm:block font-display text-[10px] uppercase tracking-widest text-brand-muted hover:text-white transition-colors duration-200"
+              className="font-display text-[10px] uppercase tracking-widest text-brand-muted hover:text-white transition-colors duration-200"
             >
               Our Work
             </Link>
 
-            {/* MENU */}
+            {/* Hamburger */}
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-3 text-brand-muted hover:text-white transition-colors duration-200 cursor-pointer"
+              className="flex flex-col gap-[5px] text-brand-muted hover:text-white transition-colors duration-200 cursor-pointer"
               aria-label="Open menu"
             >
-              <span className="font-display text-[10px] uppercase tracking-widest">Menu</span>
-              <div className="flex flex-col gap-[5px]">
-                <span className="w-5 h-[1.5px] bg-white block" />
-                <span className="w-5 h-[1.5px] bg-white block" />
-              </div>
+              <span className="w-5 h-[1.5px] bg-white block" />
+              <span className="w-5 h-[1.5px] bg-white block" />
+              <span className="w-3 h-[1.5px] bg-white block" />
             </button>
           </div>
         </div>
@@ -86,10 +75,9 @@ export default function Navbar() {
             className="fixed inset-0 z-[100] bg-brand-bg flex flex-col"
           >
             {/* Top bar */}
-            <div className="max-w-[1200px] mx-auto px-6 py-6 flex items-center justify-between w-full">
-              <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
-                <div className="w-[22px] h-[22px] bg-brand-purple rounded-[4px] grid place-items-center text-white" style={{ fontSize: 11 }}>⊞</div>
-                <span className="font-display font-bold text-white text-sm tracking-tight">PIXEN.STUDIO</span>
+            <div className="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between w-full">
+              <Link to="/" onClick={() => setOpen(false)} className="flex items-center">
+                <img src="/logo.png" alt="Pixen Studio" className="h-10 w-auto" />
               </Link>
               <button
                 onClick={() => setOpen(false)}
@@ -129,7 +117,7 @@ export default function Navbar() {
             </nav>
 
             {/* Bottom bar */}
-            <div className="max-w-[1200px] mx-auto px-6 py-6 w-full border-t border-white/[.06] flex items-center justify-between">
+            <div className="max-w-[1200px] mx-auto px-6 py-3 w-full border-t border-white/[.06] flex items-center justify-between">
               <p className="text-brand-muted font-display text-[10px] uppercase tracking-widest">
                 © {new Date().getFullYear()} PIXEN.STUDIO
               </p>

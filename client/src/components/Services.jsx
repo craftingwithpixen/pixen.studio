@@ -78,9 +78,49 @@ export default function Services() {
           <div className="mt-8 h-px w-full bg-gradient-to-r from-brand-purple/40 via-brand-light/20 to-transparent" />
         </div>
 
-        {/* ── FLEX ACCORDION CARDS ── */}
+        {/* ── MOBILE STACK (always expanded) ── */}
+        <div className="flex flex-col gap-4 lg:hidden">
+          {services.map((s) => (
+            <div
+              key={s.id}
+              className="relative overflow-hidden rounded-3xl"
+              style={{
+                background: s.bg,
+                border: `1px solid ${s.color}66`,
+                padding: '28px 32px',
+                boxShadow: `0 0 40px ${s.color}33`,
+              }}
+            >
+              <span
+                className="absolute font-display font-black select-none pointer-events-none leading-none"
+                style={{ bottom: -20, right: -10, fontSize: 130, color: '#fff', opacity: 0.04 }}
+              >
+                {s.tag}
+              </span>
+              <div className="relative z-10">
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 text-white"
+                  style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.15)' }}
+                >
+                  {s.icon}
+                </div>
+                <p className="font-display font-bold text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  {s.shortDesc}
+                </p>
+                <h3 className="font-display font-bold text-white text-xl leading-tight mb-4">{s.title}</h3>
+                <p className="text-white/75 text-[15px] leading-relaxed">{s.desc}</p>
+                <div className="mt-4 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <span className="w-5 h-px inline-block" style={{ background: 'rgba(255,255,255,0.4)' }} />
+                  Step {s.tag}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── DESKTOP ACCORDION ── */}
         <div
-          className="flex flex-col lg:flex-row gap-3 lg:h-[540px]"
+          className="hidden lg:flex flex-row gap-3 lg:h-[540px]"
         >
           {services.map((s, idx) => {
             const isActive = active === idx;
