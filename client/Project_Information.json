@@ -1,1 +1,82 @@
-
+{
+  "products": [
+    {
+      "title": "Referme",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Referme is an educational platform designed to provide high-quality engineering notes for students. It simplifies exam preparation by offering well-structured and easy-to-understand study materials across various subjects. The platform focuses on accessibility and clarity, enabling students to quickly find and revise important concepts. Referme aims to support learners with reliable academic resources in one centralized platform.",
+      "link": "https://referme.tech/"
+    },
+    {
+      "title": "Collex",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Collex is a campus-focused marketplace that enables students to buy and sell items within their college community. The platform provides a secure and convenient environment where students can list products, discover deals, and connect with peers. By focusing on intra-campus transactions, Collex reduces friction in buying and selling second-hand goods. It promotes affordability and sustainability among students.",
+      "link": "https://www.collex.app/"
+    },
+    {
+      "title": "Code Orbit",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Code Orbit is a platform dedicated to providing final-year engineering projects for students. It offers a curated collection of project ideas, resources, and ready-to-use implementations to help students complete their academic requirements efficiently. The platform bridges the gap between theoretical learning and practical implementation. Code Orbit empowers students to showcase impactful and well-executed projects.",
+      "link": "https://codeorbit.info/"
+    },
+    {
+      "title": "Pixen",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Pixen is the official website of the company, showcasing its services, products, and technological capabilities. The platform highlights Pixen’s expertise in SaaS development, web applications, and custom digital solutions. It serves as a central hub where businesses can explore the company’s offerings and portfolio. Pixen reflects the brand’s commitment to innovation and high-quality software development.",
+      "link": "https://pixen.live/"
+    },
+    {
+      "title": "Pixen Studio",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Pixen Studio is a development platform focused on helping entrepreneurs and businesses build SaaS products. It provides end-to-end development support, from idea validation and product design to full-scale implementation. The platform is designed to simplify the process of launching scalable digital products. Pixen Studio enables founders to transform their ideas into production-ready SaaS applications.",
+      "link": "#"
+    }
+  ],
+  "poc_projects": [
+    {
+      "title": "Dabba Wala",
+      "tech_stack": ["Next.js"],
+      "description": "Dabba Wala is a proof-of-concept platform for ordering nutritious home-style tiffin services online. It allows users to easily subscribe to daily meal plans and receive freshly prepared food delivered to their doorstep. The platform focuses on convenience, reliability, and healthy eating. It demonstrates how technology can streamline local food delivery services.",
+      "link": "https://online-dabba-service-8see.vercel.app/"
+    },
+    {
+      "title": "FitFind",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "FitFind is a fitness discovery platform that connects users with top-rated gyms and fitness centers. The platform enables seamless session booking, membership management, and activity tracking in one place. Users can explore gyms based on ratings, facilities, and location. FitFind simplifies the process of starting and maintaining a consistent fitness journey.",
+      "link": "https://gym-two-olive.vercel.app/"
+    },
+    {
+      "title": "Eggro",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Eggro is an all-in-one B2B management platform designed specifically for egg vendors and distributors. It provides tools for managing inventory, orders, delivery tracking, ledgers, and business reports through a unified dashboard. The platform simplifies daily business operations and improves efficiency for vendors. Eggro demonstrates how digital tools can modernize traditional supply chain workflows.",
+      "link": "https://eggro.vercel.app/"
+    },
+    {
+      "title": "Laundry Wala",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Laundry Wala is a digital platform designed to simplify laundry and ironing services. Customers can schedule pickups, request ironing services, and receive their clothes delivered back to their doorstep. The platform aims to bring convenience and efficiency to everyday household services. It demonstrates a scalable solution for modern on-demand laundry services.",
+      "link": "#"
+    }
+  ],
+  "client_projects": [
+    {
+      "title": "Alumni Portal",
+      "client_name": "The Social Baristaa",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "The Alumni Portal is a networking platform designed to connect alumni from the same institution. It allows users to build professional connections, share opportunities, and stay engaged with their academic community. The platform strengthens alumni relationships and encourages knowledge sharing. It serves as a digital hub for collaboration, networking, and career growth.",
+      "link": "#"
+    },
+    {
+      "title": "Grass Detection ML Model",
+      "client_name": "Congitra Minds",
+      "tech_stack": ["Python", "Machine Learning"],
+      "description": "The Grass Detection ML Model is a computer vision solution designed to identify and detect grass areas within agricultural fields. The model helps farmers and agricultural businesses analyze field conditions and monitor crop environments more effectively. By leveraging machine learning techniques, the system automates visual analysis of farmland imagery. This solution demonstrates the practical application of AI in agriculture.",
+      "link": "#"
+    },
+    {
+      "title": "Fashion C",
+      "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
+      "description": "Fashion C is an e-commerce platform designed for selling fashion and lifestyle products online. The website enables customers to browse collections, explore product categories, and make secure purchases. The platform focuses on providing a seamless shopping experience with modern UI and reliable backend infrastructure. It supports scalable online retail operations.",
+      "link": "#"
+    }
+  ]
+}
