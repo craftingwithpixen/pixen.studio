@@ -1,28 +1,15 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiStar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiStar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const TESTIMONIALS = [
   {
     id: 1,
-    quote: "Pixen Studio completely transformed our online presence. The website they built loads in under a second and our conversion rate jumped 40% within the first month. Truly exceptional work.",
-    name: 'Sarah Mitchell',
-    title: 'CEO of Hummingbird',
-    avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 2,
-    quote: "From day one, the team communicated clearly and delivered on every promise. The SaaS platform they built handles thousands of users without breaking a sweat. Outstanding technical depth.",
-    name: 'James Okafor',
-    title: 'CTO of Stackly',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 3,
-    quote: "We hired Pixen for a full redesign and got way more than expected — the UI is stunning, the code is clean, and post-launch support has been incredible. They are the real deal.",
-    name: 'Lena Fischer',
-    title: 'Product Lead at Veltro',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80',
+    quote:
+      "Pixen delivered an excellent plant detection ML model for our project. The model is accurate, reliable, and works perfectly for our needs. Their team was professional, responsive, and clearly skilled in AI development. We’re very happy with the results and would highly recommend Pixen for machine learning solutions.",
+    name: "Abhijeet Chavan",
+    title: "Cogitare Labs",
+    avatar: "👤",
   },
 ];
 
@@ -38,17 +25,19 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="py-24 bg-brand-bg relative overflow-hidden">
+    <section
+      id="testimonials"
+      className="py-24 bg-brand-bg relative overflow-hidden"
+    >
       {/* Background orb */}
       <div className="pointer-events-none absolute inset-0">
         <div
           className="absolute w-[500px] h-[500px] rounded-full blur-[140px] opacity-[0.04]"
-          style={{ background: '#6B35D9', top: '20%', left: '-5%' }}
+          style={{ background: "#6B35D9", top: "20%", left: "-5%" }}
         />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-
         {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -60,11 +49,13 @@ export default function Testimonials() {
           <span className="badge mb-3 block">Testimonials</span>
           <div className="flex items-end justify-between gap-6 flex-wrap">
             <h2 className="section-heading">
-              Trusted by founders<br />
+              Trusted by founders
+              <br />
               <span className="gradient-text">and builders.</span>
             </h2>
             <p className="text-brand-muted text-sm max-w-sm leading-relaxed">
-              Don't take our word for it — hear from the people we've worked with.
+              Don't take our word for it — hear from the people we've worked
+              with.
             </p>
           </div>
 
@@ -81,7 +72,6 @@ export default function Testimonials() {
           className="relative"
         >
           <div className="bg-brand-card border border-white/[.06] rounded-[32px] p-10 md:p-14 relative overflow-hidden">
-
             {/* Decorative glows */}
             <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-purple/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-purple/5 rounded-full blur-3xl pointer-events-none" />
@@ -89,7 +79,7 @@ export default function Testimonials() {
             {/* Big decorative quote mark */}
             <div
               className="absolute top-8 right-10 font-display font-black select-none pointer-events-none opacity-[0.04]"
-              style={{ fontSize: 140, lineHeight: 1, color: '#9B6BFF' }}
+              style={{ fontSize: 140, lineHeight: 1, color: "#9B6BFF" }}
               aria-hidden="true"
             >
               "
@@ -102,7 +92,7 @@ export default function Testimonials() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                   {/* Stars */}
                   <div className="flex gap-1 text-yellow-400 mb-8">
@@ -114,7 +104,10 @@ export default function Testimonials() {
                   {/* Quote */}
                   <p
                     className="text-white font-medium leading-relaxed mb-10 max-w-3xl"
-                    style={{ fontSize: 'clamp(16px, 2vw, 22px)', letterSpacing: '-0.2px' }}
+                    style={{
+                      fontSize: "clamp(16px, 2vw, 22px)",
+                      letterSpacing: "-0.2px",
+                    }}
                   >
                     "{TESTIMONIALS[active].quote}"
                   </p>
@@ -122,18 +115,24 @@ export default function Testimonials() {
                   {/* Author info */}
                   <div className="flex items-center justify-between gap-6 flex-wrap">
                     <div className="flex items-center gap-4">
-                      <img
-                        src={TESTIMONIALS[active].avatar}
-                        alt={TESTIMONIALS[active].name}
-                        className="w-12 h-12 rounded-full object-cover object-top border-2 border-white/10"
-                      />
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center bg-brand-purple/20 border-2 border-white/10 text-2xl">
+                        {TESTIMONIALS[active].avatar}
+                      </div>
                       <div>
-                        <p className="text-white font-medium text-[15px]">{TESTIMONIALS[active].name}</p>
-                        <p className="text-brand-muted text-[12px]">{TESTIMONIALS[active].title}</p>
+                        <p className="text-white font-medium text-[15px]">
+                          {TESTIMONIALS[active].name}
+                        </p>
+                        <p className="text-brand-muted text-[12px]">
+                          {TESTIMONIALS[active].title}
+                        </p>
                       </div>
                       <div
                         className="hidden sm:flex text-[10px] font-medium px-3 py-1.5 rounded-full uppercase tracking-wider"
-                        style={{ background: 'rgba(107,53,217,0.15)', border: '1px solid rgba(107,53,217,0.3)', color: '#9B6BFF' }}
+                        style={{
+                          background: "rgba(107,53,217,0.15)",
+                          border: "1px solid rgba(107,53,217,0.3)",
+                          color: "#9B6BFF",
+                        }}
                       >
                         Verified
                       </div>
@@ -151,7 +150,10 @@ export default function Testimonials() {
                             style={{
                               width: active === i ? 24 : 6,
                               height: 6,
-                              background: active === i ? '#6B35D9' : 'rgba(255,255,255,0.15)',
+                              background:
+                                active === i
+                                  ? "#6B35D9"
+                                  : "rgba(255,255,255,0.15)",
                             }}
                             aria-label={`Go to testimonial ${i + 1}`}
                           />
@@ -186,7 +188,6 @@ export default function Testimonials() {
             </div>
           </div>
         </motion.div>
-
       </div>
     </section>
   );
