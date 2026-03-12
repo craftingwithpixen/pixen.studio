@@ -220,25 +220,32 @@ export default function Technologies() {
           className="mb-16 transition-all duration-700 ease-out"
           style={{
             opacity: headerVisible ? 1 : 0,
-            transform: headerVisible
-              ? "translateY(0)"
-              : "translateY(30px)",
+            transform: headerVisible ? "translateY(0)" : "translateY(30px)",
           }}
         >
-          <span className="badge mb-3 block">Mastered&nbsp;Languages</span>
+          <div className="flex items-center justify-between gap-4 mb-3">
+            <span className="font-display font-semibold text-[10px] uppercase tracking-[0.28em] text-brand-purple">
+              Our Stack
+            </span>
+            <span className="font-display text-[10px] uppercase tracking-[0.2em] text-brand-muted/40">
+              {techs.length} Technologies
+            </span>
+          </div>
 
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <h2 className="section-heading">
-              Tech <span className="gradient-text">Stack</span>
+          <div className="flex items-end gap-8 flex-wrap">
+            <h2
+              className="font-display font-black text-white uppercase leading-[0.9] tracking-[-2px] flex-1"
+              style={{ fontSize: 'clamp(34px, 4vw, 56px)' }}
+            >
+              Tech<br />
+              <span className="gradient-text">Stack.</span>
             </h2>
-            <p className="text-brand-muted text-sm max-w-sm leading-relaxed">
-              Tools and languages I've mastered to build exceptional digital
-              products from end to end.
+            <p className="text-brand-muted text-sm max-w-[240px] leading-relaxed pb-2 shrink-0">
+              Tools and technologies we've mastered to build exceptional digital products from end to end.
             </p>
           </div>
 
-          {/* Decorative line */}
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-brand-purple/40 via-brand-light/20 to-transparent" />
+          <div className="mt-6 h-px w-full bg-white/[.05]" />
         </div>
 
         {/* ── Bento Grid ── */}

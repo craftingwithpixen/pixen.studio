@@ -79,18 +79,53 @@ export default function Process() {
           transition={{ duration: 0.55 }}
           className="mb-16"
         >
-          <span className="badge mb-3 block">How We Work</span>
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <h2 className="section-heading">
-              From Idea to <span className="gradient-text">Launch.</span>
-            </h2>
-            <p className="text-brand-muted text-sm max-w-sm leading-relaxed">
-              A transparent, agile methodology built to deliver on time and exceed every expectation.
-            </p>
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <span className="font-display font-semibold text-[11px] uppercase tracking-[0.28em] text-brand-muted/50">
+              How We Work
+            </span>
+            <span className="font-display font-semibold text-[11px] uppercase tracking-[0.2em] text-brand-purple/60">
+              {steps.length} Steps
+            </span>
           </div>
 
-          {/* Decorative line */}
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-brand-purple/40 via-brand-light/20 to-transparent" />
+          {/* Headline with staggered two-line layout */}
+          <div className="relative overflow-hidden">
+            {/* Ghost background text */}
+            <span
+              className="absolute -top-4 left-0 font-display font-black uppercase select-none pointer-events-none leading-none text-white/[0.03]"
+              style={{ fontSize: 'clamp(80px, 14vw, 180px)', letterSpacing: '-4px' }}
+            >
+              PROCESS
+            </span>
+
+            <div className="relative z-10">
+              {/* Line 1 */}
+              <div className="flex items-center gap-5">
+                <h2
+                  className="font-display font-black text-white uppercase leading-[0.88] tracking-[-3px]"
+                  style={{ fontSize: 'clamp(52px, 7.5vw, 112px)' }}
+                >
+                  From Idea
+                </h2>
+              </div>
+
+              {/* Line 2 — indented + decorative line before */}
+              <div className="flex items-center gap-5 mt-1 ml-6 sm:ml-14">
+                <div className="hidden sm:block w-10 h-[2px] rounded-full bg-gradient-to-r from-brand-purple to-transparent shrink-0" />
+                <h2
+                  className="font-display font-black uppercase leading-[0.88] tracking-[-3px] text-transparent"
+                  style={{ fontSize: 'clamp(52px, 7.5vw, 112px)', WebkitTextStroke: '2px rgba(107,53,217,0.75)' }}
+                >
+                  to Launch.
+                </h2>
+              </div>
+
+              {/* Description row */}
+              <p className="text-brand-muted text-[13px] leading-relaxed max-w-md mt-6 pl-1 border-l-2 border-brand-purple/30 pl-4">
+                A transparent, agile methodology built to deliver on time and exceed every expectation.
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* ── STEP ROWS ── */}

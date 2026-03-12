@@ -11,7 +11,7 @@ const socials = [
 
 export default function CTA() {
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
+    <section id="contact" className="pt-20 pb-10 relative overflow-hidden">
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0">
         <div
@@ -107,38 +107,98 @@ export default function CTA() {
                 className="hidden lg:flex items-center justify-center"
               >
                 <div className="relative w-[320px] h-[320px]">
-                  {/* Outer ring */}
-                  <div className="absolute inset-0 rounded-full border border-white/[.06]" />
-                  {/* Middle ring */}
-                  <div className="absolute inset-8 rounded-full border border-brand-purple/20" />
-                  {/* Inner ring */}
-                  <div className="absolute inset-16 rounded-full border border-brand-purple/30 bg-brand-purple/[.03]" />
-                  {/* Center glow */}
-                  <div className="absolute inset-[90px] rounded-full bg-gradient-to-br from-brand-purple to-brand-violet flex items-center justify-center shadow-[0_0_60px_rgba(107,53,217,0.3)]">
-                    <FiMail className="text-white w-8 h-8" />
-                  </div>
+                  {/* Outer ring — slow spin */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-0 rounded-full border border-white/[.06]"
+                    style={{ borderStyle: 'dashed' }}
+                  />
+                  {/* Middle ring — counter-spin */}
+                  <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-8 rounded-full border border-brand-purple/20"
+                    style={{ borderStyle: 'dashed' }}
+                  />
+                  {/* Inner ring — slow pulse scale */}
+                  <motion.div
+                    animate={{ scale: [1, 1.06, 1] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-16 rounded-full border border-brand-purple/30 bg-brand-purple/[.03]"
+                  />
+                  {/* Center glow — breathe */}
+                  <motion.div
+                    animate={{ boxShadow: [
+                      '0 0 40px rgba(107,53,217,0.25)',
+                      '0 0 80px rgba(107,53,217,0.5)',
+                      '0 0 40px rgba(107,53,217,0.25)',
+                    ]}}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-[90px] rounded-full bg-gradient-to-br from-brand-purple to-brand-violet flex items-center justify-center"
+                  >
+                    <motion.div
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <FiMail className="text-white w-8 h-8" />
+                    </motion.div>
+                  </motion.div>
 
-                  {/* Floating orbit dots */}
-                  <div className="absolute top-4 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-brand-light/60 animate-pulse" />
-                  <div className="absolute bottom-8 right-8 w-2 h-2 rounded-full bg-brand-purple/80 animate-pulse" style={{ animationDelay: '1s' }} />
-                  <div className="absolute top-1/2 left-2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/30 animate-pulse" style={{ animationDelay: '0.5s' }} />
-                  <div className="absolute bottom-4 left-1/4 w-2 h-2 rounded-full bg-brand-violet/60 animate-pulse" style={{ animationDelay: '1.5s' }} />
+                  {/* Orbiting dot on outer ring */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-0"
+                    style={{ transformOrigin: 'center' }}
+                  >
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-brand-light shadow-[0_0_8px_#9B6BFF]" />
+                  </motion.div>
 
-                  {/* Labels floating around */}
-                  <div className="absolute -top-2 right-8 bg-white/[.04] border border-white/[.08] rounded-full px-4 py-1.5">
+                  {/* Orbiting dot on middle ring — opposite direction */}
+                  <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-8"
+                    style={{ transformOrigin: 'center' }}
+                  >
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-brand-purple shadow-[0_0_6px_#6B35D9]" />
+                  </motion.div>
+
+                  {/* Pulsing static dots */}
+                  <motion.div
+                    animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.4, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                    className="absolute top-1/2 left-2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/40"
+                  />
+                  <motion.div
+                    animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.4, 1] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+                    className="absolute bottom-4 left-1/4 w-2 h-2 rounded-full bg-brand-violet/70"
+                  />
+
+                  {/* Labels — float up/down */}
+                  <motion.div
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute -top-2 right-8 bg-white/[.04] border border-white/[.08] rounded-full px-4 py-1.5"
+                  >
                     <span className="text-[11px] text-brand-muted font-medium">Let's Talk →</span>
-                  </div>
-                  <div className="absolute -bottom-2 left-8 bg-brand-purple/10 border border-brand-purple/20 rounded-full px-4 py-1.5">
+                  </motion.div>
+                  <motion.div
+                    animate={{ y: [0, 6, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+                    className="absolute -bottom-2 left-8 bg-brand-purple/10 border border-brand-purple/20 rounded-full px-4 py-1.5"
+                  >
                     <span className="text-[11px] text-brand-light font-medium">24h Response</span>
-                  </div>
+                  </motion.div>
                 </div>
               </motion.div>
             </div>
           </div>
         </motion.div>
 
-        {/* Decorative line */}
-        <div className="mt-16 h-px w-full bg-gradient-to-r from-transparent via-brand-purple/20 to-transparent" />
+
       </div>
     </section>
   );

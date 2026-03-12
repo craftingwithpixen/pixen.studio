@@ -9,7 +9,7 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-brand-bg border-t border-white/[.04] overflow-hidden">
+    <footer className="relative bg-transparent border-t border-white/[.04] overflow-hidden">
 
       {/* Background glows */}
       <div className="absolute top-0 left-1/3 w-[600px] h-[300px] bg-brand-purple/8 blur-[130px] rounded-full pointer-events-none" />
@@ -17,16 +17,15 @@ export default function Footer() {
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-6">
 
-
         {/* ── Brand + Contact ── */}
-        <div className="py-14 flex flex-col sm:flex-row items-start justify-between gap-10 border-b border-white/[.05]">
+        <div className="py-10 flex flex-col sm:flex-row items-start justify-between gap-10 border-b border-white/[.05]">
 
           {/* Brand */}
           <div>
             <Link to="/" className="inline-flex mb-5">
               <img src="/logo.png" alt="Pixen Studio" className="h-12 w-auto" />
             </Link>
-            <p className="text-brand-muted text-[13px] leading-[1.8] mb-6 max-w-[200px]">
+            <p className="text-brand-muted text-[13px] leading-[1.8] mb-5 max-w-[220px]">
               We craft bold digital products — websites, SaaS platforms & AI tools that scale.
             </p>
             <div className="flex gap-2">
@@ -74,7 +73,7 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[11px] uppercase tracking-widest text-brand-muted/40 font-display">
             © {new Date().getFullYear()} Pixen Studio. All rights reserved.
           </p>

@@ -6,21 +6,25 @@ const features = [
     icon: <FiLayers size={22} />,
     title: 'Full-Cycle Expertise',
     desc: "We handle the MERN stack, Next.js frontend, cloud deployment, and security hardening — end to end.",
+    accent: '#6B35D9',
   },
   {
     icon: <FiShield size={22} />,
     title: 'Security First',
     desc: 'In a world of data breaches, we prioritize security from day one. We build fortresses, not just features.',
+    accent: '#059669',
   },
   {
     icon: <FiZap size={22} />,
     title: 'Performance Obsessed',
     desc: 'We optimize for Core Web Vitals. Your site loads fast, ranks high, and keeps users engaged.',
+    accent: '#d97706',
   },
   {
     icon: <FiMessageCircle size={22} />,
     title: 'Transparent Communication',
     desc: 'No confusing jargon. We speak your language and keep you in the loop at every stage.',
+    accent: '#0ea5e9',
   },
 ];
 
@@ -43,21 +47,27 @@ export default function WhyUs() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="mb-16"
+          className="mb-16 text-center relative"
         >
-          <span className="badge mb-3 block">Why Choose Us</span>
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <h2 className="section-heading max-w-2xl">
-              More than just developers. We are your{' '}
-              <span className="gradient-text">technical co-pilots.</span>
-            </h2>
-            <p className="text-brand-muted text-sm max-w-sm leading-relaxed">
-              We bring deep technical expertise, transparent processes, and a genuine obsession with quality.
-            </p>
-          </div>
+          {/* Giant ghost word behind */}
+          <span
+            className="absolute inset-x-0 top-1/2 -translate-y-1/2 font-display font-black text-center select-none pointer-events-none leading-none"
+            style={{ fontSize: 'clamp(80px, 16vw, 200px)', color: 'rgba(107,53,217,0.05)' }}
+          >
+            PIXEN
+          </span>
 
-          {/* Decorative line */}
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-brand-purple/40 via-brand-light/20 to-transparent" />
+          <span className="badge mb-5 inline-block">Why Choose Us</span>
+          <h2
+            className="font-display font-black text-white leading-[1.0] tracking-[-1px] mb-5 relative"
+            style={{ fontSize: 'clamp(34px, 4.5vw, 60px)' }}
+          >
+            More than just developers.<br />
+            <span className="gradient-text">Your technical co-pilots.</span>
+          </h2>
+          <p className="text-brand-muted text-sm max-w-md mx-auto leading-relaxed">
+            We bring deep technical expertise, transparent processes, and a genuine obsession with quality.
+          </p>
         </motion.div>
 
         {/* ── BENTO GRID ── */}
@@ -71,20 +81,23 @@ export default function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group bg-brand-card border border-white/[.06] rounded-2xl p-7 hover:border-brand-purple/40 transition-all duration-300 relative overflow-hidden"
-              style={{
-                gridColumn: undefined,
-                gridRow: undefined,
-              }}
+              className="group bg-brand-card border border-white/[.06] rounded-2xl p-7 transition-all duration-300 relative overflow-hidden"
+              style={{ borderTopColor: `${f.accent}60`, borderTopWidth: 2 }}
             >
               {/* Hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/[.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl" />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+                style={{ background: `linear-gradient(135deg, ${f.accent}08, transparent 60%)` }}
+              />
 
               <div className="relative z-10">
-                <div className="w-11 h-11 bg-brand-purple/10 text-brand-light rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-purple/20 transition-colors duration-300">
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
+                  style={{ background: `${f.accent}18`, color: f.accent, border: `1px solid ${f.accent}30` }}
+                >
                   {f.icon}
                 </div>
-                <h4 className="text-white font-medium text-[15px] mb-2">{f.title}</h4>
+                <h4 className="text-white font-semibold text-[15px] mb-2">{f.title}</h4>
                 <p className="text-brand-muted text-[13px] leading-relaxed">{f.desc}</p>
               </div>
             </motion.div>

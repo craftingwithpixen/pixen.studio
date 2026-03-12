@@ -63,19 +63,37 @@ export default function Services() {
 
         {/* ── HEADER ── */}
         <div className="mb-16">
-          <span className="badge mb-4 block">What We Do</span>
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <h2 className="section-heading">
-              Digital Solutions<br />
-              <span className="gradient-text">Built to Scale.</span>
-            </h2>
-            <p className="text-brand-muted text-sm max-w-sm leading-relaxed">
-              At Pixen, we craft high-performance websites and scalable SaaS platforms built with modern technology to ensure speed, security, and future-ready growth.
-            </p>
-          </div>
+          <div className="flex gap-8 items-stretch">
+            {/* Left vertical accent */}
+            <div className="hidden md:flex flex-col items-center gap-3 shrink-0">
+              <div className="w-px h-10 bg-brand-purple/50" />
+              <span
+                className="font-display font-black text-[9px] uppercase tracking-[0.3em] text-brand-purple/50"
+                style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+              >
+                Services
+              </span>
+              <div className="w-px flex-1 min-h-[40px] bg-white/[.04]" />
+            </div>
 
-          {/* Decorative line */}
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-brand-purple/40 via-brand-light/20 to-transparent" />
+            {/* Main content */}
+            <div className="flex-1">
+              <p className="font-display font-semibold text-[11px] uppercase tracking-[0.25em] text-brand-purple mb-4">
+                What We Do
+              </p>
+              <h2
+                className="font-display font-black text-white uppercase leading-[0.88] tracking-[-2px]"
+                style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}
+              >
+                Digital<br />
+                <span className="text-transparent" style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.2)' }}>Solutions</span><br />
+                <span className="gradient-text">Built to Scale.</span>
+              </h2>
+              <p className="text-brand-muted text-[13px] leading-relaxed mt-6 max-w-lg">
+                At Pixen, we craft high-performance websites and scalable SaaS platforms built with modern technology to ensure speed, security, and future-ready growth.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* ── MOBILE STACK (always expanded) ── */}

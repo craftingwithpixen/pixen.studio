@@ -167,30 +167,33 @@ export default function Testimonials() {
                           </div>
                         </div>
 
-                        {/* Arrows */}
-                        <div className="flex gap-2">
-                          <button
-                            onClick={prevTestimonial}
-                            className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
-                            aria-label="Previous"
-                          >
-                            <FiChevronLeft size={18} />
-                          </button>
-                          <button
-                            onClick={nextTestimonial}
-                            className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
-                            aria-label="Next"
-                          >
-                            <FiChevronRight size={18} />
-                          </button>
-                        </div>
+                        {/* Arrows — only show when multiple testimonials */}
+                        {TESTIMONIALS.length > 1 && (
+                          <div className="flex gap-2">
+                            <button
+                              onClick={prevTestimonial}
+                              className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
+                              aria-label="Previous"
+                            >
+                              <FiChevronLeft size={18} />
+                            </button>
+                            <button
+                              onClick={nextTestimonial}
+                              className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
+                              aria-label="Next"
+                            >
+                              <FiChevronRight size={18} />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
 
                   </div>
 
 
-                    {/* Pagination Dots */}
+                    {/* Pagination Dots — only show when multiple testimonials */}
+                    {TESTIMONIALS.length > 1 && (
                     <div className="flex gap-2 mt-6">
                       {TESTIMONIALS.map((_, i) => (
                         <button
@@ -209,6 +212,7 @@ export default function Testimonials() {
                         />
                       ))}
                     </div>
+                    )}
                   </motion.div>
                 </AnimatePresence>
             </div>
