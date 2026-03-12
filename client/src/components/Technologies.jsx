@@ -6,40 +6,35 @@ const techs = [
   { name: "Angular",      logo: "https://cdn.simpleicons.org/angular/white",      cat: "Frontend",   accent: "#DD0031" },
   { name: "Next.js",      logo: "https://cdn.simpleicons.org/nextdotjs/white", cat: "Frontend",   accent: "#ffffff" },
   { name: "JavaScript",   logo: "https://cdn.simpleicons.org/javascript",   cat: "Language",   accent: "#F7DF1E" },
-  { name: "HTML",          logo: "https://cdn.simpleicons.org/html5",        cat: "Markup",     accent: "#E34F26" },
   { name: "Tailwind CSS", logo: "https://cdn.simpleicons.org/tailwindcss",  cat: "Styling",    accent: "#06B6D4" },
   { name: "Bootstrap",    logo: "https://cdn.simpleicons.org/bootstrap",    cat: "Styling",    accent: "#7952B3" },
   { name: "Node.js",      logo: "https://cdn.simpleicons.org/nodedotjs",    cat: "Backend",    accent: "#339933" },
   { name: "Express.js",   logo: "https://cdn.simpleicons.org/express/white",cat: "Backend",    accent: "#ffffff" },
   { name: "MongoDB",      logo: "https://cdn.simpleicons.org/mongodb",      cat: "Database",   accent: "#47A248" },
-  { name: "MySQL",        logo: "https://cdn.simpleicons.org/mysql",        cat: "Database",   accent: "#4479A1" },
-  { name: "Git",           logo: "https://cdn.simpleicons.org/git",          cat: "DevOps",     accent: "#F05032" },
-  { name: "GitHub",        logo: "https://cdn.simpleicons.org/github/white", cat: "DevOps",     accent: "#ffffff" },
+  { name: "MySQL",        logo: "https://cdn.simpleicons.org/mysql",        cat: "Backend",    accent: "#4479A1" },
   { name: "Figma",         logo: "https://cdn.simpleicons.org/figma",        cat: "Design",     accent: "#F24E1E" },
   { name: "WordPress",    logo: "https://cdn.simpleicons.org/wordpress",    cat: "CMS",        accent: "#21759B" },
 ];
 
 /* ── bento layout: rows × cols span for each cell ── */
 const bentoLayout = [
-  // Row 1  (6 cols: 2 + 1 + 1 + 2)
-  { colSpan: 2, rowSpan: 2, size: "lg" },   // React — hero card
-  { colSpan: 1, rowSpan: 2, size: "tall" }, // Angular — tall card
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // Next.js
-  { colSpan: 2, rowSpan: 1, size: "wide" }, // JavaScript
-  // Row 2  (cols 4-5-6 remain from above spans, 2 new)
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // HTML
-  { colSpan: 2, rowSpan: 1, size: "wide" }, // Tailwind CSS
-  // Row 3  (6 cols: 1 + 1 + 2 + 1 + 1)
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // Bootstrap
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // Node.js
-  { colSpan: 2, rowSpan: 1, size: "wide" }, // Express.js
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // MongoDB
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // MySQL
-  // Row 4  (6 cols: 2 + 1 + 1 + 2)
-  { colSpan: 2, rowSpan: 1, size: "wide" }, // Git
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // GitHub
-  { colSpan: 1, rowSpan: 1, size: "sm" },   // Figma
-  { colSpan: 2, rowSpan: 1, size: "wide" }, // WordPress
+  // Row 1 & 2 (Takes 2 rows)
+  { colSpan: 2, rowSpan: 2, size: "lg" },   // React (2x2)
+  { colSpan: 1, rowSpan: 2, size: "tall" }, // Angular (1x2)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // Next.js (1x1)
+  { colSpan: 2, rowSpan: 1, size: "wide" }, // JavaScript (2x1)
+  
+  // Row 2 (React and Angular continue here)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // Tailwind (1x1)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // Bootstrap (1x1)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // Node (1x1)
+  
+  // Row 3
+  { colSpan: 2, rowSpan: 1, size: "wide" }, // Express (2x1)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // MongoDB (1x1)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // MySQL (1x1)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // Figma (1x1)
+  { colSpan: 1, rowSpan: 1, size: "sm" },   // WordPress (1x1)
 ];
 
 /* ── Scroll-reveal hook ── */

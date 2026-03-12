@@ -43,6 +43,12 @@
       "tech_stack": ["MongoDB", "Express.js", "React", "Node.js"],
       "description": "Laundry Wala is a digital platform designed to simplify laundry and ironing services. Customers can schedule pickups, request ironing services, and receive their clothes delivered back to their doorstep. The platform aims to bring convenience and efficiency to everyday household services. It demonstrates a scalable solution for modern on-demand laundry services.",
       "link": "#"
+    },
+    {
+      "title": "The Magic Clean",
+      "tech_stack": ["Next.js", "Tailwind CSS", "React"],
+      "description": "The Magic Clean is a premium home deep cleaning service platform based in Pune. It offers specialized residential cleaning solutions, including kitchen, bathroom, and sofa/carpet shampooing, using professional-grade products and specialists. The platform features a modern, responsive design and integrates WhatsApp for seamless bookings and inquiries.",
+      "link": "https://magic-cleaning-xi.vercel.app/"
     }
   ],
   "client_projects": [

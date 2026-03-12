@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { FiMail, FiInstagram, FiLinkedin, FiGithub, FiArrowUpRight } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const socials = [
   { icon: <FiInstagram size={18} />, href: 'https://www.instagram.com/craftingwithpixen', label: 'Instagram' },
@@ -10,7 +11,7 @@ const socials = [
 
 export default function CTA() {
   return (
-    <section id="contact" className="py-24 bg-brand-bg relative overflow-hidden">
+    <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0">
         <div
@@ -31,8 +32,11 @@ export default function CTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative"
+          className="relative bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] rounded-[48px] p-8 md:p-16 lg:p-20 overflow-hidden"
         >
+          {/* Decorative glow inside card */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-purple/10 rounded-full blur-[120px] pointer-events-none" />
+          
           <div className="relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
 
@@ -55,8 +59,8 @@ export default function CTA() {
                   transition={{ delay: 0.2 }}
                   className="section-heading mb-6"
                 >
-                  Have a project in{' '}
-                  <span className="gradient-text">mind?</span>
+                  Have a project <span className="text-brand-light">in mind?</span> <br />
+                  <span className="text-white/90">Let's build it together.</span>
                 </motion.h2>
 
                 <motion.p
@@ -83,12 +87,12 @@ export default function CTA() {
                   >
                     Start Your Project <FiArrowUpRight size={16} />
                   </a>
-                  <a
-                    href="#portfolio"
+                  <Link
+                    to="/our-work"
                     className="bg-transparent border border-white/20 text-white hover:bg-white/10 text-[15px] font-medium px-8 py-3.5 rounded-[12px] transition-all duration-300"
                   >
                     View Our Work
-                  </a>
+                  </Link>
                 </motion.div>
 
                 

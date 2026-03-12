@@ -4,11 +4,11 @@ import { FiArrowUpRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/#about' },
-  { label: 'Services', href: '/#services' },
-  { label: 'Our Work', href: '/our-work' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Home', href: 'home' },
+  { label: 'About', href: 'about' },
+  { label: 'Services', href: 'services' },
+  { label: 'Our Work', href: '/our-work', isPage: true },
+  { label: 'Contact', href: 'contact' },
 ];
 
 export default function Navbar() {
@@ -25,6 +25,16 @@ export default function Navbar() {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
+
+  const scrollToSection = (id) => {
+    setOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = `/#${id}`;
+    }
+  };
 
   return (
     <>
@@ -43,9 +53,9 @@ export default function Navbar() {
 
           {/* Header Right */}
           <div className="flex items-center gap-6 sm:gap-8">
-              <Link
+            <Link
               to="/our-work"
-              className="font-display text-[10px] uppercase tracking-widest text-brand-muted hover:text-white transition-colors duration-200"
+              className="font-display text-[10px] uppercase tracking-widest text-brand-muted hover:text-white transition-colors duration-200 cursor-pointer"
             >
               Our Work
             </Link>
@@ -96,22 +106,40 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.04 + i * 0.06 }}
                 >
-                  <Link
-                    to={l.href}
-                    onClick={() => setOpen(false)}
-                    className="group flex items-center justify-between py-5 border-b border-white/[.06] last:border-0"
-                  >
-                    <span
-                      className="font-display font-black uppercase text-white group-hover:text-brand-purple transition-colors duration-200"
-                      style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}
+                  {l.isPage ? (
+                    <Link
+                      to={l.href}
+                      onClick={() => setOpen(false)}
+                      className="group flex items-center justify-between py-5 border-b border-white/[.06] last:border-0"
                     >
-                      {l.label}
-                    </span>
-                    <FiArrowUpRight
-                      size={24}
-                      className="text-brand-muted group-hover:text-brand-purple transition-colors opacity-0 group-hover:opacity-100"
-                    />
-                  </Link>
+                      <span
+                        className="font-display font-black uppercase text-white group-hover:text-brand-purple transition-colors duration-200"
+                        style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}
+                      >
+                        {l.label}
+                      </span>
+                      <FiArrowUpRight
+                        size={24}
+                        className="text-brand-muted group-hover:text-brand-purple transition-colors opacity-0 group-hover:opacity-100"
+                      />
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => scrollToSection(l.href)}
+                      className="w-full text-left group flex items-center justify-between py-5 border-b border-white/[.06] last:border-0 cursor-pointer"
+                    >
+                      <span
+                        className="font-display font-black uppercase text-white group-hover:text-brand-purple transition-colors duration-200"
+                        style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}
+                      >
+                        {l.label}
+                      </span>
+                      <FiArrowUpRight
+                        size={24}
+                        className="text-brand-muted group-hover:text-brand-purple transition-colors opacity-0 group-hover:opacity-100"
+                      />
+                    </button>
+                  )}
                 </motion.div>
               ))}
             </nav>
@@ -121,13 +149,12 @@ export default function Navbar() {
               <p className="text-brand-muted font-display text-[10px] uppercase tracking-widest">
                 © {new Date().getFullYear()} PIXEN.STUDIO
               </p>
-              <Link
-                to="/#contact"
-                onClick={() => setOpen(false)}
-                className="bg-brand-purple hover:bg-brand-violet text-white font-semibold text-xs px-6 py-3 rounded-full transition-colors duration-200"
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="bg-brand-purple hover:bg-brand-violet text-white font-semibold text-xs px-6 py-3 rounded-full transition-colors duration-200 cursor-pointer"
               >
                 Hire us →
-              </Link>
+              </button>
             </div>
           </motion.div>
         )}

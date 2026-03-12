@@ -1,20 +1,32 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { FiStar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FaQuoteRight, FaQuoteLeft } from "react-icons/fa";
 
 const TESTIMONIALS = [
   {
     id: 1,
     quote:
-      "Pixen delivered an excellent plant detection ML model for our project. The model is accurate, reliable, and works perfectly for our needs. Their team was professional, responsive, and clearly skilled in AI development. We’re very happy with the results and would highly recommend Pixen for machine learning solutions.",
+      "Pixen delivered an excellent plant detection ML model for our project. The model is accurate, reliable, and works perfectly for our needs. Their team was professional, responsive, and clearly skilled in AI development.",
     name: "Abhijeet Chavan",
-    title: "Cogitare Labs",
+    title: "Founder, Cogitare Labs",
     avatar: "👤",
+    initials: "AC",
+    color: "#6B35D9",
   },
 ];
 
 export default function Testimonials() {
   const [active, setActive] = useState(0);
+  const containerRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
 
   const nextTestimonial = () => {
     setActive((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -27,40 +39,50 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 bg-brand-bg relative overflow-hidden"
+      className="py-20 relative overflow-hidden -skew-y-[2deg] origin-center"
+      style={{
+        background: 'linear-gradient(145deg, #5a28c4 0%, #3d1a8f 100%)',
+      }}
     >
-      {/* Background orb */}
-      <div className="pointer-events-none absolute inset-0">
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-[140px] opacity-[0.04]"
-          style={{ background: "#6B35D9", top: "20%", left: "-5%" }}
+      {/* Background elements (Counter-skewed to stay steady) */}
+      <div className="pointer-events-none absolute inset-0 skew-y-[2deg]">
+        <motion.div
+           animate={{ 
+            scale: [1, 1.1, 1],
+            rotate: [0, 90, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[800px] h-[800px] rounded-full blur-[160px] opacity-[0.1]"
+          style={{ background: "#ffffff", top: "-20%", left: "-10%" }}
         />
+        <div className="absolute inset-0 opacity-[0.05]" 
+             style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-6 relative z-10">
+      <div className="max-w-[1200px] mx-auto px-6 relative z-10 skew-y-[2deg]">
         {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="mb-16"
+          className="mb-10"
         >
-          <span className="badge mb-3 block">Testimonials</span>
+          <span className="badge !text-white/60 mb-3 block">Testimonials</span>
           <div className="flex items-end justify-between gap-6 flex-wrap">
             <h2 className="section-heading">
-              Trusted by founders
+              Trusted by <span className="text-brand-light">Founders</span>
               <br />
-              <span className="gradient-text">and builders.</span>
+              <span className="text-white/90">and Innovative Builders.</span>
             </h2>
-            <p className="text-brand-muted text-sm max-w-sm leading-relaxed">
+            <p className="text-white/70 text-sm max-w-sm leading-relaxed">
               Don't take our word for it — hear from the people we've worked
               with.
             </p>
           </div>
 
           {/* Decorative line */}
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-brand-purple/40 via-brand-light/20 to-transparent" />
+          <div className="mt-8 h-px w-full bg-gradient-to-r from-white/40 via-white/10 to-transparent origin-left scale-x-105" />
         </motion.div>
 
         {/* TESTIMONIAL CARD */}
@@ -71,19 +93,24 @@ export default function Testimonials() {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="bg-brand-card border border-white/[.06] rounded-[32px] p-10 md:p-14 relative overflow-hidden">
-            {/* Decorative glows */}
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-purple/10 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-purple/5 rounded-full blur-3xl pointer-events-none" />
-
-            {/* Big decorative quote mark */}
-            <div
-              className="absolute top-8 right-10 font-display font-black select-none pointer-events-none opacity-[0.04]"
-              style={{ fontSize: 140, lineHeight: 1, color: "#9B6BFF" }}
-              aria-hidden="true"
+          <div className="bg-[#0f0426]/40 backdrop-blur-3xl border border-white/[.08] rounded-[40px] p-8 md:p-12 relative overflow-hidden shadow-2xl">
+            
+            {/* Decorative Quotation Marks */}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-10 left-10 text-brand-purple opacity-[0.08] pointer-events-none"
             >
-              "
-            </div>
+              <FaQuoteLeft className="w-24 h-24" />
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, 15, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute bottom-10 right-10 text-brand-light opacity-[0.08] pointer-events-none"
+            >
+              <FaQuoteRight className="w-24 h-24" />
+            </motion.div>
 
             <div className="relative z-10">
               <AnimatePresence mode="wait">
@@ -94,97 +121,110 @@ export default function Testimonials() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                  {/* Stars */}
-                  <div className="flex gap-1 text-yellow-400 mb-8">
-                    {[...Array(5)].map((_, i) => (
-                      <FiStar key={i} size={14} fill="currentColor" />
-                    ))}
-                  </div>
-
-                  {/* Quote */}
-                  <p
-                    className="text-white font-medium leading-relaxed mb-10 max-w-3xl"
-                    style={{
-                      fontSize: "clamp(16px, 2vw, 22px)",
-                      letterSpacing: "-0.2px",
-                    }}
-                  >
-                    "{TESTIMONIALS[active].quote}"
-                  </p>
-
-                  {/* Author info */}
-                  <div className="flex items-center justify-between gap-6 flex-wrap">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center bg-brand-purple/20 border-2 border-white/10 text-2xl">
-                        {TESTIMONIALS[active].avatar}
-                      </div>
-                      <div>
-                        <p className="text-white font-medium text-[15px]">
-                          {TESTIMONIALS[active].name}
-                        </p>
-                        <p className="text-brand-muted text-[12px]">
-                          {TESTIMONIALS[active].title}
-                        </p>
-                      </div>
-                      <div
-                        className="hidden sm:flex text-[10px] font-medium px-3 py-1.5 rounded-full uppercase tracking-wider"
-                        style={{
-                          background: "rgba(107,53,217,0.15)",
-                          border: "1px solid rgba(107,53,217,0.3)",
-                          color: "#9B6BFF",
-                        }}
-                      >
-                        Verified
-                      </div>
-                    </div>
-
-                    {/* Navigation */}
-                    <div className="flex items-center gap-3">
-                      {/* Dots indicator */}
-                      <div className="flex gap-1.5">
-                        {TESTIMONIALS.map((_, i) => (
-                          <button
-                            key={i}
-                            onClick={() => setActive(i)}
-                            className="transition-all duration-300 rounded-full cursor-pointer"
-                            style={{
-                              width: active === i ? 24 : 6,
-                              height: 6,
-                              background:
-                                active === i
-                                  ? "#6B35D9"
-                                  : "rgba(255,255,255,0.15)",
-                            }}
-                            aria-label={`Go to testimonial ${i + 1}`}
-                          />
+                  <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+                    {/* Left: Text Content */}
+                    <div className="flex-1">
+                      {/* Stars */}
+                      <div className="flex gap-1 text-white mb-8">
+                        {[...Array(5)].map((_, i) => (
+                          <FiStar key={i} size={14} fill="currentColor" />
                         ))}
                       </div>
 
-                      {/* Arrow buttons */}
-                      <div className="flex gap-2">
-                        <motion.button
-                          onClick={prevTestimonial}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="w-9 h-9 rounded-full bg-white/[.04] border border-white/[.08] flex items-center justify-center text-white hover:bg-brand-purple hover:border-brand-purple transition-all duration-200 cursor-pointer"
-                          aria-label="Previous testimonial"
-                        >
-                          <FiChevronLeft size={16} />
-                        </motion.button>
-                        <motion.button
-                          onClick={nextTestimonial}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="w-9 h-9 rounded-full bg-white/[.04] border border-white/[.08] flex items-center justify-center text-white hover:bg-brand-purple hover:border-brand-purple transition-all duration-200 cursor-pointer"
-                          aria-label="Next testimonial"
-                        >
-                          <FiChevronRight size={16} />
-                        </motion.button>
+                      {/* Quote */}
+                      <p
+                        className="text-white font-medium leading-relaxed mb-8 max-w-3xl"
+                        style={{
+                      fontSize: "clamp(18px, 2.5vw, 24px)",
+                      letterSpacing: "-0.2px",
+                        }}
+                      >
+                        "{TESTIMONIALS[active].quote}"
+                      </p>
+
+                      {/* Author info & Arrows */}
+                      <div className="flex items-center justify-between gap-6 flex-wrap">
+                        <div className="flex items-center gap-4">
+                          <motion.div 
+                            whileHover={{ scale: 1.15, rotate: 5 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-16 h-16 rounded-[24px] flex items-center justify-center relative group/avatar cursor-pointer"
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#FFD700] to-[#FFA500] rounded-[24px] shadow-[4px_4px_0px_rgba(0,0,0,0.2)] group-hover/avatar:shadow-[6px_6px_0px_rgba(0,0,0,0.25)] transition-all duration-300" />
+                            <div className="absolute inset-1 bg-white/20 rounded-[20px] backdrop-blur-sm" />
+                            <span className="relative z-10 text-3xl filter drop-shadow-md">
+                              {TESTIMONIALS[active].avatar}
+                            </span>
+                            <div className="absolute top-2 left-3 w-3 h-1.5 bg-white/40 rounded-full rotate-[-15deg] blur-[1px]" />
+                          </motion.div>
+                          <div>
+                            <p className="text-white font-display font-bold text-lg uppercase tracking-tight">
+                              {TESTIMONIALS[active].name}
+                            </p>
+                            <p className="text-white/60 text-[12px] uppercase tracking-widest font-medium">
+                              {TESTIMONIALS[active].title}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Arrows */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={prevTestimonial}
+                            className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
+                            aria-label="Previous"
+                          >
+                            <FiChevronLeft size={18} />
+                          </button>
+                          <button
+                            onClick={nextTestimonial}
+                            className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
+                            aria-label="Next"
+                          >
+                            <FiChevronRight size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Vertical Video Reel */}
+                    <div className="relative group/video shrink-0">
+                      <div className="relative w-[160px] sm:w-[190px] aspect-[9/16] rounded-[28px] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(107,53,217,0.2)] bg-[#0f0426] mx-auto lg:mx-0">
+                        <iframe
+                          className="absolute inset-0 w-full h-full opacity-90 group-hover/video:opacity-100 transition-opacity"
+                          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&modestbranding=1&rel=0"
+                          title="Founder Story"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <div className="absolute inset-0 pointer-events-none border-[1px] border-white/20 rounded-[32px] z-20" />
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
+
+
+                    {/* Pagination Dots */}
+                    <div className="flex gap-2 mt-6">
+                      {TESTIMONIALS.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActive(i)}
+                          className="transition-all duration-300 rounded-full cursor-pointer"
+                          style={{
+                            width: active === i ? 24 : 8,
+                            height: 8,
+                            background:
+                              active === i
+                                ? "#fff"
+                                : "rgba(255,255,255,0.2)",
+                          }}
+                          aria-label={`Go to testimonial ${i + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
             </div>
           </div>
         </motion.div>

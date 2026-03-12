@@ -43,12 +43,15 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-wrap items-center gap-4 mb-12"
             >
-              <a
-                href="#contact"
-                className="bg-brand-purple hover:bg-brand-violet text-white text-[15px] font-medium px-8 py-3.5 rounded-[12px] transition-all duration-300"
+              <button
+                onClick={() => {
+                  const el = document.getElementById('contact');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="bg-brand-purple hover:bg-brand-violet text-white text-[15px] font-medium px-8 py-3.5 rounded-[12px] transition-all duration-300 cursor-pointer"
               >
                 Start Your Project
-              </a>
+              </button>
               <Link
                 to="/our-work"
                 className="bg-transparent border border-white/20 text-white hover:bg-white/10 text-[15px] font-medium px-8 py-3.5 rounded-[12px] transition-all duration-300"
