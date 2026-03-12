@@ -10,6 +10,7 @@ import imgDabbaWala   from '../assets/dabbawala.png';
 import imgEggro       from '../assets/eggro.png';
 import imgFitFind     from '../assets/fitfind.png';
 import imgFashionC    from '../assets/fashionc.png';
+import imgMagicClean from '../assets/clean.png';
 
 const PROJECT_IMAGES = {
   'Referme':     imgReferme,
@@ -19,6 +20,7 @@ const PROJECT_IMAGES = {
   'Eggro':       imgEggro,
   'FitFind':     imgFitFind,
   'Fashion C':   imgFashionC,
+  'The Magic Clean': imgMagicClean,
 };
 
 /* ── helpers ─────────────────────────────────────── */
