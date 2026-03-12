@@ -187,20 +187,6 @@ export default function Testimonials() {
                       </div>
                     </div>
 
-                    {/* Right: Vertical Video Reel */}
-                    <div className="relative group/video shrink-0">
-                      <div className="relative w-[160px] sm:w-[190px] aspect-[9/16] rounded-[28px] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(107,53,217,0.2)] bg-[#0f0426] mx-auto lg:mx-0">
-                        <iframe
-                          className="absolute inset-0 w-full h-full opacity-90 group-hover/video:opacity-100 transition-opacity"
-                          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&modestbranding=1&rel=0"
-                          title="Founder Story"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                        <div className="absolute inset-0 pointer-events-none border-[1px] border-white/20 rounded-[32px] z-20" />
-                      </div>
-                    </div>
                   </div>
 
 
