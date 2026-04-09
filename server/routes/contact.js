@@ -3,8 +3,9 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const Contact = require('../models/Contact');
 const nodemailer = require('nodemailer');
+const requireAuth = require('../middleware/auth');
 
-// POST /api/contact
+// POST /api/contact — public
 router.post(
   '/',
   [
@@ -23,7 +24,6 @@ router.post(
       const { name, email, subject, message } = req.body;
       const contact = await Contact.create({ name, email, subject, message });
 
-      // Optional: send notification email
       if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
@@ -45,12 +45,42 @@ router.post(
   }
 );
 
-// GET /api/contact  (admin)
-router.get('/', async (req, res) => {
+// GET /api/contact — admin only
+router.get('/', requireAuth, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);
-  } catch (err) {
+  } catch {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// PATCH /api/contact/:id/status — admin only
+router.patch('/:id/status', requireAuth, async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!['new', 'read', 'replied'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+    const contact = await Contact.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    if (!contact) return res.status(404).json({ message: 'Not found' });
+    res.json(contact);
+  } catch {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// DELETE /api/contact/:id — admin only
+router.delete('/:id', requireAuth, async (req, res) => {
+  try {
+    const contact = await Contact.findByIdAndDelete(req.params.id);
+    if (!contact) return res.status(404).json({ message: 'Not found' });
+    res.json({ message: 'Deleted' });
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });

@@ -13,6 +13,8 @@ app.use(cors({ origin: process.env.CLIENT_URL || '*' }));
 app.use(express.json());
 
 // Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/upload', require('./routes/upload'));
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/testimonials', require('./routes/testimonials'));
