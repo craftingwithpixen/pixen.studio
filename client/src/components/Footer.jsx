@@ -1,40 +1,36 @@
-import { FiInstagram, FiLinkedin, FiGithub, FiMail, FiMapPin } from 'react-icons/fi';
+import { FiInstagram, FiLinkedin, FiGithub, FiTwitter } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const SOCIALS = [
-  { icon: <FiInstagram size={15} />, href: 'https://www.instagram.com/craftingwithpixen', label: 'Instagram' },
-  { icon: <FiLinkedin  size={15} />, href: 'https://www.linkedin.com/company/crafting-with-pixen', label: 'LinkedIn'  },
-  { icon: <FiGithub    size={15} />, href: 'https://github.com/craftingwithpixen', label: 'GitHub'    },
+  { icon: <FiTwitter size={18} strokeWidth={1.5} />, href: '#', label: 'Twitter' },
+  { icon: <FiInstagram size={18} strokeWidth={1.5} />, href: 'https://www.instagram.com/craftingwithpixen', label: 'Instagram' },
+  { icon: <FiLinkedin size={18} strokeWidth={1.5} />, href: 'https://www.linkedin.com/company/crafting-with-pixen', label: 'LinkedIn' },
+  { icon: <FiGithub size={18} strokeWidth={1.5} />, href: 'https://github.com/craftingwithpixen', label: 'GitHub' },
 ];
 
 export default function Footer() {
   return (
-    <footer className="relative bg-transparent border-t border-white/[.04] overflow-hidden">
+    <footer className="relative bg-white pt-16 px-4 md:px-6 pb-0 overflow-hidden flex flex-col items-center">
 
-      {/* Background glows */}
-      <div className="absolute top-0 left-1/3 w-[600px] h-[300px] bg-brand-purple/8 blur-[130px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[250px] bg-brand-violet/5 blur-[100px] rounded-full pointer-events-none" />
+      {/* Inner Footer Card */}
+      <div className="w-full max-w-[1340px] bg-[#0D0D0D] rounded-[36px] border border-white/[0.06] p-8 md:p-12 lg:p-16 relative z-10 shadow-2xl">
+        <div className="flex flex-col lg:flex-row justify-between gap-16 mb-16 lg:mb-20">
 
-      <div className="relative z-10 max-w-[1200px] mx-auto px-6">
-
-        {/* ── Brand + Contact ── */}
-        <div className="py-10 flex flex-col sm:flex-row items-start justify-between gap-10 border-b border-white/[.05]">
-
-          {/* Brand */}
-          <div>
-            <Link to="/" className="inline-flex mb-5">
-              <img src="/logo.png" alt="Pixen Studio" className="h-12 w-auto" />
+          {/* Left: Brand & Socials */}
+          <div className="max-w-[400px]">
+            <Link to="/" className="flex items-center gap-3 mb-8">
+              <img src="/logo-white.png" className="h-[40px] md:h-[48px] object-contain hover:scale-105 transition-transform duration-300" alt="Pixen Logo" />
             </Link>
-            <p className="text-brand-muted text-[13px] leading-[1.8] mb-5 max-w-[220px]">
-              We craft bold digital products — websites, SaaS platforms & AI tools that scale.
+            <p className="text-white/40 text-[14px] leading-[1.6] mb-8 font-sans">
+              Pixen empowers brands to transform raw ideas into bold, compelling digital platforms — making your vision easier to scale, understand, and launch.
             </p>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-5">
               {SOCIALS.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center bg-white/[.04] border border-white/[.07] text-brand-muted hover:bg-brand-purple hover:text-white hover:border-brand-purple/50 transition-all duration-200"
+                  className="text-white/40 hover:text-[#C8F139] transition-colors duration-200"
                 >
                   {s.icon}
                 </a>
@@ -42,52 +38,64 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="text-[10px] uppercase tracking-[0.2em] text-brand-muted/50 font-bold mb-5">Contact</h4>
-            <a
-              href="mailto:craftingwithpixen@gmail.com"
-              className="group flex items-start gap-3 mb-5"
-            >
-              <div className="mt-0.5 w-8 h-8 rounded-xl bg-brand-purple/10 border border-brand-purple/20 flex items-center justify-center text-brand-purple shrink-0">
-                <FiMail size={13} />
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest text-brand-muted/40 mb-0.5">Email</p>
-                <p className="text-[13px] text-brand-muted group-hover:text-white transition-colors duration-200 break-all leading-snug">
-                  craftingwithpixen@gmail.com
-                </p>
-              </div>
-            </a>
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 w-8 h-8 rounded-xl bg-white/[.04] border border-white/[.07] flex items-center justify-center text-brand-muted shrink-0">
-                <FiMapPin size={13} />
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest text-brand-muted/40 mb-0.5">Location</p>
-                <p className="text-[13px] text-brand-muted leading-snug">India</p>
-              </div>
+          {/* Right: Links */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 sm:gap-20 lg:gap-24">
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Product</h4>
+              <a href="#services" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Features</a>
+              <a href="#pricing" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Pricing</a>
+              <a href="#integrations" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Integrations</a>
+              <a href="#changelog" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Changelog</a>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Resources</h4>
+              <a href="#docs" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Documentation</a>
+              <a href="#tutorials" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Tutorials</a>
+              <a href="#blog" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Blog</a>
+              <a href="#support" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Support</a>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Company</h4>
+              <a href="#about" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">About</a>
+              <a href="#careers" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Careers</a>
+              <a href="#contact" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Contact</a>
+              <a href="#partners" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Partners</a>
             </div>
           </div>
-
         </div>
 
-        {/* ── Bottom bar ── */}
-        <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] uppercase tracking-widest text-brand-muted/40 font-display">
-            © {new Date().getFullYear()} Pixen Studio. All rights reserved.
+        {/* Divider */}
+        <div className="w-full h-px bg-white/[0.06] mb-8" />
+
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-white/35 text-[13px] font-sans">
+            © {new Date().getFullYear()} Pixen. All rights reserved.
           </p>
-          <a
-            href="mailto:craftingwithpixen@gmail.com"
-            className="flex items-center gap-1.5 text-[11px] text-brand-muted/40 hover:text-brand-purple transition-colors duration-200"
-          >
-            <FiMail size={11} />
-            craftingwithpixen@gmail.com
-          </a>
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+            <a href="#" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Privacy Policy</a>
+            <a href="#" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Terms of Service</a>
+            <a href="#" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Cookies Settings</a>
+          </div>
         </div>
+      </div>
 
+      {/* Giant background text */}
+      <div className="w-full flex justify-center items-end overflow-hidden relative z-0 -mt-[10px] md:-mt-[30px] lg:-mt-[50px] pointer-events-none pt-4 lg:pt-8 bg-transparent">
+        <h1
+          className="font-sans font-black leading-[0.7] tracking-tighter select-none text-center"
+          style={{
+            fontSize: '28vw',
+            color: 'rgba(0, 0, 0, 0.03)',
+            transform: 'translateY(18%)',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          PIXEN
+        </h1>
       </div>
     </footer>
   );
 }
-

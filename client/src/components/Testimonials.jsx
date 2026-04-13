@@ -1,223 +1,241 @@
-import { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { FiStar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { FaQuoteRight, FaQuoteLeft } from "react-icons/fa";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiStar } from 'react-icons/fi';
+
+// Brand palette only — no off-brand hues
+const ACCENT_COLORS = ['#6A1DB5', '#C8F139', '#A178FA', '#00C2A8'];
+
+// Dark accents get white text, light/bright accents get black text
+const textOnAccent = (accent) => accent === '#6A1DB5' ? '#ffffff' : '#000000';
 
 const TESTIMONIALS = [
   {
     id: 1,
-    quote:
-      "Pixen delivered an excellent plant detection ML model for our project. The model is accurate, reliable, and works perfectly for our needs. Their team was professional, responsive, and clearly skilled in AI development.",
-    name: "Abhijeet Chavan",
-    title: "Founder, Cogitare Labs",
-    avatar: "👤",
-    initials: "AC",
-    color: "#6B35D9",
+    name: 'Abhijeet Chavan',
+    title: 'Founder',
+    company: 'Cogitare Labs',
+    quote: 'Pixen delivered an excellent plant detection ML model. Accurate, reliable, and built with real professionalism.',
+    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=700&fit=crop&crop=face',
+  },
+  {
+    id: 2,
+    name: 'Priya Sharma',
+    title: 'CTO',
+    company: 'NovaByte',
+    quote: 'Outstanding MERN stack expertise. Delivered every sprint on time with exceptional quality.',
+    img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=700&fit=crop&crop=face',
+  },
+  {
+    id: 3,
+    name: 'Rahul Menon',
+    title: 'CEO',
+    company: 'Archon Digital',
+    quote: 'Our site went from slow and dated to a blazing-fast masterpiece with Core Web Vitals we never thought possible.',
+    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=700&fit=crop&crop=face',
+  },
+  {
+    id: 4,
+    name: 'Sneha Kapoor',
+    title: 'Product Lead',
+    company: 'Helium Works',
+    quote: 'Clear communication throughout. Pixen turned rough wireframes into an elegant, scalable product.',
+    img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=700&fit=crop&crop=face',
   },
 ];
 
 export default function Testimonials() {
-  const [active, setActive] = useState(0);
-  const containerRef = useRef(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
-
-  const nextTestimonial = () => {
-    setActive((prev) => (prev + 1) % TESTIMONIALS.length);
-  };
-
-  const prevTestimonial = () => {
-    setActive((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  };
+  const [hovered, setHovered] = useState(null);
 
   return (
-    <section
-      id="testimonials"
-      className="py-20 relative overflow-hidden -skew-y-[2deg] origin-center"
-      style={{
-        background: 'linear-gradient(145deg, #5a28c4 0%, #3d1a8f 100%)',
-      }}
-    >
-      {/* Background elements (Counter-skewed to stay steady) */}
-      <div className="pointer-events-none absolute inset-0 skew-y-[2deg]">
-        <motion.div
-           animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[800px] h-[800px] rounded-full blur-[160px] opacity-[0.1]"
-          style={{ background: "#ffffff", top: "-20%", left: "-10%" }}
-        />
-        <div className="absolute inset-0 opacity-[0.05]" 
-             style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-      </div>
+    <section id="testimonials" className="py-24 md:py-32 bg-white relative overflow-hidden">
+      {/* Subtle dot grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #6A1DB5 1px, transparent 0)',
+          backgroundSize: '36px 36px',
+        }}
+      />
 
-      <div className="max-w-[1200px] mx-auto px-6 relative z-10 skew-y-[2deg]">
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="mb-10"
-        >
-          <span className="badge !text-white/60 mb-3 block">Testimonials</span>
-          <div className="flex items-end justify-between gap-6 flex-wrap">
-            <h2 className="section-heading">
-              Trusted by <span className="text-brand-light">Founders</span>
-              <br />
-              <span className="text-white/90">and Innovative Builders.</span>
-            </h2>
-            <p className="text-white/70 text-sm max-w-sm leading-relaxed">
-              Don't take our word for it — hear from the people we've worked
-              with.
-            </p>
-          </div>
+      <div className="max-w-[1300px] mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
 
-          {/* Decorative line */}
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-white/40 via-white/10 to-transparent origin-left scale-x-105" />
-        </motion.div>
+          {/* ── LEFT: ACCORDION IMAGE CARDS ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex gap-3 h-[460px] flex-1 min-w-0"
+          >
+            {TESTIMONIALS.map((t, i) => {
+              const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
+              const onAccent = textOnAccent(accent);
+              const isHovered = hovered === t.id;
+              const isCollapsed = hovered !== null && !isHovered;
 
-        {/* TESTIMONIAL CARD */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative"
-        >
-          <div className="bg-[#0f0426]/40 backdrop-blur-3xl border border-white/[.08] rounded-[40px] p-8 md:p-12 relative overflow-hidden shadow-2xl">
-            
-            {/* Decorative Quotation Marks */}
-            <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-10 left-10 text-brand-purple opacity-[0.08] pointer-events-none"
-            >
-              <FaQuoteLeft className="w-24 h-24" />
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, 15, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute bottom-10 right-10 text-brand-light opacity-[0.08] pointer-events-none"
-            >
-              <FaQuoteRight className="w-24 h-24" />
-            </motion.div>
-
-            <div className="relative z-10">
-              <AnimatePresence mode="wait">
+              return (
                 <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  key={t.id}
+                  onMouseEnter={() => setHovered(t.id)}
+                  onMouseLeave={() => setHovered(null)}
+                  animate={{ flex: isHovered ? 2.2 : isCollapsed ? 0.95 : 1 }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  className="relative rounded-[24px] overflow-hidden cursor-pointer"
+                  style={{ minWidth: 0 }}
                 >
-                  <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-                    {/* Left: Text Content */}
-                    <div className="flex-1">
-                      {/* Stars */}
-                      <div className="flex gap-1 text-white mb-8">
-                        {[...Array(5)].map((_, i) => (
-                          <FiStar key={i} size={14} fill="currentColor" />
-                        ))}
-                      </div>
+                  {/* Photo */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage: `url(${t.img})`,
+                      backgroundSize: 'auto 100%',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center top',
+                    }}
+                  />
 
-                      {/* Quote */}
-                      <p
-                        className="text-white font-medium leading-relaxed mb-8 max-w-3xl"
+                  {/* Gradient overlay for legibility */}
+                  <div
+                    className="absolute inset-0 transition-all duration-500"
+                    style={{
+                      background: isHovered
+                        ? 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)'
+                        : 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)',
+                    }}
+                  />
+
+                  {/* COLLAPSED: initials chip */}
+                  <AnimatePresence>
+                    {!isHovered && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute bottom-4 left-0 right-0 flex flex-col items-center gap-1.5"
+                      >
+                        <div className="flex gap-0.5" style={{ color: accent }}>
+                          {[...Array(5)].map((_, idx) => (
+                            <FiStar key={idx} size={7} fill="currentColor" strokeWidth={0} />
+                          ))}
+                        </div>
+                        <div
+                          className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold font-sans border border-white/20"
+                          style={{ background: `${accent}60`, color: onAccent }}
+                        >
+                          {t.name.split(' ').map((n) => n[0]).join('')}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* EXPANDED: floating info card */}
+                  <AnimatePresence>
+                    {isHovered && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 12 }}
+                        transition={{ duration: 0.32, delay: 0.06 }}
+                        className="absolute bottom-4 left-3 right-3 rounded-[18px] p-5"
                         style={{
-                      fontSize: "clamp(18px, 2.5vw, 24px)",
-                      letterSpacing: "-0.2px",
+                          background: accent,
+                          boxShadow: `0 8px 32px ${accent}55`,
                         }}
                       >
-                        "{TESTIMONIALS[active].quote}"
-                      </p>
-
-                      {/* Author info & Arrows */}
-                      <div className="flex items-center justify-between gap-6 flex-wrap">
-                        <div className="flex items-center gap-4">
-                          <motion.div 
-                            whileHover={{ scale: 1.15, rotate: 5 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="w-16 h-16 rounded-[24px] flex items-center justify-center relative group/avatar cursor-pointer"
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#FFD700] to-[#FFA500] rounded-[24px] shadow-[4px_4px_0px_rgba(0,0,0,0.2)] group-hover/avatar:shadow-[6px_6px_0px_rgba(0,0,0,0.25)] transition-all duration-300" />
-                            <div className="absolute inset-1 bg-white/20 rounded-[20px] backdrop-blur-sm" />
-                            <span className="relative z-10 text-3xl filter drop-shadow-md">
-                              {TESTIMONIALS[active].avatar}
-                            </span>
-                            <div className="absolute top-2 left-3 w-3 h-1.5 bg-white/40 rounded-full rotate-[-15deg] blur-[1px]" />
-                          </motion.div>
-                          <div>
-                            <p className="text-white font-display font-bold text-lg uppercase tracking-tight">
-                              {TESTIMONIALS[active].name}
-                            </p>
-                            <p className="text-white/60 text-[12px] uppercase tracking-widest font-medium">
-                              {TESTIMONIALS[active].title}
-                            </p>
-                          </div>
+                        {/* Stars */}
+                        <div className="flex gap-1 mb-2.5" style={{ color: onAccent === '#000000' ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.7)' }}>
+                          {[...Array(5)].map((_, idx) => (
+                            <FiStar key={idx} size={11} fill="currentColor" strokeWidth={0} />
+                          ))}
                         </div>
 
-                        {/* Arrows — only show when multiple testimonials */}
-                        {TESTIMONIALS.length > 1 && (
-                          <div className="flex gap-2">
-                            <button
-                              onClick={prevTestimonial}
-                              className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
-                              aria-label="Previous"
-                            >
-                              <FiChevronLeft size={18} />
-                            </button>
-                            <button
-                              onClick={nextTestimonial}
-                              className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all cursor-pointer"
-                              aria-label="Next"
-                            >
-                              <FiChevronRight size={18} />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                        {/* Quote */}
+                        <p
+                          className="font-sans text-[12.5px] leading-[1.65] mb-4 line-clamp-3"
+                          style={{ color: onAccent === '#000000' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.85)' }}
+                        >
+                          &ldquo;{t.quote}&rdquo;
+                        </p>
 
-                  </div>
-
-
-                    {/* Pagination Dots — only show when multiple testimonials */}
-                    {TESTIMONIALS.length > 1 && (
-                    <div className="flex gap-2 mt-6">
-                      {TESTIMONIALS.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setActive(i)}
-                          className="transition-all duration-300 rounded-full cursor-pointer"
-                          style={{
-                            width: active === i ? 24 : 8,
-                            height: 8,
-                            background:
-                              active === i
-                                ? "#fff"
-                                : "rgba(255,255,255,0.2)",
-                          }}
-                          aria-label={`Go to testimonial ${i + 1}`}
+                        {/* Divider */}
+                        <div
+                          className="w-8 h-[2px] mb-3 rounded-full"
+                          style={{ background: onAccent === '#000000' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.3)' }}
                         />
-                      ))}
-                    </div>
+
+                        {/* Name & role */}
+                        <p className="font-sans font-bold text-[13px] leading-tight" style={{ color: onAccent }}>
+                          {t.name}
+                        </p>
+                        <p
+                          className="font-sans text-[11px] mt-0.5"
+                          style={{ color: onAccent === '#000000' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.65)' }}
+                        >
+                          {t.title} · {t.company}
+                        </p>
+                      </motion.div>
                     )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+          {/* ── RIGHT: TEXT ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="lg:w-[320px] shrink-0 lg:pt-6 flex flex-col justify-center"
+          >
+            
+
+            <h2 className="text-[48px] lg:text-[56px] font-sans font-medium leading-[1.0] tracking-tight text-black mb-5">
+              Hear it from<br/>
+              <span className="text-[#6A1DB5]">our clients.</span>
+            </h2>
+
+            <p className="text-black/55 font-sans text-[16px] leading-[1.6] mb-8">
+              Real words from real founders who trusted us with their most important work.
+            </p>
+
+            {/* Client list */}
+            <div className="flex flex-col gap-3">
+              {TESTIMONIALS.map((t, i) => {
+                const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
+                return (
+                  <motion.div
+                    key={t.id}
+                    onMouseEnter={() => setHovered(t.id)}
+                    onMouseLeave={() => setHovered(null)}
+                    animate={{
+                      x: hovered === t.id ? 6 : 0,
+                      opacity: hovered !== null && hovered !== t.id ? 0.4 : 1,
+                    }}
+                    transition={{ duration: 0.25 }}
+                    className="flex items-center gap-3 cursor-pointer group"
+                  >
+                    <div
+                      className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                      style={{
+                        background: hovered === t.id ? accent : '#d1d5db',
+                        transform: hovered === t.id ? 'scale(1.5)' : 'scale(1)',
+                      }}
+                    />
+                    <span className="font-sans text-[12px] text-gray-500 group-hover:text-black transition-colors duration-200">
+                      {t.name}
+                      <span className="text-gray-300 ml-1">· {t.company}</span>
+                    </span>
                   </motion.div>
-                </AnimatePresence>
+                );
+              })}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

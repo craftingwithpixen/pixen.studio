@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowUpRight, FiLayers, FiBox, FiUsers } from 'react-icons/fi';
 import projectData from '../../Project_Information.json';
+import Navbar from '../components/Navbar';
 
 import imgReferme     from '../assets/referme.png';
 import imgCollex      from '../assets/collex.png';
@@ -178,13 +179,15 @@ export default function OurWork() {
   }
 
   return (
-    <div className="relative min-h-screen">
-
+    <div className="relative min-h-screen pt-4 px-4">
       {/* Ambient blobs */}
       <div className="fixed top-1/4 left-1/4 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-brand-purple/15 rounded-full blur-[130px] pointer-events-none" />
       <div className="fixed bottom-1/3 right-1/4 w-[30vw] h-[30vw] max-w-[400px] max-h-[400px] bg-brand-violet/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 pt-32 pb-24 px-6 max-w-[1200px] mx-auto">
+      <div className="relative z-10 pt-4 pb-24 max-w-[1340px] px-2 md:px-8 mx-auto">
+        <div className="bg-white rounded-3xl p-6 lg:p-10 mb-10 text-black">
+           <Navbar />
+        </div>
 
         {/* ── Header ── */}
         <motion.div
