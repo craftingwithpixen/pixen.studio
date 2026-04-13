@@ -6,7 +6,60 @@ import Navbar from './Navbar';
 export default function Hero() {
    return (
       <section id="home" className="bg-black w-full pt-4 md:pt-6 pb-14 md:pb-20 px-4 sm:px-5 md:px-6 overflow-hidden relative">
-         <div className="max-w-[1300px] mx-auto rounded-[24px] sm:rounded-[32px] md:rounded-[48px] bg-white shadow-xl shadow-black/5 p-4 sm:p-6 pt-7 sm:pt-9 md:p-12 lg:p-14 lg:pt-12 relative selection:bg-[#C8F139] selection:text-black">
+         <div className="max-w-[1300px] mx-auto rounded-[24px] sm:rounded-[32px] md:rounded-[48px] bg-white shadow-xl shadow-black/5 p-4 sm:p-6 pt-7 sm:pt-9 md:p-12 lg:p-14 lg:pt-12 relative selection:bg-[#C8F139] selection:text-black overflow-hidden">
+
+            {/* ── PURPLE WAVE BACKGROUND ── */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+               <svg
+                  className="absolute bottom-0 left-0 w-full"
+                  style={{ height: '74%' }}
+                  viewBox="0 0 1300 580"
+                  preserveAspectRatio="none"
+                  xmlns="http://www.w3.org/2000/svg"
+               >
+                  {/* Wave 1 — back, widest sweep */}
+                  <path
+                     d="M0,220 C120,130 280,350 500,210 C680,90 870,310 1080,185 C1190,120 1260,150 1300,145 L1300,580 L0,580 Z"
+                     fill="#6A1DB5" fillOpacity="0.055"
+                  />
+                  {/* Wave 2 — mid */}
+                  <path
+                     d="M0,280 C160,170 360,390 600,250 C800,130 1000,350 1200,230 C1260,195 1290,208 1300,205 L1300,580 L0,580 Z"
+                     fill="#6A1DB5" fillOpacity="0.075"
+                  />
+                  {/* Wave 3 — front, most prominent */}
+                  <path
+                     d="M0,345 C190,225 410,445 670,295 C880,170 1080,390 1300,270 L1300,580 L0,580 Z"
+                     fill="#4A1285" fillOpacity="0.08"
+                  />
+                  {/* Wave 4 — deepest fill at very bottom */}
+                  <path
+                     d="M0,420 C220,310 460,490 740,360 C940,255 1120,430 1300,340 L1300,580 L0,580 Z"
+                     fill="#6A1DB5" fillOpacity="0.09"
+                  />
+                  {/* Volt green accent line — traces front wave crest */}
+                  <path
+                     d="M0,345 C190,225 410,445 670,295 C880,170 1080,390 1300,270"
+                     fill="none" stroke="#C8F139" strokeWidth="1.5" strokeOpacity="0.45"
+                  />
+                  {/* Second softer volt line above */}
+                  <path
+                     d="M0,280 C160,170 360,390 600,250 C800,130 1000,350 1200,230 C1260,195 1290,208 1300,205"
+                     fill="none" stroke="#C8F139" strokeWidth="0.8" strokeOpacity="0.2"
+                  />
+               </svg>
+
+               {/* Soft violet glow — bottom-left corner */}
+               <div
+                  className="absolute -bottom-24 -left-24 w-[480px] h-[380px] rounded-full"
+                  style={{ background: '#6A1DB5', opacity: 0.07, filter: 'blur(80px)' }}
+               />
+               {/* Soft violet glow — bottom-right corner */}
+               <div
+                  className="absolute -bottom-16 -right-16 w-[360px] h-[300px] rounded-full"
+                  style={{ background: '#4A1285', opacity: 0.06, filter: 'blur(70px)' }}
+               />
+            </div>
 
             {/* INLINE NAVBAR */}
             <Navbar />
