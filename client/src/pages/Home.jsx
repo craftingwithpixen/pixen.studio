@@ -6,8 +6,8 @@ import Process from '../components/Process';
 import WhyUs from '../components/WhyUs';
 import Technologies from '../components/Technologies';
 import Testimonials from '../components/Testimonials';
-import CaseStudies from '../components/CaseStudies';
 import CTA from '../components/CTA';
+import CaseStudies from '../components/CaseStudies';
 
 export default function Home() {
   const { hash } = useLocation();
@@ -31,8 +31,9 @@ export default function Home() {
       <Process />
       {/* <Technologies /> */}
       <WhyUs />
-      <Testimonials />
       <CaseStudies />
+      
+      <Testimonials />
       <CTA />
     </>
   );

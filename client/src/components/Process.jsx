@@ -25,29 +25,42 @@ export default function Process() {
   return (
     <section
       id="process"
-      className="bg-[#0D0D0D] py-16 sm:py-24 md:py-32 relative z-10 font-sans text-white border-t border-white/5"
+      className="bg-white py-16 sm:py-24 md:py-32 relative z-10 font-sans text-black border-t border-white/5"
+      style={{ color: '#000' }}
     >
       <div className="overflow-hidden relative">
-        <div className="max-w-[1300px] mx-auto px-4 sm:px-6" ref={ref}>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.25 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-[1300px] mx-auto px-4 sm:px-6"
+        >
 
           {/* ── HEADER ── */}
           <div className="mb-12 sm:mb-16 md:mb-24 flex flex-col items-center text-center">
-           
-            <h2 className="text-[34px] sm:text-[44px] md:text-[64px] font-sans font-medium leading-[1.0] tracking-tight">
-               Timeline diagram
-            </h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="section-heading text-black"
+            >
+              How we turn ideas<br />
+              <span className="text-[#6A1DB5]">into reality.</span>
+            </motion.h2>
           </div>
 
           {/* ── HORIZONTAL TIMELINE (DESKTOP) ── */}
           <div className="relative hidden xl:block mt-20 w-full h-[550px]">
 
             {/* Main horizontal line */}
-            <div className="absolute left-[2%] right-[8%] top-[60px] h-[1px] bg-white/10 z-0">
+            <div className="absolute left-[2%] right-[8%] top-[60px] h-[1px] bg-black/10 z-0">
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}
                 transition={{ duration: 1.5, ease: 'easeOut', transformOrigin: 'left' }}
-                className="h-full w-full bg-white/30"
+                className="h-full w-full bg-black/30"
               />
             </div>
 
@@ -88,7 +101,7 @@ export default function Process() {
                           <svg width="200" height={item.drop === 'long' ? 280 : 130} fill="none" className="overflow-visible">
                             <path
                               d={`M 0 0 L 0 ${item.drop === 'long' ? 260 : 110} Q 0 ${item.drop === 'long' ? 275 : 125} 15 ${item.drop === 'long' ? 275 : 125} L 60 ${item.drop === 'long' ? 275 : 125}`}
-                              stroke="rgba(255,255,255,0.25)"
+                              stroke="rgba(0,0,0,0.50)"
                               strokeWidth="1.5"
                               fill="transparent"
                             />
@@ -109,12 +122,12 @@ export default function Process() {
                         }}
                       >
                         <h3
-                          className="font-sans font-bold text-[15px] mb-2"
-                          style={{ color: item.color }}
+                          className="font-sans font-bold text-[15px] mb-2 text-black"
+                          style={{ color: '#000' }}
                         >
                           {item.step.title}
                         </h3>
-                        <p className="text-white/50 text-[12px] leading-[1.6]">
+                        <p className="text-black text-[12px] leading-[1.6]">
                           {item.step.desc}
                         </p>
                       </motion.div>
@@ -152,10 +165,10 @@ export default function Process() {
                   </div>
 
                   <div className="flex flex-col min-w-0 pr-1">
-                    <h3 className="font-sans font-bold text-[16px] sm:text-[18px] mb-2" style={{ color: item.color }}>
+                    <h3 className="font-sans font-bold text-[16px] sm:text-[18px] mb-2 text-black" style={{ color: '#000' }}>
                       {item.step.title}
                     </h3>
-                    <p className="text-white/50 text-[13px] sm:text-[14px] leading-[1.6] max-w-[34ch]">
+                    <p className="text-black text-[13px] sm:text-[14px] leading-[1.6] max-w-[34ch]">
                       {item.step.desc}
                     </p>
                   </div>
@@ -164,7 +177,7 @@ export default function Process() {
             </div>
           </div>
 
-        </div>
+        </motion.div>
       </div>
 
       {/* White scoop arch — transitions to light section */}

@@ -227,7 +227,7 @@ export default function Technologies() {
             
             
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <h2 className="text-[44px] lg:text-[56px] font-sans font-medium leading-[1.05] tracking-tight text-black flex-1">
+              <h2 className="section-heading flex-1">
                 Technologies we've perfected
               </h2>
               <p className="text-gray-600 font-sans text-[15px] lg:text-[17px] leading-[1.6] max-w-sm pb-2">

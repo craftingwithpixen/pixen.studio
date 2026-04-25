@@ -27,9 +27,8 @@
 
 @layer components {
   .section-heading {
-    @apply text-3xl md:text-4xl font-semibold leading-tight;
+    @apply text-[40px] md:text-[56px] lg:text-[64px] font-medium leading-[1.05] tracking-tight;
     font-family: 'Outfit', system-ui, sans-serif;
-    letter-spacing: -0.3px;
   }
 
   .section-sub {

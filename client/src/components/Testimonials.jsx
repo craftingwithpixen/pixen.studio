@@ -45,6 +45,16 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   const [hovered, setHovered] = useState(null);
+  const [activeMobileIdx, setActiveMobileIdx] = useState(0);
+
+  const handleMobileScroll = (e) => {
+    const scrollLeft = e.target.scrollLeft;
+    const cardWidthEstimate = window.innerWidth * 0.85 + 16; // rough estimate based on w-[85vw] + gap-4
+    const index = Math.round(scrollLeft / cardWidthEstimate);
+    if (index !== activeMobileIdx && index >= 0 && index < TESTIMONIALS.length) {
+      setActiveMobileIdx(index);
+    }
+  };
 
   return (
     <section id="testimonials" className="py-24 md:py-32 bg-white relative overflow-hidden">
@@ -58,15 +68,126 @@ export default function Testimonials() {
       />
 
       <div className="max-w-[1300px] mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 w-full">
 
-          {/* ── LEFT: ACCORDION IMAGE CARDS ── */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex gap-3 h-[460px] flex-1 min-w-0"
+          {/* ── RIGHT: TEXT (Moved to top of DOM for mobile logic) ── */}
+          <div
+            className="lg:order-2 lg:w-[320px] shrink-0 lg:pt-6 flex flex-col justify-center w-full"
+          >
+            <h2 className="section-heading mb-5">
+              Hear it from<br/>
+              <span className="text-[#6A1DB5]">our clients.</span>
+            </h2>
+
+            <p className="text-black/55 font-sans text-[16px] leading-[1.6] mb-8">
+              Real words from real founders who trusted us with their most important work.
+            </p>
+
+            {/* Client list (Desktop only) */}
+            <div className="hidden lg:flex flex-col gap-3">
+              {TESTIMONIALS.map((t, i) => {
+                const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
+                return (
+                  <motion.div
+                    key={t.id}
+                    onMouseEnter={() => setHovered(t.id)}
+                    onMouseLeave={() => setHovered(null)}
+                    animate={{
+                      x: hovered === t.id ? 6 : 0,
+                      opacity: hovered !== null && hovered !== t.id ? 0.4 : 1,
+                    }}
+                    transition={{ duration: 0.25 }}
+                    className="flex items-center gap-3 cursor-pointer group"
+                  >
+                    <div
+                      className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                      style={{
+                        background: hovered === t.id ? accent : '#d1d5db',
+                        transform: hovered === t.id ? 'scale(1.5)' : 'scale(1)',
+                      }}
+                    />
+                    <span className="font-sans text-[12px] text-gray-500 group-hover:text-black transition-colors duration-200">
+                      {t.name}
+                      <span className="text-gray-300 ml-1">· {t.company}</span>
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── MOBILE: PREMIUM SWIPEABLE CARDS ── */}
+          <div className="flex flex-col items-center lg:hidden w-full mt-4 pb-8">
+            <style>{`.hide-scroll::-webkit-scrollbar { display: none; }`}</style>
+            
+            {/* Scroll Gallery */}
+            <div 
+              className="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full px-6 pb-4 hide-scroll" 
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              onScroll={handleMobileScroll}
+            >
+              {TESTIMONIALS.map((t, i) => {
+                const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
+                const onAccent = textOnAccent(accent);
+                
+                return (
+                  <div 
+                    key={t.id} 
+                    className="snap-center shrink-0 w-[85vw] max-w-[340px] rounded-[32px] p-8 relative overflow-hidden flex flex-col justify-between" 
+                    style={{ background: accent, boxShadow: `0 14px 40px ${accent}30` }}
+                  >
+                    {/* Stars */}
+                    <div className="flex gap-1.5 mb-6" style={{ color: onAccent === '#000000' ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.7)' }}>
+                      {[...Array(5)].map((_, idx) => <FiStar key={idx} size={15} fill="currentColor" strokeWidth={0} />)}
+                    </div>
+                    
+                    {/* Quote */}
+                    <p className="font-sans text-[17px] leading-[1.6] mb-8 font-medium" style={{ color: onAccent }}>
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    
+                    {/* Profile */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full overflow-hidden border-[3px]" style={{ borderColor: onAccent === '#000000' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)' }}>
+                        <img src={t.img} alt={t.name} className="w-full h-full object-cover object-top" />
+                      </div>
+                      <div>
+                        <p className="font-sans font-bold text-[14px]" style={{ color: onAccent }}>{t.name}</p>
+                        <p className="font-sans text-[11px] font-bold uppercase tracking-wider mt-0.5" style={{ color: onAccent === '#000000' ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.65)' }}>
+                          {t.title} · {t.company}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Faint Deco Graphic */}
+                    <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full pointer-events-none" style={{ background: onAccent === '#000000' ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.05)' }} />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="flex items-center justify-center gap-2 md:gap-2.5 mt-2">
+              {TESTIMONIALS.map((t, idx) => {
+                const isActive = activeMobileIdx === idx;
+                const accent = ACCENT_COLORS[idx % ACCENT_COLORS.length];
+                return (
+                  <div 
+                    key={`dot-${t.id}`}
+                    className="h-1.5 rounded-full transition-all duration-300"
+                    style={{
+                      width: isActive ? '24px' : '8px',
+                      background: isActive ? accent : '#E5E7EB'
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── DESKTOP: ACCORDION IMAGE CARDS ── */}
+          <div
+            className="hidden lg:flex lg:order-1 gap-3 h-[460px] flex-1 min-w-0 w-full"
           >
             {TESTIMONIALS.map((t, i) => {
               const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
@@ -181,59 +302,7 @@ export default function Testimonials() {
                 </motion.div>
               );
             })}
-          </motion.div>
-
-          {/* ── RIGHT: TEXT ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:w-[320px] shrink-0 lg:pt-6 flex flex-col justify-center"
-          >
-            
-
-            <h2 className="text-[48px] lg:text-[56px] font-sans font-medium leading-[1.0] tracking-tight text-black mb-5">
-              Hear it from<br/>
-              <span className="text-[#6A1DB5]">our clients.</span>
-            </h2>
-
-            <p className="text-black/55 font-sans text-[16px] leading-[1.6] mb-8">
-              Real words from real founders who trusted us with their most important work.
-            </p>
-
-            {/* Client list */}
-            <div className="flex flex-col gap-3">
-              {TESTIMONIALS.map((t, i) => {
-                const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
-                return (
-                  <motion.div
-                    key={t.id}
-                    onMouseEnter={() => setHovered(t.id)}
-                    onMouseLeave={() => setHovered(null)}
-                    animate={{
-                      x: hovered === t.id ? 6 : 0,
-                      opacity: hovered !== null && hovered !== t.id ? 0.4 : 1,
-                    }}
-                    transition={{ duration: 0.25 }}
-                    className="flex items-center gap-3 cursor-pointer group"
-                  >
-                    <div
-                      className="w-1.5 h-1.5 rounded-full transition-all duration-300"
-                      style={{
-                        background: hovered === t.id ? accent : '#d1d5db',
-                        transform: hovered === t.id ? 'scale(1.5)' : 'scale(1)',
-                      }}
-                    />
-                    <span className="font-sans text-[12px] text-gray-500 group-hover:text-black transition-colors duration-200">
-                      {t.name}
-                      <span className="text-gray-300 ml-1">· {t.company}</span>
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

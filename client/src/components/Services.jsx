@@ -1,189 +1,363 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { FiArrowUpRight, FiArrowRight } from 'react-icons/fi';
+import { useRef, useState } from 'react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { FiArrowUpRight, FiCode, FiBox, FiCpu, FiSearch, FiCloud } from 'react-icons/fi';
 
+/* ─── Data ──────────────────────────────────────────────────── */
 const services = [
   {
-    id: 1,
-    title: 'Web Dev',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
-    desc: 'Pixen creates modern, responsive websites built for ultimate performance and rapid business growth.',
-    color: '#6A1DB5',
-    textColor: '#FFFFFF',
+    num: '01', title: 'Web Development', short: 'Websites & Web Apps',
+    desc: 'Modern, responsive websites and web apps built for ultimate performance, SEO, and rapid business growth.',
+    tags: ['React', 'Next.js', 'Node.js', 'TypeScript'],
+    Icon: FiCode,
+    accent: '#C8F139',
+    accentText: '#000',
   },
   {
-    id: 2,
-    title: 'SaaS Products',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
-    desc: 'Specialized in building robust, subscription-based platforms designed for high scalability and secure payments.',
-    color: '#C8F139',
-    textColor: '#000000',
+    num: '02', title: 'SaaS Products', short: 'Scalable Platforms',
+    desc: 'End-to-end SaaS platforms with auth, billing, dashboards, and team management — designed to scale from day one.',
+    tags: ['Stripe', 'Auth', 'Dashboards', 'APIs'],
+    Icon: FiBox,
+    accent: '#A178FA',
+    accentText: '#000',
   },
   {
-    id: 3,
-    title: 'AI Agents',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80',
-    desc: 'Build AI agents that automate complex workflows, handle repetitive tasks, and deliver faster decisions.',
-    color: '#A178FA',
-    textColor: '#000000',
+    num: '03', title: 'AI Agents', short: 'Automation & Intelligence',
+    desc: 'Custom AI agents that automate complex workflows, handle repetitive tasks, and deliver smarter decisions at scale.',
+    tags: ['OpenAI', 'LangChain', 'Automation', 'n8n'],
+    Icon: FiCpu,
+    accent: '#38E8FF',
+    accentText: '#000',
   },
   {
-    id: 4,
-    title: 'SEO & Search',
-    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=800&q=80',
-    desc: 'Technical SEO strategies to ensure your digital platform ranks at the top and drives consistent organic traffic.',
-    color: '#00C2A8',
-    textColor: '#000000',
+    num: '04', title: 'SEO & Search', short: 'Organic Growth',
+    desc: 'Technical SEO audits, on-page strategies, and content frameworks that push your platform straight to the top.',
+    tags: ['On-page', 'Core Web Vitals', 'Analytics'],
+    Icon: FiSearch,
+    accent: '#FF8A65',
+    accentText: '#000',
   },
   {
-    id: 5,
-    title: 'Cloud DevOps',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
-    desc: 'Cloud deployments and infrastructure management for highly reliable applications with 99.9% uptime.',
-    color: '#ffffff',
-    textColor: '#000000',
+    num: '05', title: 'Cloud & DevOps', short: 'Infrastructure & Reliability',
+    desc: 'Managed cloud deployments, CI/CD pipelines, and infrastructure automation for rock-solid 99.9% uptime.',
+    tags: ['AWS', 'Docker', 'CI/CD', 'Terraform'],
+    Icon: FiCloud,
+    accent: '#6A1DB5',
+    accentText: '#fff',
   },
 ];
 
+/* ─── Main Component ────────────────────────────────────────── */
 export default function Services() {
-  const targetRef = useRef(null);
+  const sectionRef = useRef(null);
+  const [scrollIdx, setScrollIdx] = useState(0);
+
+  const handleSelectService = (index) => setScrollIdx(index);
 
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: sectionRef,
+    offset: ['start start', 'end end'],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    setScrollIdx(Math.min(Math.floor(v * services.length), services.length - 1));
+  });
+
+  const active = scrollIdx;
+  const s = services[active];
 
   return (
-      <section ref={targetRef} id="services" className="bg-[#0D0D0D] rounded-t-[28px] sm:rounded-t-[40px] lg:rounded-t-[64px] -mt-10 sm:-mt-12 relative z-20 text-white clip-path-section">
+    <section
+      ref={sectionRef}
+      id="services"
+      className="bg-white rounded-[28px] sm:rounded-[40px] lg:rounded-[64px] -mt-10 sm:-mt-12 relative z-20 overflow-hidden shadow-[0_-12px_48px_rgba(0,0,0,0.07)]"
+      style={{ height: `${services.length * 85 + 20}vh`, position: 'relative' }}
+    >
+      <div className="sticky top-0 h-screen flex overflow-hidden">
 
-         {/* Mobile / Tablet Layout */}
-         <div className="lg:hidden w-full max-w-[1300px] mx-auto px-4 sm:px-6 pt-14 sm:pt-16 pb-16 sm:pb-20">
-            <div className="mb-10 sm:mb-12">
-               <h2 className="text-[34px] sm:text-[44px] font-sans font-medium leading-[1.02] tracking-tight mb-4 pr-2">
-                  What we do
-               </h2>
-               <p className="text-[#888] text-[15px] sm:text-[16px] leading-[1.6] font-sans max-w-[560px]">
-                  Depending on customer satisfaction and access to digital products, our potential target audience can be divided into distinct groups.
-               </p>
-            </div>
+        {/* ══════════════════════════════════════════
+            LEFT — animated detail panel (dark)
+        ══════════════════════════════════════════ */}
+        <div className="hidden lg:flex lg:w-[42%] xl:w-[38%] shrink-0 flex-col bg-[#0D0D0D] relative overflow-hidden">
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-               {services.map((item, index) => (
-                  <div key={item.id} className="relative min-h-[360px] sm:min-h-[400px] rounded-[24px] overflow-hidden flex flex-col justify-between group cursor-pointer bg-[#1c1b1b]">
-                     <div className="absolute inset-0 w-full h-full">
-                        <img
-                           src={item.image}
-                           alt={item.title}
-                           className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#0D0D0D] opacity-90"></div>
-                     </div>
+          {/* accent glow blob — tracks active service */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{
+              background: `radial-gradient(ellipse 80% 60% at 30% 60%, ${s.accent}22 0%, transparent 65%)`,
+            }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          />
 
-                     <div className="relative z-10 p-5 sm:p-6">
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center text-black font-sans font-bold text-[13px] sm:text-[14px]">
-                           {index + 1}
-                        </div>
-                     </div>
+          {/* ghost number watermark */}
+          <motion.span
+            key={s.num}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute bottom-6 right-8 font-sans font-black leading-none select-none pointer-events-none"
+            style={{ fontSize: 'clamp(100px, 14vw, 180px)', color: `${s.accent}08` }}
+          >
+            {s.num}
+          </motion.span>
 
-                     <div className="relative z-10 p-5 sm:p-6 flex flex-col justify-end h-full">
-                        <p className="text-white text-[15px] sm:text-[16px] leading-[1.5] font-sans font-medium mb-5 sm:mb-6">
-                           {item.desc}
-                        </p>
+          {/* content */}
+          <div className="relative z-10 flex flex-col justify-between h-full px-10 xl:px-14 pt-16 pb-10">
 
-                        <div className="flex items-center gap-2">
-                           <div
-                              className="px-5 sm:px-6 py-3 rounded-full text-[12px] sm:text-[13px] font-bold font-sans transition-all group-hover:pr-8"
-                              style={{ backgroundColor: item.color, color: item.textColor }}
-                           >
-                              {item.title}
-                           </div>
-                           <div
-                              className="w-[42px] h-[42px] sm:w-[46px] sm:h-[46px] rounded-full flex items-center justify-center transition-all group-hover:scale-110 shrink-0"
-                              style={{ backgroundColor: item.color, color: item.textColor }}
-                           >
-                              <FiArrowRight size={17} strokeWidth={1.5} />
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               ))}
-            </div>
-         </div>
-
-         {/* Desktop Layout */}
-         <div className="hidden lg:block h-[250vh]">
-            <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-               <div className="w-full max-w-[1300px] mx-auto px-6">
-                  <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-8 items-center mt-12 md:mt-0">
-
-              {/* Left Column */}
-              <div className="xl:col-span-4 flex flex-col justify-center h-full">
-                 <div>
-                     
-                     <h2 className="text-[48px] md:text-[64px] font-sans font-medium leading-[1.0] tracking-tight mb-6 pr-4">
-                        What we do
-                     </h2>
-                     <p className="text-[#888] text-[16px] md:text-[18px] leading-[1.6] font-sans max-w-sm">
-                        Depending on customer satisfaction and access to digital products, our potential target audience can be divided into distinct groups.
-                     </p>
-                  </div>
-
-                 <div className="hidden xl:block mt-24">
-                    <FiArrowUpRight className="text-5xl text-white hover:text-[#C8F139] transition-colors cursor-pointer" strokeWidth={1.5} />
-                 </div>
-              </div>
-
-              {/* Right Column — Horizontal Scroll Track */}
-              <div
-                className="xl:col-span-8 overflow-hidden relative w-full h-[600px] flex items-center"
-                style={{
-                  WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
-                  maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)'
-                }}
+            {/* top — badge + heading */}
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.18em] text-white/30 font-sans font-medium mb-8">
+                Our Services
+              </p>
+              <h2
+                className="font-sans font-light leading-[1.0] tracking-[-0.03em] text-white"
+                style={{ fontSize: 'clamp(36px, 3.5vw, 58px)' }}
               >
-                <motion.div style={{ x }} className="flex gap-6 lg:gap-10 w-max px-4">
-                  {services.map((item, index) => (
-                    <div key={item.id} className="relative w-[85vw] sm:w-[380px] h-[480px] lg:h-[560px] rounded-[32px] overflow-hidden flex flex-col justify-between group cursor-pointer bg-[#1c1b1b] shrink-0">
-                          <div className="absolute inset-0 w-full h-full">
-                             <img
-                                src={item.image}
-                                alt={item.title}
-                                className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700 group-hover:scale-105"
-                             />
-                             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#0D0D0D] opacity-90"></div>
-                          </div>
+                What<br />
+                <span className="font-medium" style={{ color: s.accent }}>we do</span>
+              </h2>
+            </div>
 
-                          <div className="relative z-10 p-6">
-                             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black font-sans font-bold text-[14px]">
-                                {index + 1}
-                             </div>
-                          </div>
+            {/* middle — active service detail card */}
+            <div className="flex-1 flex flex-col justify-center py-8">
+              {/* large icon */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={s.num + '-icon'}
+                  initial={{ opacity: 0, scale: 0.85, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: -8 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-16 h-16 xl:w-20 xl:h-20 rounded-2xl flex items-center justify-center mb-6"
+                  style={{
+                    backgroundColor: `${s.accent}18`,
+                    boxShadow: `0 0 40px ${s.accent}30`,
+                    border: `1px solid ${s.accent}30`,
+                  }}
+                >
+                  <s.Icon size={28} color={s.accent} strokeWidth={1.5} />
+                </motion.div>
+              </AnimatePresence>
 
-                          <div className="relative z-10 p-6 flex flex-col justify-end h-full">
-                             <p className="text-white text-[16px] lg:text-[17px] leading-[1.5] font-sans font-medium mb-8">
-                                {item.desc}
-                             </p>
+              {/* active service number + short label */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={s.num + '-label'}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <p className="text-[11px] uppercase tracking-[0.16em] font-medium mb-2" style={{ color: s.accent }}>
+                    {s.num} — {s.short}
+                  </p>
+                  <h3
+                    className="font-sans font-light leading-[1.1] tracking-[-0.025em] text-white mb-4"
+                    style={{ fontSize: 'clamp(22px, 2.4vw, 36px)' }}
+                  >
+                    {s.title}
+                  </h3>
+                  <p className="text-[13px] sm:text-[14px] leading-[1.8] text-white/40 font-light max-w-[300px]">
+                    {s.desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
 
-                             <div className="flex items-center gap-2">
-                                <div className="px-6 py-3.5 rounded-full text-[13px] font-bold font-sans transition-all group-hover:pr-8"
-                                     style={{ backgroundColor: item.color, color: item.textColor }}>
-                                   {item.title}
-                                </div>
-                                <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center transition-all group-hover:scale-110 shrink-0"
-                                     style={{ backgroundColor: item.color, color: item.textColor }}>
-                                   <FiArrowRight size={18} strokeWidth={1.5} />
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                           ))}
-                        </motion.div>
+              {/* tags */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={s.num + '-tags'}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, delay: 0.05 }}
+                  className="flex flex-wrap gap-2 mt-5"
+                >
+                  {s.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[10px] font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-full border"
+                      style={{
+                        color: s.accent,
+                        borderColor: `${s.accent}35`,
+                        backgroundColor: `${s.accent}10`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* bottom — dots + counter */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                {services.map((svc, i) => (
+                  <motion.button
+                    key={svc.num}
+                    onClick={() => handleSelectService(i)}
+                    animate={{
+                      width: i === active ? 28 : 7,
+                      backgroundColor: i === active ? svc.accent : 'rgba(255,255,255,0.15)',
+                    }}
+                    transition={{ duration: 0.35 }}
+                    className="h-[6px] rounded-full cursor-pointer border-0 p-0"
+                  />
+                ))}
               </div>
-
-                  </div>
-               </div>
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] text-white/20 uppercase tracking-[0.14em] font-sans">
+                  Scroll to explore
+                </p>
+                <span className="text-[12px] font-bold tabular-nums" style={{ color: `${s.accent}99` }}>
+                  {String(active + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* ══════════════════════════════════════════
+            RIGHT — white accordion index list
+        ══════════════════════════════════════════ */}
+        <div className="flex-1 min-w-0 bg-white flex flex-col justify-center">
+
+          {/* mobile header */}
+          <div className="lg:hidden px-6 sm:px-8 pt-20 pb-6 border-b border-black/[0.06]">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-black/30 font-sans font-medium mb-2">Our Services</p>
+            <h2 className="section-heading text-black">What we do</h2>
+          </div>
+
+          {/* accordion list */}
+          <div className="flex-1 flex flex-col justify-center divide-y divide-black/[0.06] px-6 sm:px-10 lg:px-12 xl:px-16 py-6 lg:py-0">
+            {services.map((item, i) => {
+              const isActive = i === active;
+              return (
+                <div key={item.num} className="relative">
+
+                  {/* active left accent bar */}
+                  <motion.span
+                    className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full pointer-events-none"
+                    animate={{
+                      opacity: isActive ? 1 : 0,
+                      backgroundColor: item.accent,
+                      scaleY: isActive ? 1 : 0.4,
+                    }}
+                    style={{ originY: 0 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  />
+
+                  {/* row hover bg */}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none rounded-lg"
+                    animate={{ opacity: isActive ? 1 : 0, backgroundColor: `${item.accent}08` }}
+                    transition={{ duration: 0.3 }}
+                  />
+
+                  {/* row */}
+                  <div
+                    className="relative flex items-center gap-4 sm:gap-6 pl-5 pr-2 py-5 sm:py-6 lg:py-7 cursor-pointer group"
+                    onMouseEnter={() => handleSelectService(i)}
+                    onClick={() => handleSelectService(i)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelectService(i); }
+                    }}
+                  >
+                    {/* number */}
+                    <motion.span
+                      animate={{ color: isActive ? item.accent : 'rgba(0,0,0,0.18)' }}
+                      transition={{ duration: 0.3 }}
+                      className="text-[10px] font-black tracking-[0.18em] w-6 shrink-0 font-sans"
+                    >
+                      {item.num}
+                    </motion.span>
+
+                    {/* icon bubble */}
+                    <motion.div
+                      animate={{
+                        backgroundColor: isActive ? item.accent : 'rgba(0,0,0,0.05)',
+                        color: isActive ? item.accentText : 'rgba(0,0,0,0.3)',
+                        scale: isActive ? 1.1 : 1,
+                        boxShadow: isActive ? `0 0 22px ${item.accent}44` : '0 0 0px transparent',
+                      }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shrink-0"
+                    >
+                      <item.Icon size={16} strokeWidth={2} />
+                    </motion.div>
+
+                    {/* title */}
+                    <div className="flex-1 min-w-0">
+                      <motion.h3
+                        animate={{ color: isActive ? '#000' : 'rgba(0,0,0,0.3)' }}
+                        transition={{ duration: 0.3 }}
+                        className="font-sans font-light leading-none tracking-[-0.03em] truncate"
+                        style={{ fontSize: 'clamp(22px, 3vw, 54px)' }}
+                      >
+                        {item.title}
+                      </motion.h3>
+                    </div>
+
+                    {/* short label — desktop, inactive */}
+                    <AnimatePresence>
+                      {!isActive && (
+                        <motion.span
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="hidden xl:block text-[11px] text-black/30 font-light tracking-wide shrink-0"
+                        >
+                          {item.short}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+
+                    {/* arrow */}
+                    <motion.div
+                      animate={{
+                        rotate: isActive ? 45 : 0,
+                        backgroundColor: isActive ? item.accent : 'rgba(0,0,0,0.05)',
+                        color: isActive ? item.accentText : 'rgba(0,0,0,0.25)',
+                        boxShadow: isActive ? `0 4px 18px ${item.accent}44` : '0 0 0px transparent',
+                      }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center shrink-0"
+                    >
+                      <FiArrowUpRight size={16} strokeWidth={2.2} />
+                    </motion.div>
+                  </div>
+                </div>
+              );
+            })}
+            <div />
+          </div>
+
+          {/* mobile dots + counter */}
+          <div className="lg:hidden flex items-center justify-between px-6 sm:px-8 py-5 border-t border-black/[0.06]">
+            <div className="flex items-center gap-2">
+              {services.map((svc, i) => (
+                <motion.button
+                  key={svc.num}
+                  onClick={() => handleSelectService(i)}
+                  animate={{
+                    width: i === active ? 24 : 6,
+                    backgroundColor: i === active ? svc.accent : 'rgba(0,0,0,0.15)',
+                  }}
+                  transition={{ duration: 0.35 }}
+                  className="h-[5px] rounded-full cursor-pointer border-0 p-0"
+                />
+              ))}
+            </div>
+            <span className="text-[12px] font-bold tabular-nums" style={{ color: s.accent }}>
+              {String(active + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
+            </span>
+          </div>
+        </div>
+
       </div>
     </section>
   );

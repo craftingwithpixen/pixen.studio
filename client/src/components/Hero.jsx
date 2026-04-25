@@ -1,65 +1,56 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { FiArrowUpRight, FiStar, FiCommand } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 
 export default function Hero() {
+   const { scrollY } = useScroll();
+   const [isMobile, setIsMobile] = useState(false);
+
+   useEffect(() => {
+      const checkMobile = () => setIsMobile(window.innerWidth < 768);
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+   }, []);
+
+   // Responsive scatter values
+   const sc_x1 = isMobile ? [-20, 0] : [-60, 0];
+   const sc_x2 = isMobile ? [-15, 0] : [-50, 0];
+   const sc_x3 = isMobile ? [15, 0] : [50, 0];
+   const sc_x4 = isMobile ? [20, 0] : [60, 0];
+
+   const sc_y1 = isMobile ? [20, 0] : [40, 0];
+   const sc_y2 = isMobile ? [-15, 0] : [-30, 0];
+   const sc_y3 = isMobile ? [10, 0] : [20, 0];
+   const sc_y4 = isMobile ? [-60, 0] : [-120, 0];
+   
+   // Randomly scattered positions that settle to 0 rotation/translation as the user scrolls
+   const x1 = useTransform(scrollY, [0, 250], sc_x1);
+   const y1 = useTransform(scrollY, [0, 250], sc_y1);
+   const r1 = useTransform(scrollY, [0, 250], [-18, 0]);
+
+   const x2 = useTransform(scrollY, [0, 250], sc_x2);
+   const y2 = useTransform(scrollY, [0, 250], sc_y2);
+   const r2 = useTransform(scrollY, [0, 250], [14, 0]);
+
+   const x3 = useTransform(scrollY, [0, 250], sc_x3);
+   const y3 = useTransform(scrollY, [0, 250], sc_y3);
+   const r3 = useTransform(scrollY, [0, 250], [-22, 0]);
+
+   const x4 = useTransform(scrollY, [0, 250], sc_x4);
+   const y4 = useTransform(scrollY, [0, 250], sc_y4);
+   const r4 = useTransform(scrollY, [0, 250], [18, 0]);
    return (
-      <section id="home" className="bg-black w-full pt-4 md:pt-6 pb-14 md:pb-20 px-4 sm:px-5 md:px-6 overflow-hidden relative">
-         <div className="max-w-[1300px] mx-auto rounded-[24px] sm:rounded-[32px] md:rounded-[48px] bg-white shadow-xl shadow-black/5 p-4 sm:p-6 pt-7 sm:pt-9 md:p-12 lg:p-14 lg:pt-12 relative selection:bg-[#C8F139] selection:text-black overflow-hidden">
+      <section id="home" className="bg-white w-full pt-6 md:pt-10 pb-16 md:pb-24 lg:pb-32 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 overflow-hidden relative">
+         <motion.div
+            initial={{ opacity: 0, scale: 0.985 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl xl:max-w-[1380px] mx-auto"
+         >
 
-            {/* ── PURPLE WAVE BACKGROUND ── */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-               <svg
-                  className="absolute bottom-0 left-0 w-full"
-                  style={{ height: '74%' }}
-                  viewBox="0 0 1300 580"
-                  preserveAspectRatio="none"
-                  xmlns="http://www.w3.org/2000/svg"
-               >
-                  {/* Wave 1 — back, widest sweep */}
-                  <path
-                     d="M0,220 C120,130 280,350 500,210 C680,90 870,310 1080,185 C1190,120 1260,150 1300,145 L1300,580 L0,580 Z"
-                     fill="#6A1DB5" fillOpacity="0.055"
-                  />
-                  {/* Wave 2 — mid */}
-                  <path
-                     d="M0,280 C160,170 360,390 600,250 C800,130 1000,350 1200,230 C1260,195 1290,208 1300,205 L1300,580 L0,580 Z"
-                     fill="#6A1DB5" fillOpacity="0.075"
-                  />
-                  {/* Wave 3 — front, most prominent */}
-                  <path
-                     d="M0,345 C190,225 410,445 670,295 C880,170 1080,390 1300,270 L1300,580 L0,580 Z"
-                     fill="#4A1285" fillOpacity="0.08"
-                  />
-                  {/* Wave 4 — deepest fill at very bottom */}
-                  <path
-                     d="M0,420 C220,310 460,490 740,360 C940,255 1120,430 1300,340 L1300,580 L0,580 Z"
-                     fill="#6A1DB5" fillOpacity="0.09"
-                  />
-                  {/* Volt green accent line — traces front wave crest */}
-                  <path
-                     d="M0,345 C190,225 410,445 670,295 C880,170 1080,390 1300,270"
-                     fill="none" stroke="#C8F139" strokeWidth="1.5" strokeOpacity="0.45"
-                  />
-                  {/* Second softer volt line above */}
-                  <path
-                     d="M0,280 C160,170 360,390 600,250 C800,130 1000,350 1200,230 C1260,195 1290,208 1300,205"
-                     fill="none" stroke="#C8F139" strokeWidth="0.8" strokeOpacity="0.2"
-                  />
-               </svg>
-
-               {/* Soft violet glow — bottom-left corner */}
-               <div
-                  className="absolute -bottom-24 -left-24 w-[480px] h-[380px] rounded-full"
-                  style={{ background: '#6A1DB5', opacity: 0.07, filter: 'blur(80px)' }}
-               />
-               {/* Soft violet glow — bottom-right corner */}
-               <div
-                  className="absolute -bottom-16 -right-16 w-[360px] h-[300px] rounded-full"
-                  style={{ background: '#4A1285', opacity: 0.06, filter: 'blur(70px)' }}
-               />
-            </div>
 
             {/* INLINE NAVBAR */}
             <Navbar />
@@ -94,7 +85,7 @@ export default function Hero() {
                   </div>
                </motion.div>
 
-       
+
             </div>
 
             {/* BENTO GRID */}
@@ -107,7 +98,7 @@ export default function Hero() {
                {/* Left Column */}
                <div className="md:col-span-12 lg:col-span-5 flex flex-col gap-4 sm:gap-5">
                   {/* Vivid Violet Card */}
-                  <div className="min-h-[260px] sm:h-[280px] bg-[#6A1DB5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 flex flex-col justify-between text-white relative overflow-hidden group shadow-[0_10px_30px_rgba(106,29,181,0.2)]">
+                  <motion.div style={{ x: x1, y: y1, rotate: r1 }} className="min-h-[260px] sm:h-[280px] bg-[#6A1DB5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 flex flex-col justify-between text-white relative overflow-hidden group shadow-[0_10px_30px_rgba(106,29,181,0.2)]">
                      {/* Subtle background rings */}
                      <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="50" cy="50" r="150" fill="none" stroke="white" strokeWidth="30" />
@@ -116,24 +107,24 @@ export default function Hero() {
 
                      <div className="flex justify-between items-start relative z-10 w-full">
                         <div className="flex flex-wrap gap-2">
-                           <span className="bg-[#C8F139] text-black px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide">Web Development</span>
-                           <span className="bg-white/15 text-white px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide backdrop-blur-sm">SaaS UI</span>
+                           <span className="bg-[#A178FA] text-white px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide">Web Development</span>
+                           <span className="bg-white text-black px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide border border-black/10">SaaS UI</span>
                         </div>
-                        <div className="w-10 h-10 bg-[#C8F139] text-black rounded-full flex items-center justify-center transform group-hover:rotate-45 transition-transform duration-300 cursor-pointer">
-                           <FiArrowUpRight size={20} strokeWidth={2}/>
+                        <div className="w-10 h-10 bg-[#6A1DB5] text-white rounded-full flex items-center justify-center transform group-hover:rotate-45 transition-transform duration-300 cursor-pointer">
+                           <FiArrowUpRight size={20} strokeWidth={2} />
                         </div>
                      </div>
 
                      <div className="relative z-10 flex justify-between items-end w-full">
-                        <h3 className="text-[24px] sm:text-[28px] md:text-[34px] font-sans font-medium leading-[1.05] tracking-tight">Flexible, tailored<br/>tech solutions</h3>
+                        <h3 className="text-[24px] sm:text-[28px] md:text-[34px] font-sans font-medium leading-[1.05] tracking-tight">Flexible, tailored<br />tech solutions</h3>
                         <div className="w-12 h-12 rounded-full overflow-hidden border-[3px] border-white/20 shadow-lg flex-shrink-0 bg-white">
-                           <img src="https://i.pravatar.cc/100?img=47" alt="avatar" className="w-full h-full object-cover"/>
+                           <img src="https://i.pravatar.cc/100?img=47" alt="avatar" className="w-full h-full object-cover" />
                         </div>
                      </div>
-                  </div>
+                  </motion.div>
 
                   {/* Ink Black Quote Card */}
-                  <div className="min-h-[220px] bg-[#0D0D0D] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 text-white relative flex flex-col justify-center shadow-lg">
+                  <motion.div style={{ x: x2, y: y2, rotate: r2 }} className="hidden md:flex min-h-[220px] bg-[#0D0D0D] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 text-white relative flex-col justify-center shadow-lg">
                      <span className="text-[110px] font-serif text-white/8 absolute -top-4 left-4 leading-none block select-none">"</span>
                      <p className="text-white/75 text-[14px] leading-[1.65] font-sans relative z-10 pr-6 mt-4 mb-6 font-medium">
                         Our cutting-edge technology adapts to your needs and provides a tailored platform that helps you succeed.
@@ -145,12 +136,12 @@ export default function Hero() {
                            <p className="text-[12px] text-white/40 font-sans font-medium">Innovators</p>
                         </div>
                      </div>
-                  </div>
+                  </motion.div>
                </div>
 
                {/* Middle Column */}
-               <div className="md:col-span-6 lg:col-span-3 flex flex-col justify-end">
-                  <div className="min-h-[240px] lg:h-[280px] bg-[#C8F139] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 pb-8 sm:pb-10 text-black relative flex flex-col justify-end text-center mt-8 sm:mt-10 lg:mt-0 shadow-[0_10px_30px_rgba(200,241,57,0.2)]">
+               <div className="hidden md:flex md:col-span-6 lg:col-span-3 flex-col justify-end">
+                  <motion.div style={{ x: x3, y: y3, rotate: r3 }} className="min-h-[240px] lg:h-[280px] bg-[#C8F139] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 pb-8 sm:pb-10 text-black relative flex flex-col justify-end text-center mt-8 sm:mt-10 lg:mt-0 shadow-[0_10px_30px_rgba(200,241,57,0.2)]">
                      {/* Floating top badge */}
                      <div className="absolute -top-7 sm:-top-8 left-1/2 -translate-x-1/2 w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] bg-white rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.08)] flex items-center justify-center">
                         <div className="relative flex flex-col items-center gap-0.5 opacity-80">
@@ -166,57 +157,44 @@ export default function Hero() {
                      </svg>
 
                      <p className="text-[12px] font-bold opacity-70 mb-2 font-sans tracking-wide uppercase">Proven track record</p>
-                     <h3 className="text-[22px] sm:text-[24px] md:text-[26px] font-sans font-bold tracking-tight leading-[1.0]">158+ successful<br/>projects!</h3>
-                  </div>
+                     <h3 className="text-[22px] sm:text-[24px] md:text-[26px] font-sans font-bold tracking-tight leading-[1.0]">158+ successful<br />projects!</h3>
+                  </motion.div>
                </div>
 
                {/* Right Column */}
                <div className="md:col-span-6 lg:col-span-4 flex flex-col justify-end gap-4 sm:gap-5 relative">
 
-                  {/* Intersecting Circles */}
-                  <div className="h-[180px] relative hidden lg:block -mt-10 mb-4">
-                     <div className="absolute top-[20px] right-[10px] w-[150px] h-[150px] bg-[#C8F139] rounded-full z-10 flex flex-col items-center justify-center text-black text-center p-4 shadow-lg shadow-black/5">
-                        <span className="text-[44px] font-sans font-bold leading-[1.0] mb-1 tracking-tight">12k+</span>
-                        <span className="text-[12px] font-bold uppercase tracking-wider leading-[1.2] opacity-80">Active<br/>Users</span>
-                     </div>
-                     <div className="absolute top-[20px] right-[110px] w-[150px] h-[150px] bg-[#0D0D0D] rounded-full z-0 flex items-center justify-center shadow-lg shadow-black/10">
-                        <FiCommand className="text-[#C8F139] text-[70px] opacity-100 drop-shadow-sm" strokeWidth={1.5}/>
-                     </div>
-                  </div>
-
-                  {/* Vivid Violet CTA Card */}
-                  <div className="min-h-[300px] lg:h-[340px] bg-[#6A1DB5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 text-white relative flex flex-col justify-between overflow-hidden shadow-[0_10px_30px_rgba(106,29,181,0.2)]">
+                  {/* Faint Purple CTA Card */}
+                  <motion.div style={{ x: x4, y: y4, rotate: r4 }} className="min-h-[300px] lg:h-[340px] bg-[#E0F7F5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 text-black relative flex flex-col justify-between overflow-hidden shadow-[0_10px_30px_rgba(0,194,168,0.12)]">
                      <div className="relative z-10">
                         <h4 className="text-[22px] sm:text-[24px] font-sans font-bold mb-2 sm:mb-3 tracking-tight">Need a custom app?</h4>
-                        <p className="text-[14px] text-white/80 leading-[1.5] mb-4 sm:mb-5 font-sans font-medium sm:pr-6">
+                        <p className="text-[14px] text-black/60 leading-[1.5] mb-4 sm:mb-5 font-sans font-medium sm:pr-6">
                            Enjoy priority development and support from our expert team. Experience the future of web tech.
                         </p>
 
-                        <div className="inline-flex bg-[#C8F139] text-black text-[10px] font-bold uppercase tracking-[0.1em] px-5 py-2.5 rounded-full w-fit mb-auto">
+                        <div className="inline-flex bg-black/10 text-black border border-black/10 text-[10px] font-bold uppercase tracking-[0.1em] px-5 py-2.5 rounded-full w-fit mb-auto">
                            Start project
                         </div>
                      </div>
 
-                     <div className="absolute -right-12 sm:-right-8 bottom-14 sm:bottom-16 w-40 h-40 sm:w-48 sm:h-48 pointer-events-none">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&q=80" alt="abstract shape" className="w-full h-full object-cover mix-blend-color-burn opacity-50 rounded-full blur-sm" />
-                     </div>
-                     <div className="absolute -right-4 sm:-right-2 bottom-14 sm:bottom-16 w-28 h-28 sm:w-32 sm:h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+                  
+                     <div className="absolute -right-4 sm:-right-2 bottom-14 sm:bottom-16 w-28 h-28 sm:w-32 sm:h-32 bg-black/10 rounded-full blur-2xl pointer-events-none" />
 
                      {/* Bottom buttons */}
                      <div className="flex gap-3 items-center mt-3 relative z-10 w-full pt-4">
-                        <Link to="/contact" className="flex-1 bg-[#4A1285] hover:bg-black text-white py-3.5 rounded-full text-center text-[13px] font-bold transition-colors">
+                        <Link to="/contact" className="flex-1 bg-black hover:bg-black/80 text-white py-3.5 rounded-full text-center text-[13px] font-bold transition-colors">
                            Get started
                         </Link>
-                        <div className="w-[46px] h-[46px] bg-[#C8F139] rounded-full flex items-center justify-center text-black shadow-md flex-shrink-0 cursor-pointer">
+                        <div className="w-[46px] h-[46px] bg-white/20 rounded-full flex items-center justify-center text-black shadow-sm border border-black/10 flex-shrink-0 cursor-pointer hover:bg-white/30 transition-colors">
                            <FiStar size={18} strokeWidth={1.5} />
                         </div>
                      </div>
-                  </div>
+                  </motion.div>
 
                </div>
 
             </motion.div>
-         </div>
+         </motion.div>
       </section>
    );
 }

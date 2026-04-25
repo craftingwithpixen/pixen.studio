@@ -1,5 +1,6 @@
 import { FiArrowUpRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function CTA() {
   return (
@@ -8,9 +9,15 @@ export default function CTA() {
       {/* Subtle light violet circle */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#F5F3FF] rounded-full pointer-events-none -z-10 opacity-60" />
 
-      <div className="max-w-[1300px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="max-w-[1300px] mx-auto px-6 relative z-10 flex flex-col items-center text-center"
+      >
 
-        <h2 className="text-[48px] md:text-[64px] lg:text-[76px] font-sans font-medium leading-[1.0] tracking-tight text-black mb-8 max-w-[800px]">
+        <h2 className="section-heading text-black mb-8 max-w-[800px]">
           Let's build something<br/>
           <span className="text-black/25">extraordinary together.</span>
         </h2>
@@ -35,7 +42,7 @@ export default function CTA() {
           </Link>
         </div>
 
-      </div>
+      </motion.div>
     </section>
   );
 }
