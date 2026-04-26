@@ -1,11 +1,15 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FiArrowUpRight, FiStar, FiCommand } from 'react-icons/fi';
+import { FiArrowUpRight, FiPlay, FiCheckCircle, FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import Navbar from './Navbar';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Hero() {
-   const { scrollY } = useScroll();
+   const containerRef = useRef(null);
+   const { scrollYProgress } = useScroll({
+      target: containerRef,
+      offset: ["start start", "end start"]
+   });
+
    const [isMobile, setIsMobile] = useState(false);
 
    useEffect(() => {
@@ -15,186 +19,199 @@ export default function Hero() {
       return () => window.removeEventListener('resize', checkMobile);
    }, []);
 
-   // Responsive scatter values
-   const sc_x1 = isMobile ? [-20, 0] : [-60, 0];
-   const sc_x2 = isMobile ? [-15, 0] : [-50, 0];
-   const sc_x3 = isMobile ? [15, 0] : [50, 0];
-   const sc_x4 = isMobile ? [20, 0] : [60, 0];
+   // Parallax and scroll-based animations
+   const textY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+   const imageY = useTransform(scrollYProgress, [0, 1], [0, -150]);
+   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+   const badgeRotate = useTransform(scrollYProgress, [0, 1], [0, 15]);
 
-   const sc_y1 = isMobile ? [20, 0] : [40, 0];
-   const sc_y2 = isMobile ? [-15, 0] : [-30, 0];
-   const sc_y3 = isMobile ? [10, 0] : [20, 0];
-   const sc_y4 = isMobile ? [-60, 0] : [-120, 0];
-   
-   // Randomly scattered positions that settle to 0 rotation/translation as the user scrolls
-   const x1 = useTransform(scrollY, [0, 250], sc_x1);
-   const y1 = useTransform(scrollY, [0, 250], sc_y1);
-   const r1 = useTransform(scrollY, [0, 250], [-18, 0]);
-
-   const x2 = useTransform(scrollY, [0, 250], sc_x2);
-   const y2 = useTransform(scrollY, [0, 250], sc_y2);
-   const r2 = useTransform(scrollY, [0, 250], [14, 0]);
-
-   const x3 = useTransform(scrollY, [0, 250], sc_x3);
-   const y3 = useTransform(scrollY, [0, 250], sc_y3);
-   const r3 = useTransform(scrollY, [0, 250], [-22, 0]);
-
-   const x4 = useTransform(scrollY, [0, 250], sc_x4);
-   const y4 = useTransform(scrollY, [0, 250], sc_y4);
-   const r4 = useTransform(scrollY, [0, 250], [18, 0]);
    return (
-      <section id="home" className="bg-white w-full pt-6 md:pt-10 pb-16 md:pb-24 lg:pb-32 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 overflow-hidden relative">
-         <motion.div
-            initial={{ opacity: 0, scale: 0.985 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl xl:max-w-[1380px] mx-auto"
-         >
+      <section 
+         ref={containerRef}
+         id="home" 
+         className="relative min-h-[110vh] bg-white overflow-hidden pt-6 md:pt-10"
+      >
+         {/* Background Decorative Elements */}
+         <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-brand-purple/5 rounded-full blur-[100px]" />
+            <div className="absolute bottom-[20%] left-[-5%] w-[500px] h-[500px] bg-brand-green/5 rounded-full blur-[120px]" />
+            <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+         </div>
 
+         <div className="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 relative z-10">
+            {/* Navbar removed — now in App.jsx */}
 
-            {/* INLINE NAVBAR */}
-            <Navbar />
-
-            {/* TOP HEADER SECTION */}
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8 lg:gap-14 relative z-10 w-full mb-10 sm:mb-14 lg:mb-20">
-               <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="text-[34px] sm:text-[42px] md:text-[64px] lg:text-[76px] xl:text-[84px] font-sans font-light leading-[0.98] tracking-[-0.03em] text-black max-w-[850px]"
-               >
-                  Crafting <span className="font-medium text-[#6A1DB5]">bold</span> ideas<br className="hidden sm:block" /> into digital products
-               </motion.h1>
-
+            <div className="flex flex-col items-center text-center mt-24 md:mt-32 lg:mt-40">
+               {/* Animated Badge */}
                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="w-full max-w-[420px] lg:max-w-[320px] flex flex-col gap-4 sm:gap-5 pt-0 lg:pt-0"
+                  transition={{ duration: 0.6 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-purple/5 border border-brand-purple/10 text-brand-purple text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] mb-8"
                >
-                  <p className="text-[16px] text-black/70 font-sans leading-[1.5] font-medium">
-                     Pixen turns bold concepts into powerful platforms. Achieve your goals with our state-of-the-art solutions.
-                  </p>
-                  <div className="flex items-center gap-3 flex-wrap">
-                     <div className="flex -space-x-3">
-                        <img src="https://i.pravatar.cc/100?img=11" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="team" />
-                        <img src="https://i.pravatar.cc/100?img=33" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="team" />
-                        <img src="https://i.pravatar.cc/100?img=44" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="team" />
+                  <span className="relative flex h-2 w-2">
+                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-purple opacity-75"></span>
+                     <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-purple"></span>
+                  </span>
+                  Crafting the future of digital
+               </motion.div>
+
+               {/* Main Headline */}
+               <motion.div
+                  style={{ y: textY, opacity }}
+                  className="max-w-5xl"
+               >
+                  <motion.h1
+                     initial={{ opacity: 0, y: 30 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
+                     className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-display font-medium leading-[0.95] tracking-tight text-black mb-10"
+                  >
+                     Bold design for <br />
+                     <span className="relative">
+                        <span className="text-brand-purple italic">ambitious</span>
+                        <motion.svg 
+                           initial={{ pathLength: 0 }}
+                           animate={{ pathLength: 1 }}
+                           transition={{ duration: 1, delay: 1 }}
+                           className="absolute -bottom-2 left-0 w-full h-3 text-brand-green" 
+                           viewBox="0 0 300 12" 
+                           fill="none" 
+                           xmlns="http://www.w3.org/2000/svg"
+                        >
+                           <path d="M1 10.5C50 3.5 150 1.5 299 10.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                        </motion.svg>
+                     </span> brands.
+                  </motion.h1>
+
+                  <motion.p
+                     initial={{ opacity: 0, y: 20 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.8, delay: 0.3 }}
+                     className="text-lg md:text-xl lg:text-2xl text-black/60 max-w-2xl mx-auto mb-12 font-sans font-medium"
+                  >
+                     Pixen is a premium digital studio specializing in high-end UI/UX, 
+                     branding, and full-stack development for modern companies.
+                  </motion.p>
+
+                   {/* CTA Buttons */}
+                  <motion.div
+                     initial={{ opacity: 0, y: 20 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.8, delay: 0.4 }}
+                     className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24"
+                  >
+                     <Link 
+                        to="/contact" 
+                        className="group relative px-10 py-5 bg-black text-white rounded-full overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 shadow-2xl shadow-black/20"
+                     >
+                        <span className="relative z-10 flex items-center gap-3 font-bold text-sm">
+                           START YOUR PROJECT <FiArrowUpRight className="text-brand-green text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </span>
+                        <div className="absolute inset-0 bg-brand-purple transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                     </Link>
+                     <Link 
+                        to="/our-work" 
+                        className="flex items-center gap-3 px-8 py-5 text-black font-bold hover:text-brand-purple transition-all group"
+                     >
+                        <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center bg-white group-hover:border-brand-purple/30 transition-colors">
+                           <FiChevronRight size={16} />
+                        </div>
+                        <span className="text-sm">VIEW OUR WORK</span>
+                     </Link>
+                  </motion.div>
+               </motion.div>
+            </div>
+
+            {/* Main Visual Element with Parallax */}
+            <motion.div 
+               style={{ y: imageY, scale: imageScale }}
+               className="relative w-full max-w-7xl mx-auto rounded-[32px] md:rounded-[60px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] group"
+            >
+               <img 
+                  src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=2000" 
+                  alt="Modern Digital Studio" 
+                  className="w-full h-[450px] md:h-[750px] object-cover transition-transform duration-700 group-hover:scale-105"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+               
+               {/* Overlapping Info Cards */}
+               <motion.div 
+                  style={{ rotate: badgeRotate }}
+                  initial={{ opacity: 0, x: -100 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: 0.6 }}
+                  className="absolute top-10 left-6 md:top-20 md:left-20 hidden sm:block"
+               >
+                  <div className="backdrop-blur-2xl bg-white/70 p-6 rounded-3xl border border-white/40 shadow-2xl max-w-[280px]">
+                     <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-12 bg-brand-green rounded-2xl flex items-center justify-center text-black shadow-inner">
+                           <FiCheckCircle size={24} />
+                        </div>
+                        <h4 className="font-bold text-black leading-tight">Elite Digital Partner</h4>
                      </div>
-                     <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-black/50 sm:pl-2">Join our clients</span>
+                     <p className="text-black/60 text-xs font-medium leading-relaxed">
+                        Top 1% rated studio on Clutch with focus on high-performance web solutions.
+                     </p>
                   </div>
                </motion.div>
 
-
-            </div>
-
-            {/* BENTO GRID */}
-            <motion.div
-               initial={{ opacity: 0, y: 40 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.8, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-               className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 relative"
-            >
-               {/* Left Column */}
-               <div className="md:col-span-12 lg:col-span-5 flex flex-col gap-4 sm:gap-5">
-                  {/* Vivid Violet Card */}
-                  <motion.div style={{ x: x1, y: y1, rotate: r1 }} className="min-h-[260px] sm:h-[280px] bg-[#6A1DB5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 flex flex-col justify-between text-white relative overflow-hidden group shadow-[0_10px_30px_rgba(106,29,181,0.2)]">
-                     {/* Subtle background rings */}
-                     <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="150" fill="none" stroke="white" strokeWidth="30" />
-                        <circle cx="350" cy="350" r="200" fill="none" stroke="white" strokeWidth="40" />
-                     </svg>
-
-                     <div className="flex justify-between items-start relative z-10 w-full">
-                        <div className="flex flex-wrap gap-2">
-                           <span className="bg-[#A178FA] text-white px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide">Web Development</span>
-                           <span className="bg-white text-black px-4 py-1.5 rounded-full text-[12px] font-bold tracking-wide border border-black/10">SaaS UI</span>
-                        </div>
-                        <div className="w-10 h-10 bg-[#6A1DB5] text-white rounded-full flex items-center justify-center transform group-hover:rotate-45 transition-transform duration-300 cursor-pointer">
-                           <FiArrowUpRight size={20} strokeWidth={2} />
+               <motion.div 
+                  initial={{ opacity: 0, y: 100 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: 0.8 }}
+                  className="absolute bottom-10 right-6 md:bottom-20 md:right-20 hidden sm:block"
+               >
+                  <div className="backdrop-blur-2xl bg-black/80 p-8 rounded-3xl border border-white/10 shadow-2xl text-white">
+                     <div className="flex items-center gap-2 mb-4">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                           <div key={i} className="text-brand-green text-sm">★</div>
+                        ))}
+                        <span className="ml-2 text-xs font-bold text-white/50">5.0 RATING</span>
+                     </div>
+                     <h4 className="text-2xl font-display font-medium mb-2">150+</h4>
+                     <p className="text-white/50 text-[10px] uppercase tracking-widest font-bold">Successful Projects Delivered</p>
+                     
+                     <div className="mt-6 flex -space-x-3">
+                        {[1, 2, 3, 4].map((i) => (
+                           <img key={i} src={`https://i.pravatar.cc/100?img=${i+10}`} className="w-10 h-10 rounded-full border-2 border-black object-cover" alt="" />
+                        ))}
+                        <div className="w-10 h-10 rounded-full bg-brand-purple border-2 border-black flex items-center justify-center text-[10px] font-bold">
+                           +2k
                         </div>
                      </div>
+                  </div>
+               </motion.div>
 
-                     <div className="relative z-10 flex justify-between items-end w-full">
-                        <h3 className="text-[24px] sm:text-[28px] md:text-[34px] font-sans font-medium leading-[1.05] tracking-tight">Flexible, tailored<br />tech solutions</h3>
-                        <div className="w-12 h-12 rounded-full overflow-hidden border-[3px] border-white/20 shadow-lg flex-shrink-0 bg-white">
-                           <img src="https://i.pravatar.cc/100?img=47" alt="avatar" className="w-full h-full object-cover" />
-                        </div>
-                     </div>
-                  </motion.div>
-
-                  {/* Ink Black Quote Card */}
-                  <motion.div style={{ x: x2, y: y2, rotate: r2 }} className="hidden md:flex min-h-[220px] bg-[#0D0D0D] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 text-white relative flex-col justify-center shadow-lg">
-                     <span className="text-[110px] font-serif text-white/8 absolute -top-4 left-4 leading-none block select-none">"</span>
-                     <p className="text-white/75 text-[14px] leading-[1.65] font-sans relative z-10 pr-6 mt-4 mb-6 font-medium">
-                        Our cutting-edge technology adapts to your needs and provides a tailored platform that helps you succeed.
-                     </p>
-                     <div className="flex items-center gap-3 relative z-10">
-                        <img src="https://i.pravatar.cc/100?img=33" className="w-11 h-11 rounded-full object-cover" alt="Tutor" />
-                        <div>
-                           <p className="text-[14px] font-bold font-sans text-white">Pixen Team</p>
-                           <p className="text-[12px] text-white/40 font-sans font-medium">Innovators</p>
-                        </div>
-                     </div>
-                  </motion.div>
+               {/* Mobile floating badge */}
+               <div className="absolute bottom-6 left-6 block sm:hidden">
+                  <div className="bg-brand-green text-black px-4 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest shadow-lg">
+                     TOP RATED 2024
+                  </div>
                </div>
-
-               {/* Middle Column */}
-               <div className="hidden md:flex md:col-span-6 lg:col-span-3 flex-col justify-end">
-                  <motion.div style={{ x: x3, y: y3, rotate: r3 }} className="min-h-[240px] lg:h-[280px] bg-[#C8F139] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 pb-8 sm:pb-10 text-black relative flex flex-col justify-end text-center mt-8 sm:mt-10 lg:mt-0 shadow-[0_10px_30px_rgba(200,241,57,0.2)]">
-                     {/* Floating top badge */}
-                     <div className="absolute -top-7 sm:-top-8 left-1/2 -translate-x-1/2 w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] bg-white rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.08)] flex items-center justify-center">
-                        <div className="relative flex flex-col items-center gap-0.5 opacity-80">
-                           <div className="w-2.5 h-2.5 bg-black rounded-full" />
-                           <div className="w-5 h-2.5 bg-black rounded-full" />
-                        </div>
-                     </div>
-
-                     {/* Background wave doodle */}
-                     <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none" viewBox="0 0 200 200">
-                        <path fill="none" stroke="black" strokeWidth="8" d="M10,120 Q50,40 100,120 T190,120" />
-                        <path fill="none" stroke="black" strokeWidth="8" d="M30,160 Q80,80 130,160" />
-                     </svg>
-
-                     <p className="text-[12px] font-bold opacity-70 mb-2 font-sans tracking-wide uppercase">Proven track record</p>
-                     <h3 className="text-[22px] sm:text-[24px] md:text-[26px] font-sans font-bold tracking-tight leading-[1.0]">158+ successful<br />projects!</h3>
-                  </motion.div>
-               </div>
-
-               {/* Right Column */}
-               <div className="md:col-span-6 lg:col-span-4 flex flex-col justify-end gap-4 sm:gap-5 relative">
-
-                  {/* Faint Purple CTA Card */}
-                  <motion.div style={{ x: x4, y: y4, rotate: r4 }} className="min-h-[300px] lg:h-[340px] bg-[#E0F7F5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 text-black relative flex flex-col justify-between overflow-hidden shadow-[0_10px_30px_rgba(0,194,168,0.12)]">
-                     <div className="relative z-10">
-                        <h4 className="text-[22px] sm:text-[24px] font-sans font-bold mb-2 sm:mb-3 tracking-tight">Need a custom app?</h4>
-                        <p className="text-[14px] text-black/60 leading-[1.5] mb-4 sm:mb-5 font-sans font-medium sm:pr-6">
-                           Enjoy priority development and support from our expert team. Experience the future of web tech.
-                        </p>
-
-                        <div className="inline-flex bg-black/10 text-black border border-black/10 text-[10px] font-bold uppercase tracking-[0.1em] px-5 py-2.5 rounded-full w-fit mb-auto">
-                           Start project
-                        </div>
-                     </div>
-
-                  
-                     <div className="absolute -right-4 sm:-right-2 bottom-14 sm:bottom-16 w-28 h-28 sm:w-32 sm:h-32 bg-black/10 rounded-full blur-2xl pointer-events-none" />
-
-                     {/* Bottom buttons */}
-                     <div className="flex gap-3 items-center mt-3 relative z-10 w-full pt-4">
-                        <Link to="/contact" className="flex-1 bg-black hover:bg-black/80 text-white py-3.5 rounded-full text-center text-[13px] font-bold transition-colors">
-                           Get started
-                        </Link>
-                        <div className="w-[46px] h-[46px] bg-white/20 rounded-full flex items-center justify-center text-black shadow-sm border border-black/10 flex-shrink-0 cursor-pointer hover:bg-white/30 transition-colors">
-                           <FiStar size={18} strokeWidth={1.5} />
-                        </div>
-                     </div>
-                  </motion.div>
-
-               </div>
-
             </motion.div>
-         </motion.div>
+
+            {/* Bottom Marquee / Clients Section (Optional but adds to modern feel) */}
+            <motion.div 
+               initial={{ opacity: 0 }}
+               whileInView={{ opacity: 1 }}
+               transition={{ delay: 1 }}
+               className="mt-20 md:mt-32 flex flex-col items-center"
+            >
+               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/30 mb-10">Trusted by Global Innovators</p>
+               <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-30 grayscale hover:grayscale-0 transition-all duration-500">
+                  <span className="text-2xl font-display font-bold">ADOBE</span>
+                  <span className="text-2xl font-display font-bold">STRIPE</span>
+                  <span className="text-2xl font-display font-bold">VERCEL</span>
+                  <span className="text-2xl font-display font-bold">FRAMER</span>
+                  <span className="text-2xl font-display font-bold">NOTION</span>
+               </div>
+            </motion.div>
+         </div>
       </section>
    );
 }
+

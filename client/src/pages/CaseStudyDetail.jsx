@@ -1,103 +1,224 @@
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-
-const CASE_MAP = {
-  create: {
-    title: 'Morning Coworking',
-    subtitle: 'Custom fabrication for a premium coworking space',
-  },
-  engage: {
-    title: 'Interactive Event Hub',
-    subtitle: 'A social-first event format with live attendee participation',
-  },
-  analyze: {
-    title: 'Analytics Dashboard',
-    subtitle: 'Actionable insights and performance metrics for every launch',
-  },
-};
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FiArrowLeft, FiExternalLink, FiClock, FiTag, FiUser, FiCheckCircle } from 'react-icons/fi';
+import api from '../utils/api';
 
 export default function CaseStudyDetail() {
   const { slug } = useParams();
-  const content = CASE_MAP[slug] || CASE_MAP.create;
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const res = await api.get(`/projects/slug/${slug}`);
+        setProject(res.data);
+      } catch (err) {
+        console.error('Failed to fetch project:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProject();
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  if (loading) return (
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="w-12 h-12 border-4 border-brand-purple/20 border-t-brand-purple rounded-full animate-spin" />
+    </div>
+  );
+  
+  if (!project) return (
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center text-black px-6 text-center">
+      <h2 className="text-4xl font-display font-bold mb-4">Project not found</h2>
+      <Link to="/our-work" className="text-brand-purple font-bold hover:underline">Back to work</Link>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#F5F3FF_0%,_#FFFFFF_45%,_#ECFFFA_100%)] py-10 sm:py-14 px-4 sm:px-6">
-      <div className="max-w-[860px] mx-auto bg-white rounded-[14px] border border-[#6A1DB5]/15 p-4 sm:p-6 md:p-8 shadow-[0_12px_40px_rgba(106,29,181,0.08)]">
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.12em] text-black/50 mb-8 sm:mb-10">
-          <div className="font-semibold normal-case tracking-normal text-[26px] sm:text-[30px] leading-none text-[#6A1DB5]">pixen</div>
-          <div className="hidden sm:flex items-center gap-6">
-            <span>Showcase</span>
-            <span>Studio</span>
-            <span>Research</span>
-            <span>Journal</span>
+    <div className="min-h-screen bg-white text-black font-sans pb-20">
+      {/* ── Progress Bar ── */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-brand-purple z-[110] origin-left"
+        style={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.5 }}
+      />
+
+      {/* ── Hero Section ── */}
+      <section className="pt-24 pb-8 md:pt-28 md:pb-10 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <Link to="/our-work" className="inline-flex items-center gap-2 text-brand-purple font-bold text-sm group">
+                <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+                Back to work
+              </Link>
+            </motion.div>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-brand-purple font-black uppercase tracking-[0.2em] text-[9px] px-3 py-1 bg-brand-purple/5 rounded-full border border-brand-purple/10"
+            >
+              {project.category}
+            </motion.span>
           </div>
-          <Link to="/our-work" className="text-[#6A1DB5] font-semibold hover:opacity-70 transition-opacity">Close</Link>
-        </div>
 
-        <h1 className="text-[42px] sm:text-[64px] md:text-[74px] font-semibold tracking-[-0.03em] leading-[0.92] text-[#0D0D0D] mb-5 sm:mb-6 uppercase">
-          {content.title}
-        </h1>
-
-        <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.1em] text-[#6A1DB5]/80 mb-3">
-          Category: Branded Coworking<br />
-          Plan label: Experience
-        </div>
-
-        <div className="rounded-[6px] overflow-hidden border border-[#6A1DB5]/20 bg-[#F5F3FF]">
-          <svg viewBox="0 0 1200 620" className="w-full h-[240px] sm:h-[320px] md:h-[420px]">
-            <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#6A1DB5" />
-                <stop offset="55%" stopColor="#A178FA" />
-                <stop offset="100%" stopColor="#00C2A8" />
-              </linearGradient>
-            </defs>
-            <rect width="1200" height="620" fill="url(#g1)" />
-            <rect x="0" y="420" width="1200" height="200" fill="#F5F3FF" />
-            <rect x="140" y="170" width="920" height="250" fill="#FFFFFF" opacity="0.26" />
-            <rect x="270" y="270" width="680" height="26" fill="#C8F139" />
-            <g fill="#F5F3FF">
-              <ellipse cx="240" cy="500" rx="45" ry="24" />
-              <ellipse cx="360" cy="500" rx="45" ry="24" />
-              <ellipse cx="480" cy="500" rx="45" ry="24" />
-              <ellipse cx="600" cy="500" rx="45" ry="24" />
-              <ellipse cx="720" cy="500" rx="45" ry="24" />
-              <ellipse cx="840" cy="500" rx="45" ry="24" />
-            </g>
-            <g fill="#6A1DB5" opacity="0.5">
-              <rect x="170" y="170" width="30" height="250" />
-              <rect x="1000" y="170" width="30" height="250" />
-            </g>
-            <g fill="#C8F139" opacity="0.95">
-              <circle cx="210" cy="135" r="36" />
-              <circle cx="1020" cy="140" r="36" />
-              <circle cx="600" cy="130" r="30" />
-            </g>
-          </svg>
-        </div>
-
-        <div className="mt-3 sm:mt-4 grid grid-cols-2 gap-4 text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-[#6A1DB5]/75">
-          <div>Artisan brief</div>
-          <div className="text-right">Client x Pixen Studio</div>
-        </div>
-
-        <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          <h2 className="text-[30px] sm:text-[38px] leading-[1.05] tracking-[-0.02em] text-black font-medium">
-            {content.subtitle}
-          </h2>
-          <div className="space-y-4 text-[14px] text-black/70 leading-[1.7]">
-            <p>
-              This concept explores a modern coworking experience built around warmth, clarity, and flow.
-            </p>
-            <p>
-              We combined refined typography, editorial spacing, and functional layout to create a page that feels premium and readable.
-            </p>
-            <p>
-              The result is a clean presentation that helps users focus on the story, visuals, and business outcomes.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="lg:col-span-8">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+                className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-[0.95] tracking-tighter mb-4"
+              >
+                {project.title.split(' ').map((word, i) => (
+                   <span key={i} className={i % 2 !== 0 ? 'text-brand-purple italic' : ''}>{word} </span>
+                ))}
+              </motion.h1>
+              <div className="flex flex-wrap gap-2">
+                {project.tags?.map(tag => (
+                  <span key={tag} className="px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ── Featured Image ── */}
+      <section className="px-6 mb-10">
+        <div className="container mx-auto max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="rounded-[24px] md:rounded-[40px] overflow-hidden shadow-xl relative aspect-[16/9] md:aspect-[21/9]"
+          >
+            {project.image ? (
+              <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-brand-purple/10 to-brand-green/10 flex items-center justify-center text-brand-purple font-display text-2xl">
+                Case Study
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Case Study Content ── */}
+      <section className="px-6">
+        <div className="container mx-auto max-w-5xl">
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-6 border-y border-gray-100 mb-10">
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 flex items-center gap-2">
+                <FiUser size={12} /> Client
+              </p>
+              <p className="font-bold text-xs">{project.client?.name || 'Confidential'}</p>
+            </div>
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 flex items-center gap-2">
+                <FiTag size={12} /> Category
+              </p>
+              <p className="font-bold text-xs">{project.category}</p>
+            </div>
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 flex items-center gap-2">
+                <FiClock size={12} /> Duration
+              </p>
+              <p className="font-bold text-xs">8-12 Weeks</p>
+            </div>
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Live Site</p>
+              {project.link ? (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="font-bold text-xs text-brand-purple flex items-center gap-1 hover:underline">
+                  Visit <FiExternalLink size={12} />
+                </a>
+              ) : (
+                <p className="font-bold text-xs text-gray-300">Internal</p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-12">
+            {/* Challenge */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              <div className="md:col-span-4">
+                <h2 className="text-xl font-display font-bold">The <span className="text-brand-purple italic">Challenge.</span></h2>
+              </div>
+              <div className="md:col-span-8">
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed font-sans">
+                  {project.challenge || project.description}
+                </p>
+              </div>
+            </div>
+
+            {/* Solution */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              <div className="md:col-span-4">
+                <h2 className="text-xl font-display font-bold">Our <span className="text-brand-purple italic">Solution.</span></h2>
+              </div>
+              <div className="md:col-span-8">
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed font-sans mb-6">
+                  {project.solution || "We implemented a modern tech stack and focused on intuitive user experience to deliver a robust and scalable platform."}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {['Custom Architecture', 'UI/UX Design', 'API Integration', 'Cloud Scaling'].map((feat, i) => (
+                    <div key={i} className="flex items-center gap-2 p-2.5 bg-gray-50 rounded-lg border border-gray-100">
+                      <FiCheckCircle className="text-brand-purple size-3.5" />
+                      <span className="font-bold text-[10px] uppercase tracking-wider">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Results */}
+            <div className="bg-brand-bg rounded-[24px] p-6 md:p-10 text-white overflow-hidden relative group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-brand-purple/20 blur-[100px]" />
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <div className="md:col-span-5">
+                  <h2 className="text-2xl md:text-3xl font-display font-bold leading-tight">Measurable <span className="text-brand-green italic">Results.</span></h2>
+                  <p className="text-white/60 mt-3 text-xs leading-relaxed">
+                    Through strategic design and development, we achieved significant improvements across all key performance indicators.
+                  </p>
+                </div>
+                <div className="md:col-span-7 grid grid-cols-2 gap-4">
+                   <div className="space-y-0.5">
+                     <p className="text-3xl md:text-4xl font-display font-bold text-brand-green">+150%</p>
+                     <p className="text-[8px] uppercase font-black tracking-widest text-white/40">Engagement</p>
+                   </div>
+                   <div className="space-y-0.5">
+                     <p className="text-3xl md:text-4xl font-display font-bold text-brand-purple">40%</p>
+                     <p className="text-[8px] uppercase font-black tracking-widest text-white/40">Efficiency</p>
+                   </div>
+                   <div className="col-span-2 text-white/80 italic font-medium leading-relaxed border-t border-white/10 pt-4 mt-1 text-xs">
+                     "{project.client?.feedback || "Pixen exceeded our expectations. Their technical expertise is matched only by their design sensibility."}"
+                     <p className="not-italic text-brand-green text-[10px] mt-2 font-bold">— {project.client?.name || 'Anonymous'}</p>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="mt-12 px-6">
+        <div className="container mx-auto max-w-5xl text-center">
+           <Link to="/contact" className="inline-flex items-center gap-3 px-8 py-3.5 bg-black text-white rounded-full text-xs font-bold hover:scale-105 transition-transform shadow-xl">
+             START A PROJECT <FiArrowLeft className="rotate-180" />
+           </Link>
+        </div>
+      </section>
     </div>
   );
 }

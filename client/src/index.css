@@ -28,7 +28,7 @@
 @layer components {
   .section-heading {
     @apply text-[40px] md:text-[56px] lg:text-[64px] font-medium leading-[1.05] tracking-tight;
-    font-family: 'Outfit', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 
   .section-sub {
@@ -50,7 +50,7 @@
   .badge {
     @apply text-[9px] uppercase tracking-widest;
     color: #888888;
-    font-family: 'Unbounded', system-ui, sans-serif;
+    font-family: 'Syne', system-ui, sans-serif;
   }
 
   .icon-btn {

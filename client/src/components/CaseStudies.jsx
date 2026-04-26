@@ -1,71 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowUpRight, FiArrowLeft, FiArrowRight } from 'react-icons/fi';
-
-import imgReferme   from '../assets/referme.png';
-import imgCollex    from '../assets/collex.png';
-import imgCodeOrbit from '../assets/codeorbit.png';
-import imgDabbaWala from '../assets/dabbawala.png';
-import imgFitFind   from '../assets/fitfind.png';
-
-const CASES = [
-  {
-    project: 'Referme',
-    title: 'Connecting Students with Better Study Resources',
-    tag: 'EdTech · Platform',
-    desc: 'An educational platform delivering high-quality engineering notes and study materials to thousands of students.',
-    img: imgReferme,
-    link: 'https://referme.tech/',
-    bg: '#F5F3FF',
-    accent: '#6A1DB5',
-    textColor: '#000',
-  },
-  {
-    project: 'Collex',
-    title: 'A Campus Marketplace for Students',
-    tag: 'Marketplace · MERN',
-    desc: 'A campus-focused peer-to-peer marketplace where students list, discover, and trade second-hand goods securely.',
-    img: imgCollex,
-    link: 'https://www.collex.app/',
-    bg: '#F5F3FF',
-    accent: '#6A1DB5',
-    textColor: '#000',
-  },
-  {
-    project: 'Code Orbit',
-    title: 'Simplifying Final-Year Engineering Projects',
-    tag: 'EdTech · Platform',
-    desc: 'A curated hub for final-year engineering projects, bridging the gap between academic theory and implementation.',
-    img: imgCodeOrbit,
-    link: 'https://codeorbit.info/',
-    bg: '#6A1DB5',
-    accent: '#C8F139',
-    textColor: '#fff',
-  },
-  {
-    project: 'Dabba Wala',
-    title: 'Home-Style Tiffin Services, Digitized',
-    tag: 'Food Tech · Next.js',
-    desc: 'An online tiffin subscription platform connecting home cooks with hungry customers.',
-    img: imgDabbaWala,
-    link: 'https://online-dabba-service-8see.vercel.app/',
-    bg: '#C8F139',
-    accent: '#000',
-    textColor: '#000',
-  },
-  {
-    project: 'FitFind',
-    title: 'Fitness Discovery Made Effortless',
-    tag: 'HealthTech · MERN',
-    desc: 'A fitness discovery platform helping users find, book, and manage gym memberships effortlessly.',
-    img: imgFitFind,
-    link: 'https://gym-two-olive.vercel.app/',
-    bg: '#0D0D0D',
-    accent: '#C8F139',
-    textColor: '#fff',
-  },
-];
+import api from '../utils/api';
 
 /* ── scroll-reveal wrapper ─────────────────────────────────── */
 const Reveal = ({ children, delay = 0, className = '' }) => (
@@ -82,14 +19,33 @@ const Reveal = ({ children, delay = 0, className = '' }) => (
 
 export default function CaseStudies() {
   const trackRef = useRef(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await api.get('/projects?featured=true');
+        setProjects(res.data);
+      } catch (err) {
+        console.error('Failed to fetch featured projects:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeatured();
+  }, []);
 
   const scroll = (dir) => {
     if (!trackRef.current) return;
     trackRef.current.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
   };
 
-  const featured = CASES[0];
-  const smallCards = CASES.slice(1);
+  if (loading) return null;
+  if (projects.length === 0) return null;
+
+  const featured = projects[0];
+  const smallCards = projects.slice(1);
 
   return (
     <section className="py-20 sm:py-28 md:py-36 bg-white overflow-hidden border-t border-black/5">
@@ -97,7 +53,6 @@ export default function CaseStudies() {
 
         {/* ── SECTION HEADER ──────────────────────────────── */}
         <Reveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-10 mb-14 sm:mb-16 lg:mb-20">
-          {/* Left: label + heading */}
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-black/30 mb-4">
               <span className="w-4 h-px bg-black/30" />
@@ -109,7 +64,6 @@ export default function CaseStudies() {
             </h2>
           </div>
 
-          {/* Right: tagline — pushed to far right */}
           <p className="text-[15px] sm:text-[16px] text-black/50 leading-[1.7] font-sans sm:max-w-[340px] sm:text-right">
             From edtech to marketplaces — every product we ship is built to perform, scale, and leave a lasting impression.
           </p>
@@ -122,42 +76,34 @@ export default function CaseStudies() {
           <div className="col-span-5 flex flex-col gap-8">
             <Reveal>
               <div
-                className="rounded-[32px] p-8 relative flex flex-col overflow-hidden min-h-[460px] border"
-                style={{ background: featured.bg, borderColor: `${featured.accent}20` }}
+                className="rounded-[32px] p-8 relative flex flex-col overflow-hidden min-h-[460px] border group"
+                style={{ backgroundColor: '#F5F3FF', borderColor: `#6A1DB520` }}
               >
+                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
+                   <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
+                   <div className="absolute inset-0 bg-black/60" />
+                </div>
                 <div className="flex items-center justify-between mb-5 z-10 relative">
                   <span
-                    className="text-[11px] font-black uppercase tracking-[0.14em] px-3 py-1.5 rounded-full text-white"
-                    style={{ backgroundColor: featured.accent }}
+                    className="text-[11px] font-black uppercase tracking-[0.14em] px-3 py-1.5 rounded-full text-white bg-brand-purple"
                   >
-                    {featured.tag}
+                    {featured.category}
                   </span>
-                  <a href={featured.link} target="_blank" rel="noreferrer"
-                    className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm border border-black/8 transition-colors hover:bg-white/90">
-                    <FiArrowUpRight className="text-[#6A1DB5]" size={15} strokeWidth={2} />
-                  </a>
+                  <Link to={`/our-work/case-study/${featured.slug}`}
+                    className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm border border-black/8 transition-colors hover:bg-brand-purple hover:text-white">
+                    <FiArrowUpRight size={15} strokeWidth={2} />
+                  </Link>
                 </div>
-                <div className="z-10 relative">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/40 mb-2">{featured.project}</p>
-                  <h3 className="font-sans font-semibold text-black leading-[1.1] tracking-tight mb-3" style={{ fontSize: 'clamp(20px, 2vw, 28px)' }}>
+                <div className="z-10 relative group-hover:text-white transition-colors duration-500">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/40 group-hover:text-white/60 mb-2">{featured.title}</p>
+                  <h3 className="font-sans font-semibold leading-[1.1] tracking-tight mb-3 transition-colors" style={{ fontSize: 'clamp(20px, 2vw, 28px)' }}>
                     {featured.title}
                   </h3>
-                  <p className="text-[14px] text-black/55 leading-[1.65] font-sans max-w-[80%]">{featured.desc}</p>
+                  <p className="text-[14px] text-black/55 group-hover:text-white/70 leading-[1.65] font-sans max-w-[80%] line-clamp-3 transition-colors">{featured.description}</p>
                 </div>
-                <div className="absolute -bottom-10 -right-8 w-[58%] origin-bottom-right rotate-[-5deg] z-0 pointer-events-none">
+                <div className="absolute -bottom-10 -right-8 w-[58%] origin-bottom-right rotate-[-5deg] z-0 pointer-events-none group-hover:opacity-0 transition-opacity">
                   <svg viewBox="0 0 500 400" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="featGrad" x1="0" x2="1">
-                        <stop offset="0%" stopColor={featured.accent} stopOpacity="0.95" />
-                        <stop offset="100%" stopColor="#000000" stopOpacity="0.6" />
-                      </linearGradient>
-                    </defs>
-                    <rect x="0" y="30" width="500" height="340" rx="28" fill="url(#featGrad)" opacity="0.95" />
-                    <g opacity="0.12" fill="#fff">
-                      <circle cx="420" cy="320" r="90" />
-                      <circle cx="80" cy="60" r="48" />
-                    </g>
-                    <path d="M40,320 C140,220 260,380 420,300 L460,320 L460,380 L40,380 Z" fill="#ffffff08" />
+                    <rect x="0" y="30" width="500" height="340" rx="28" fill="#6A1DB5" opacity="0.05" />
                   </svg>
                 </div>
               </div>
@@ -171,60 +117,39 @@ export default function CaseStudies() {
               <button onClick={() => scroll('right')} className="w-11 h-11 rounded-full bg-[#6A1DB5] hover:bg-[#5512A0] transition-colors flex items-center justify-center text-white" style={{ boxShadow: '0 4px 14px rgba(106,29,181,0.3)' }}>
                 <FiArrowRight size={17} strokeWidth={1.8} />
               </button>
-             
             </Reveal>
           </div>
 
           {/* Right: scrollable small cards + CTA */}
           <div className="col-span-7 flex flex-col gap-8 pl-4">
-            {/* Small cards */}
             <div ref={trackRef} className="flex gap-5 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
               {smallCards.map((sc, i) => (
                 <Reveal key={i} delay={i * 0.08}>
-                  <div
-                    className="rounded-[28px] p-6 min-w-[252px] max-w-[252px] min-h-[280px] relative overflow-hidden flex flex-col justify-between group shrink-0"
-                    style={{ background: sc.bg }}
+                  <Link
+                    to={`/our-work/case-study/${sc.slug}`}
+                    className="rounded-[28px] p-6 min-w-[252px] max-w-[252px] min-h-[280px] relative overflow-hidden flex flex-col justify-between group shrink-0 border border-black/5 bg-[#F8F7FF] hover:border-brand-purple/20 transition-all"
                   >
-                    <div className="z-10 relative">
+                    <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-black/50" />
+                    </div>
+                    <div className="z-10 relative group-hover:text-white transition-colors duration-300">
                       <span
-                        className="inline-block text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-4 border"
-                        style={{
-                          backgroundColor: `${sc.accent}18`,
-                          color: sc.accent,
-                          borderColor: `${sc.accent}35`,
-                        }}
+                        className="inline-block text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-4 border bg-brand-purple/5 text-brand-purple border-brand-purple/10 group-hover:bg-white group-hover:text-brand-purple group-hover:border-white transition-all"
                       >
-                        {sc.tag}
+                        {sc.category}
                       </span>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.1em] mb-1.5 opacity-50" style={{ color: sc.textColor }}>{sc.project}</p>
-                      <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[17px]" style={{ color: sc.textColor }}>{sc.title}</h4>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.1em] mb-1.5 text-black/50 group-hover:text-white/60">{sc.title}</p>
+                      <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[17px]">{sc.title}</h4>
                     </div>
-                    <a href={sc.link} target="_blank" rel="noreferrer"
-                      className="z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold"
-                      style={{ color: sc.accent }}>
+                    <div className="z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold text-brand-purple group-hover:text-brand-green transition-colors">
                       View project <FiArrowUpRight size={13} strokeWidth={2.5} />
-                    </a>
-                    <div className="absolute bottom-0 right-0 w-[52%] h-[52%] opacity-25 mix-blend-multiply rounded-tl-[28px] overflow-hidden z-0 pointer-events-none">
-                      <svg viewBox="0 0 200 200" className="w-full h-full">
-                        <defs>
-                          <linearGradient id={`g-small-${i}`} x1="0" x2="1">
-                            <stop offset="0%" stopColor={sc.accent} stopOpacity="0.18" />
-                            <stop offset="100%" stopColor="#000000" stopOpacity="0.06" />
-                          </linearGradient>
-                        </defs>
-                        <rect x="0" y="0" width="200" height="200" fill={`url(#g-small-${i})`} />
-                        <g transform="translate(20,20) rotate(-12)">
-                          <ellipse cx="80" cy="80" rx="70" ry="40" fill="#ffffff10" />
-                          <circle cx="150" cy="40" r="28" fill="#ffffff06" />
-                        </g>
-                      </svg>
                     </div>
-                  </div>
+                  </Link>
                 </Reveal>
               ))}
             </div>
 
-            {/* Bottom CTA */}
             <Reveal delay={0.15} className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-2">
               <p className="text-[14px] text-black/45 leading-[1.7] font-sans max-w-[360px]">
                 Discover how we turn real-world problems into polished, high-impact digital products — on time, every time.
@@ -240,67 +165,60 @@ export default function CaseStudies() {
 
         {/* ── MOBILE / TABLET LAYOUT ──────────────────────── */}
         <div className="lg:hidden flex flex-col gap-10">
-
-          {/* Featured card */}
           <Reveal>
-            <div
-              className="rounded-[28px] p-6 sm:p-8 relative flex flex-col overflow-hidden min-h-[360px] sm:min-h-[420px] border"
-              style={{ background: featured.bg, borderColor: `${featured.accent}20` }}
+            <Link
+              to={`/our-work/case-study/${featured.slug}`}
+              className="rounded-[28px] p-6 sm:p-8 relative flex flex-col overflow-hidden min-h-[360px] sm:min-h-[420px] border bg-[#F5F3FF]"
+              style={{ borderColor: `#6A1DB520` }}
             >
               <div className="flex items-center justify-between mb-4 z-10 relative">
-                <span className="text-[10px] font-black uppercase tracking-[0.14em] px-3 py-1.5 rounded-full text-white" style={{ backgroundColor: featured.accent }}>
-                  {featured.tag}
+                <span className="text-[10px] font-black uppercase tracking-[0.14em] px-3 py-1.5 rounded-full text-white bg-brand-purple">
+                  {featured.category}
                 </span>
-                <a href={featured.link} target="_blank" rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm border border-black/8">
+                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm border border-black/8">
                   <FiArrowUpRight className="text-[#6A1DB5]" size={14} strokeWidth={2} />
-                </a>
+                </div>
               </div>
               <div className="z-10 relative">
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/40 mb-1.5">{featured.project}</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/40 mb-1.5">{featured.title}</p>
                 <h3 className="font-sans font-semibold text-black leading-[1.1] tracking-tight mb-3 text-[22px] sm:text-[26px]">{featured.title}</h3>
-                <p className="text-[14px] text-black/55 leading-[1.65] font-sans max-w-[75%] sm:max-w-[60%]">{featured.desc}</p>
+                <p className="text-[14px] text-black/55 leading-[1.65] font-sans max-w-[75%] sm:max-w-[60%] line-clamp-4">{featured.description}</p>
               </div>
               <div className="absolute -bottom-8 -right-6 w-[48%] sm:w-[44%] origin-bottom-right rotate-[-5deg] z-0">
                 <div className="rounded-[18px] overflow-hidden shadow-2xl border-[4px] border-white/60">
-                  <img src={featured.img} alt={featured.project} className="w-full h-auto object-cover object-top aspect-[4/5]" />
+                  <img src={featured.image} alt={featured.title} className="w-full h-auto object-cover object-top aspect-[4/5]" />
                 </div>
               </div>
-            </div>
+            </Link>
           </Reveal>
 
-          {/* Mobile small cards — vertical stacked 2-col grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {smallCards.map((sc, i) => (
               <Reveal key={i} delay={i * 0.07}>
-                <div
-                  className="rounded-[24px] p-5 sm:p-6 relative overflow-hidden flex flex-col justify-between group min-h-[220px]"
-                  style={{ background: sc.bg }}
+                <Link
+                  to={`/our-work/case-study/${sc.slug}`}
+                  className="rounded-[24px] p-5 sm:p-6 relative overflow-hidden flex flex-col justify-between group min-h-[220px] border border-black/5 bg-[#F8F7FF]"
                 >
                   <div className="z-10 relative">
                     <span
-                      className="inline-block text-[9px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-3 border"
-                      style={{ backgroundColor: `${sc.accent}18`, color: sc.accent, borderColor: `${sc.accent}35` }}
+                      className="inline-block text-[9px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-3 border bg-brand-purple/5 text-brand-purple border-brand-purple/10"
                     >
-                      {sc.tag}
+                      {sc.category}
                     </span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-1 opacity-50" style={{ color: sc.textColor }}>{sc.project}</p>
-                    <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[16px]" style={{ color: sc.textColor }}>{sc.title}</h4>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.1em] mb-1 opacity-50 text-black">{sc.title}</p>
+                    <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[16px] text-black">{sc.title}</h4>
                   </div>
-                  <a href={sc.link} target="_blank" rel="noreferrer"
-                    className="z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold"
-                    style={{ color: sc.accent }}>
+                  <div className="z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold text-brand-purple">
                     View project <FiArrowUpRight size={12} strokeWidth={2.5} />
-                  </a>
-                  <div className="absolute bottom-0 right-0 w-[50%] h-[50%] opacity-20 mix-blend-multiply rounded-tl-[24px] overflow-hidden z-0">
-                    <img src={sc.img} className="w-full h-full object-cover object-top" alt={sc.project} />
                   </div>
-                </div>
+                  <div className="absolute bottom-0 right-0 w-[50%] h-[50%] opacity-10 mix-blend-multiply rounded-tl-[24px] overflow-hidden z-0">
+                    <img src={sc.image} className="w-full h-full object-cover object-top" alt={sc.title} />
+                  </div>
+                </Link>
               </Reveal>
             ))}
           </div>
 
-          {/* Mobile CTA */}
           <Reveal className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
             <p className="text-[14px] text-black/45 leading-[1.7] font-sans">
               Discover how we turn real-world problems into polished digital products.

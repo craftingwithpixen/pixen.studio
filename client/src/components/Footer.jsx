@@ -60,7 +60,7 @@ export default function Footer() {
               <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Company</h4>
               <a href="#about" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">About</a>
               <a href="#careers" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Careers</a>
-              <a href="#contact" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Contact</a>
+              <Link to="/contact" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Contact</Link>
               <a href="#partners" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Partners</a>
             </div>
           </div>
@@ -75,9 +75,9 @@ export default function Footer() {
             © {new Date().getFullYear()} Pixen. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-            <a href="#" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Privacy Policy</a>
-            <a href="#" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Terms of Service</a>
-            <a href="#" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Cookies Settings</a>
+            <Link to="/privacy-policy" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Terms of Service</Link>
+            <Link to="/cookie-policy" className="text-white/35 text-[13px] font-sans underline hover:text-white transition-colors underline-offset-4">Cookies Settings</Link>
           </div>
         </div>
       </div>
