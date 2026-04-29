@@ -41,11 +41,16 @@ router.get('/slug/:slug', async (req, res) => {
 });
 
 // POST /api/projects
-router.post('/', auth, upload.single('image'), async (req, res) => {
+router.post('/', auth, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'innerImage', maxCount: 1 }]), async (req, res) => {
   try {
     const data = { ...req.body };
-    if (req.file) {
-      data.image = req.file.path;
+    if (req.files) {
+      if (req.files.image && req.files.image[0]) {
+        data.image = req.files.image[0].path;
+      }
+      if (req.files.innerImage && req.files.innerImage[0]) {
+        data.innerImage = req.files.innerImage[0].path;
+      }
     }
     if (data.tags && typeof data.tags === 'string') {
       data.tags = data.tags.split(',').map(tag => tag.trim());
@@ -71,11 +76,16 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 });
 
 // PUT /api/projects/:id
-router.put('/:id', auth, upload.single('image'), async (req, res) => {
+router.put('/:id', auth, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'innerImage', maxCount: 1 }]), async (req, res) => {
   try {
     const data = { ...req.body };
-    if (req.file) {
-      data.image = req.file.path;
+    if (req.files) {
+      if (req.files.image && req.files.image[0]) {
+        data.image = req.files.image[0].path;
+      }
+      if (req.files.innerImage && req.files.innerImage[0]) {
+        data.innerImage = req.files.innerImage[0].path;
+      }
     }
     if (data.tags && typeof data.tags === 'string') {
       data.tags = data.tags.split(',').map(tag => tag.trim());

@@ -1,133 +1,177 @@
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiArrowRight, FiSend } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiArrowUpRight, FiSend } from 'react-icons/fi';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
+/* ─── Contact info items ──────────────────────────────────── */
+const CONTACT_ITEMS = [
+  { icon: <FiMail size={16} />, label: 'Email us', val: 'hello@pixen.studio', link: 'mailto:hello@pixen.studio' },
+  { icon: <FiPhone size={16} />, label: 'Call us', val: '+91 98765 43210', link: 'tel:+919876543210' },
+  { icon: <FiMapPin size={16} />, label: 'Studio', val: 'Pune, Maharashtra, India', link: '#' },
+];
+
+/* ─── Form field ──────────────────────────────────────────── */
+function Field({ label, children }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30 font-sans">{label}</label>
+      {children}
+    </div>
+  );
+}
+
+const inputCls =
+  'w-full bg-white/[0.05] border border-white/[0.09] rounded-2xl px-5 py-3.5 text-white placeholder:text-white/25 text-[14px] font-sans font-medium focus:outline-none focus:border-[#6A1DB5]/60 focus:bg-white/[0.08] transition-all duration-200';
+
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
+          ...formData,
         }),
       });
-
-      const data = await response.json();
-
+      const data = await res.json();
       if (data.success) {
         toast.success("Message sent! We'll get back to you soon.");
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        toast.error(data.message || "Something went wrong. Please try again.");
+        toast.error(data.message || 'Something went wrong. Please try again.');
       }
-    } catch (err) {
-      toast.error("Failed to send message. Please check your connection.");
-      console.error("Web3Forms Error:", err);
+    } catch {
+      toast.error('Failed to send message. Please check your connection.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   return (
-    <div className="min-h-screen bg-white text-brand-bg font-sans selection:bg-brand-purple/30 selection:text-brand-purple flex flex-col lg:h-screen lg:overflow-hidden">
-      {/* ── Background Effects ── */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-brand-purple/5 rounded-full blur-[140px] opacity-40 animate-pulse" />
-        <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] bg-brand-green/20 rounded-full blur-[120px] opacity-20" />
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
-      </div>
+    <div className="min-h-screen bg-white font-sans">
 
-      <div className="flex-1 flex items-center relative z-10 pt-24 pb-12 lg:pt-20 lg:pb-10">
-        <div className="container mx-auto px-6 md:px-10 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      {/* ── Hero strip (white, matches Home hero style) ─────── */}
+      <section className="w-full pt-[110px] md:pt-[136px] lg:pt-[148px] pb-16 md:pb-20 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 relative overflow-hidden">
+        <div className="max-w-[1380px] mx-auto">
+
+          {/* eyebrow + heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-3xl"
+          >
             
-            {/* ── Left Side: Contact Info ── */}
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-              >
-                <span className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-purple/5 border border-brand-purple/10 text-brand-purple text-[9px] font-black uppercase tracking-[0.2em] mb-6">
-                  <span className="w-1.5 h-1.5 bg-brand-purple rounded-full animate-ping" />
-                  Let's Build Something
-                </span>
-                
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-[0.95] tracking-tighter mb-6 text-brand-bg">
-                  Let's talk <br className="hidden lg:block" />
-                  about your <br className="hidden lg:block" />
-                  <span className="text-brand-purple italic">Vision.</span>
-                </h1>
-                
-                <p className="text-gray-600 text-sm md:text-lg leading-relaxed mb-8 lg:mb-10 max-w-md">
-                  Have a project in mind? We're here to turn your ideas into a high-performance digital reality.
-                </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                  {[
-                    { icon: <FiMail />, label: 'Email us', val: 'hello@pixen.studio', link: 'mailto:hello@pixen.studio' },
-                    { icon: <FiPhone />, label: 'Call us', val: '+91 98765 43210', link: 'tel:+919876543210' },
-                    { icon: <FiMapPin />, label: 'Studio', val: 'Pune, Maharashtra, India', link: '#' }
-                  ].map((item, i) => (
+            <h1 className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[84px] font-sans font-normal leading-[1.0] tracking-[-0.02em] text-black">
+              Let's build<br />
+              <span className="font-semibold text-[#6A1DB5]">something</span> great
+            </h1>
+
+            <p className="mt-6 text-[16px] text-black/55 font-sans font-medium leading-[1.6] max-w-xl">
+              Have a project in mind? We turn bold ideas into high-performance digital products. Tell us what you're building.
+            </p>
+          </motion.div>
+
+          {/* stat strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-wrap gap-4 mt-10"
+          >
+            {[['158+', 'Projects delivered'], ['42+', 'Happy clients'], ['< 24h', 'Response time']].map(([v, l]) => (
+              <div key={l} className="flex items-center gap-3 bg-black/[0.03] border border-black/[0.07] rounded-2xl px-5 py-3">
+                <span className="text-[20px] font-sans font-semibold text-black leading-none">{v}</span>
+                <span className="text-[11px] uppercase tracking-widest text-black/40 font-bold font-sans">{l}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Main panel (Ink Black, matches Services dark card) ── */}
+      <section className="px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 pb-20 md:pb-28">
+        <div className="max-w-[1380px] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#0D0D0D] rounded-[32px] sm:rounded-[48px] lg:rounded-[64px] border border-white/[0.06] overflow-hidden relative"
+          >
+            {/* inner ambient glow */}
+            <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-[0.08]"
+              style={{ background: 'radial-gradient(circle, #6A1DB5 0%, transparent 70%)' }} />
+            <div aria-hidden className="pointer-events-none absolute -bottom-20 -left-20 w-[300px] h-[300px] rounded-full opacity-[0.05]"
+              style={{ background: 'radial-gradient(circle, #C8F139 0%, transparent 70%)' }} />
+
+            {/* subtle grid texture */}
+            <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.025] pointer-events-none">
+              <defs>
+                <pattern id="cgrid" width="32" height="32" patternUnits="userSpaceOnUse">
+                  <path d="M 32 0 L 0 0 0 32" fill="none" stroke="white" strokeWidth="0.5" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#cgrid)" />
+            </svg>
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-0">
+
+              {/* ── Left info panel ────────────────────────────── */}
+              <div className="lg:col-span-4 p-8 sm:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/[0.07] flex flex-col justify-between gap-10">
+                <div>
+                  <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/30 mb-5 font-sans">Contact us</p>
+                  <h2 className="text-[32px] sm:text-[40px] lg:text-[48px] font-sans font-normal leading-[1.0] tracking-[-0.02em] text-white mb-4">
+                    Get in<br /><span className="font-semibold text-[#6A1DB5]">touch</span>
+                  </h2>
+                  <p className="text-[14px] text-white/45 font-sans leading-[1.65] font-medium max-w-[280px]">
+                    We respond within 24 hours. Let's talk about how Pixen can help you grow.
+                  </p>
+                </div>
+
+                {/* contact items */}
+                <div className="flex flex-col gap-5">
+                  {CONTACT_ITEMS.map((item, i) => (
                     <motion.a
                       key={i}
                       href={item.link}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 + (i * 0.1) }}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                       className="flex items-center gap-4 group cursor-pointer"
                     >
-                      <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-lg text-brand-purple group-hover:bg-brand-purple group-hover:border-brand-purple group-hover:text-white transition-all duration-500 transform group-hover:-rotate-12">
+                      <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-[#6A1DB5] group-hover:bg-[#6A1DB5] group-hover:text-white group-hover:border-[#6A1DB5] transition-all duration-300">
                         {item.icon}
                       </div>
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-0.5">{item.label}</p>
-                        <p className="text-sm lg:text-base font-bold text-brand-bg group-hover:text-brand-purple transition-colors">{item.val}</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 font-sans mb-0.5">{item.label}</p>
+                        <p className="text-[14px] font-bold text-white/80 font-sans group-hover:text-white transition-colors duration-200">{item.val}</p>
                       </div>
                     </motion.a>
                   ))}
                 </div>
-              </motion.div>
-            </div>
 
-            {/* ── Right Side: Contact Form ── */}
-            <div className="lg:col-span-7 order-1 lg:order-2">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="bg-white/70 backdrop-blur-xl border border-gray-100 p-6 md:p-8 lg:p-10 rounded-3xl lg:rounded-[32px] shadow-2xl shadow-brand-purple/5 relative overflow-hidden group"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-purple/5 blur-[60px] group-hover:bg-brand-purple/10 transition-all duration-1000" />
-                
-                <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6 relative z-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 ml-1">Full Name</label>
+                {/* bottom lime badge */}
+                <div className="inline-flex items-center gap-2 bg-[#C8F139]/10 border border-[#C8F139]/20 rounded-full px-4 py-2.5 w-fit">
+                  <span className="w-2 h-2 rounded-full bg-[#C8F139] inline-block" />
+                  <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#C8F139]/80 font-sans">Available for new projects</span>
+                </div>
+              </div>
+
+              {/* ── Right form ─────────────────────────────────── */}
+              <div className="lg:col-span-8 p-8 sm:p-10 lg:p-14">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <Field label="Full Name">
                       <input
                         type="text"
                         name="name"
@@ -135,11 +179,10 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="John Doe"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 lg:px-5 py-3 text-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all placeholder:text-gray-400 text-sm"
+                        className={inputCls}
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 ml-1">Email Address</label>
+                    </Field>
+                    <Field label="Email Address">
                       <input
                         type="email"
                         name="email"
@@ -147,13 +190,12 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="john@example.com"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 lg:px-5 py-3 text-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all placeholder:text-gray-400 text-sm"
+                        className={inputCls}
                       />
-                    </div>
+                    </Field>
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 ml-1">Subject</label>
+                  <Field label="Subject">
                     <input
                       type="text"
                       name="subject"
@@ -161,43 +203,72 @@ export default function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder="Tell us what you're thinking"
-                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 lg:px-5 py-3 text-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all placeholder:text-gray-400 text-sm"
+                      className={inputCls}
                     />
-                  </div>
+                  </Field>
 
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 ml-1">Message</label>
+                  <Field label="Message">
                     <textarea
                       name="message"
                       required
-                      rows="4"
+                      rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="How can we help you reach your goals?"
-                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 lg:px-5 py-3 text-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple transition-all placeholder:text-gray-400 resize-none text-sm"
-                    ></textarea>
+                      placeholder="Describe your project, goals, and timeline…"
+                      className={`${inputCls} resize-none`}
+                    />
+                  </Field>
+
+                  {/* service selector chips */}
+                  <div className="flex flex-col gap-3">
+                    <label className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30 font-sans">I'm interested in</label>
+                    <div className="flex flex-wrap gap-2">
+                      {['Web Development', 'SaaS Product', 'AI Agent', 'SEO & Growth', 'Cloud DevOps'].map((s) => (
+                        <button
+                          type="button"
+                          key={s}
+                          onClick={(e) => {
+                            e.currentTarget.classList.toggle('!border-[#6A1DB5]');
+                            e.currentTarget.classList.toggle('!text-white');
+                            e.currentTarget.classList.toggle('!bg-[#6A1DB5]/20');
+                          }}
+                          className="px-4 py-2 rounded-full text-[12px] font-bold font-sans border border-white/[0.09] text-white/40 bg-white/[0.03] hover:border-white/20 hover:text-white/70 transition-all duration-200 cursor-pointer"
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full py-4 bg-brand-purple text-white font-black uppercase tracking-widest text-[10px] lg:text-xs rounded-xl hover:bg-brand-purple/90 transition-all transform active:scale-[0.98] shadow-[0_15px_30px_-10px_rgba(106,29,181,0.3)] flex items-center justify-center gap-3"
-                  >
-                    {loading ? (
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        Send Message
-                        <FiSend className="text-brand-green" />
-                      </>
-                    )}
-                  </button>
+                  <div className="flex items-center gap-4 pt-2">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 bg-[#6A1DB5] hover:bg-[#4A1285] text-white font-bold text-[13px] font-sans px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_12px_40px_rgba(106,29,181,0.4)] disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98]"
+                    >
+                      {loading ? (
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : (
+                        <>
+                          Send Message
+                          <span className="w-7 h-7 bg-white/15 rounded-full flex items-center justify-center">
+                            <FiArrowUpRight size={14} strokeWidth={2.5} />
+                          </span>
+                        </>
+                      )}
+                    </button>
+
+                    <p className="text-[12px] text-white/25 font-sans hidden sm:block">
+                      We'll reply within <span className="text-white/50 font-bold">24 hours</span>
+                    </p>
+                  </div>
                 </form>
-              </motion.div>
+              </div>
+
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

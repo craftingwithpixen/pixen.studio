@@ -10,11 +10,11 @@ export default function WhyUs() {
   });
 
   return (
-    <section id="about" className="py-24 md:py-32 bg-white relative overflow-hidden font-sans">
+    <section id="about" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden font-sans">
       <div className="w-full flex justify-center items-center px-4 md:px-6">
         <motion.div
           {...getInViewProps(0)}
-          className="w-full max-w-[1340px] bg-[#0D0D0D] rounded-[36px] border border-white/[0.06] p-8 md:p-12 lg:p-16 relative z-10 shadow-2xl"
+          className="w-full max-w-[1340px] bg-[#0D0D0D] rounded-[28px] sm:rounded-[36px] border border-white/[0.06] p-5 sm:p-8 md:p-12 lg:p-16 relative z-10 shadow-2xl"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5">
 
@@ -101,7 +101,7 @@ export default function WhyUs() {
           <div className="order-1 lg:order-3 md:col-span-2 lg:col-span-5 flex flex-col gap-4 sm:gap-5">
 
             {/* Heading */}
-            <div className="flex flex-col items-start md:items-end lg:pr-6 mb-2">
+            <div className="flex flex-col items-start lg:items-end lg:pr-6 mb-2">
               <motion.h2
                 {...getInViewProps(0.1)}
                 className="section-heading text-white"
@@ -111,26 +111,27 @@ export default function WhyUs() {
             </div>
 
             {/* Row: In-House stat + Circle button */}
-            <div className="flex gap-3 sm:gap-5 h-auto">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 h-auto">
 
               {/* Card 5: 100% In-House — Volt Green solid */}
               <motion.div
                 {...getInViewProps(0.25)}
                 whileHover={{ scale: 1.02 }}
-                className="bg-[#C8F139] rounded-[24px] sm:rounded-[32px] p-5 sm:p-6 relative overflow-hidden flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-center sm:justify-between min-h-[100px] sm:h-[120px]"
+                className="bg-[#C8F139] rounded-[24px] sm:rounded-[32px] p-5 sm:p-6 relative overflow-hidden flex-1 flex flex-row items-center justify-between sm:justify-between min-h-[100px] sm:h-[120px]"
               >
-                <h3 className="text-[32px] sm:text-[44px] font-sans font-medium leading-none text-black mb-1 sm:mb-0 relative z-10">100%</h3>
-                <p className="text-black/60 text-[10px] sm:text-[11px] font-bold leading-[1.3] text-left sm:text-right relative z-10 uppercase tracking-wide">In-House<br className="hidden sm:block"/>Development</p>
+                <h3 className="text-[32px] sm:text-[44px] font-sans font-medium leading-none text-black mb-0 relative z-10">100%</h3>
+                <p className="text-black/60 text-[10px] sm:text-[11px] font-bold leading-[1.3] text-right relative z-10 uppercase tracking-wide">In-House<br/>Development</p>
               </motion.div>
 
               {/* Circle Explore Button */}
               <motion.div
                 {...getInViewProps(0.3)}
                 whileHover={{ scale: 1.05, rotate: 5 }}
-                className="rounded-[24px] sm:rounded-full relative flex-shrink-0 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] bg-[#F5F3FF] flex items-center justify-center border border-[#6A1DB5]/15 cursor-pointer"
+                className="rounded-[24px] sm:rounded-full relative w-full sm:flex-shrink-0 sm:w-[120px] h-[100px] sm:h-[120px] bg-[#F5F3FF] flex items-center justify-center border border-[#6A1DB5]/15 cursor-pointer"
               >
-                <FiPlay size={20} className="text-[#6A1DB5] ml-1" strokeWidth={1.5} />
-                <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full animate-[spin_12s_linear_infinite]">
+                <FiPlay size={20} className="text-[#6A1DB5] ml-1 hidden sm:block" strokeWidth={1.5} />
+                <span className="sm:hidden text-[12px] font-bold text-[#6A1DB5] uppercase tracking-widest flex items-center gap-2">Explore Process <FiPlay size={14}/></span>
+                <svg viewBox="0 0 100 100" className="hidden sm:block absolute inset-0 w-full h-full animate-[spin_12s_linear_infinite]">
                   <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
                   <text className="text-[10px] uppercase font-bold tracking-[0.2em] fill-[#6A1DB5]">
                     <textPath href="#circlePath" startOffset="0%">explore our process •</textPath>

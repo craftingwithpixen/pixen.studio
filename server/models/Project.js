@@ -14,6 +14,7 @@ const projectSchema = new mongoose.Schema(
     solution: { type: String, trim: true },
     results: { type: String, trim: true },
     image: { type: String },
+    innerImage: { type: String },
     gallery: [{ type: String }],
     tags: [{ type: String }],
     link: { type: String },

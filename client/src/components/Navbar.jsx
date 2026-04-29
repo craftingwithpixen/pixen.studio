@@ -11,6 +11,32 @@ const navLinks = [
   { label: 'Contacts', href: '/contact', isPage: true },
 ];
 
+/* ── Animated hamburger icon ────────────────────────────── */
+function HamburgerIcon({ open, color = '#111' }) {
+  return (
+    <div className="w-6 h-5 relative flex flex-col justify-between cursor-pointer" aria-hidden>
+      <motion.span
+        animate={open ? { rotate: 45, y: 9 } : { rotate: 0, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="block w-full h-[2px] rounded-full origin-center"
+        style={{ background: color }}
+      />
+      <motion.span
+        animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+        transition={{ duration: 0.2 }}
+        className="block w-3/4 h-[2px] rounded-full"
+        style={{ background: color }}
+      />
+      <motion.span
+        animate={open ? { rotate: -45, y: -9 } : { rotate: 0, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="block w-full h-[2px] rounded-full origin-center"
+        style={{ background: color }}
+      />
+    </div>
+  );
+}
+
 export default function Navbar({ theme = 'auto' }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -20,21 +46,21 @@ export default function Navbar({ theme = 'auto' }) {
   const isLightPage = lightPaths.includes(location.pathname) || location.pathname.startsWith('/our-work');
   const isDark = theme === 'dark' || (theme === 'auto' && !isLightPage);
 
-  const textClass = isDark ? 'text-white' : 'text-[#111]';
-  const mutedClass = isDark ? 'text-brand-muted' : 'text-[#666]';
   const linkClass = isDark
-    ? 'text-[14px] font-sans font-semibold text-white hover:text-brand-green transition-colors uppercase tracking-wide'
-    : 'text-[14px] font-sans font-semibold text-[#111] hover:text-[#6A1DB5] transition-colors uppercase tracking-wide';
+    ? 'text-[13px] font-sans font-semibold text-white hover:text-[#C8F139] transition-colors uppercase tracking-[0.1em]'
+    : 'text-[13px] font-sans font-semibold text-[#111] hover:text-[#6A1DB5] transition-colors uppercase tracking-[0.1em]';
+
   const ctaClass = isDark
-    ? 'font-medium font-sans text-[13px] px-8 py-3.5 rounded-full transition-all duration-300 bg-brand-purple text-white hover:scale-105 hover:shadow-[0_10px_30px_rgba(106,29,181,0.45)] flex items-center gap-2'
-    : 'font-medium font-sans text-[13px] px-8 py-3.5 rounded-full transition-all duration-300 bg-black text-white hover:scale-105 hover:shadow-lg flex items-center gap-2';
+    ? 'font-sans font-semibold text-[13px] px-7 py-3 rounded-full transition-all duration-300 bg-[#6A1DB5] text-white hover:bg-[#4A1285] hover:shadow-[0_8px_24px_rgba(106,29,181,0.4)] flex items-center gap-2'
+    : 'font-sans font-semibold text-[13px] px-7 py-3 rounded-full transition-all duration-300 bg-black text-white hover:bg-[#1a1a1a] hover:shadow-[0_8px_24px_rgba(0,0,0,0.18)] flex items-center gap-2';
+
+  // hamburger icon color
+  const iconColor = open ? '#ffffff' : (isDark ? '#ffffff' : '#111111');
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
@@ -42,140 +68,186 @@ export default function Navbar({ theme = 'auto' }) {
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
+  // close on route change
+  useEffect(() => { setOpen(false); }, [location.pathname]);
+
   const scrollToSection = (href) => {
     setOpen(false);
     if (href.startsWith('/#')) {
       const id = href.replace('/#', '');
       if (location.pathname !== '/') {
-         window.location.href = href;
+        window.location.href = href;
       } else {
-         const element = document.getElementById(id);
-         if (element) {
-           element.scrollIntoView({ behavior: 'smooth' });
-         }
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
       }
     }
   };
 
   return (
     <>
-      <header 
+      {/* ── Fixed header bar ────────────────────────────────── */}
+      <header
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
-          scrolled 
-            ? `py-4 ${isDark ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-xl border-b ${isDark ? 'border-white/10' : 'border-black/5'} shadow-sm` 
-            : 'py-6 md:py-10 bg-transparent'
+          scrolled
+            ? `py-4 ${isDark ? 'bg-[#0D0D0D]/90' : 'bg-white/90'} backdrop-blur-xl border-b ${isDark ? 'border-white/[0.07]' : 'border-black/[0.06]'} shadow-sm`
+            : 'py-6 md:py-9 bg-transparent'
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img src="logo.png" alt="Logo" className="h-[36px] lg:h-[42px] w-auto" />
+          <Link to="/" className="flex items-center z-[120] relative">
+            <img src="logo.png" alt="Logo" className="h-[34px] lg:h-[40px] w-auto" />
           </Link>
 
-          {/* Desktop Center Links */}
+          {/* Desktop links */}
           <div className="hidden lg:flex items-center gap-10">
-            {navLinks.map((l) => (
+            {navLinks.map((l) =>
               l.isPage ? (
-                <Link
-                  key={l.label}
-                  to={l.href}
-                  className={linkClass}
-                >
-                  {l.label}
-                </Link>
+                <Link key={l.label} to={l.href} className={linkClass}>{l.label}</Link>
               ) : (
-                <button
-                  key={l.label}
-                  onClick={() => scrollToSection(l.href)}
-                  className={linkClass}
-                >
-                  {l.label}
-                </button>
+                <button key={l.label} onClick={() => scrollToSection(l.href)} className={linkClass}>{l.label}</button>
               )
-            ))}
+            )}
           </div>
 
-          {/* Header Right */}
+          {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link
-               to="/contact"
-               className={ctaClass}
-            >
-              Start Project <FiArrowUpRight size={18}/>
+            <Link to="/contact" className={ctaClass}>
+              Start Project <FiArrowUpRight size={16} />
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="flex lg:hidden items-center gap-4">
-            <button
-              onClick={() => setOpen(true)}
-              className="flex flex-col gap-[5px] cursor-pointer"
-              aria-label="Open menu"
-            >
-              <span className={`w-8 h-[2px] block rounded-full transition-colors ${isDark ? 'bg-white' : 'bg-black'}`} />
-              <span className={`w-8 h-[2px] block rounded-full transition-colors ${isDark ? 'bg-white' : 'bg-black'}`} />
-              <span className={`w-6 h-[2px] block rounded-full transition-colors ${isDark ? 'bg-white' : 'bg-black'}`} />
-            </button>
-          </div>
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="flex lg:hidden items-center justify-center w-10 h-10 rounded-xl relative z-[120]"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+          >
+            <HamburgerIcon open={open} color={iconColor} />
+          </button>
         </div>
       </header>
 
-      {/* Full-screen mobile overlay */}
+      {/* ── Mobile full-screen overlay ───────────────────────── */}
       <AnimatePresence>
         {open && (
-           <motion.div
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           exit={{ opacity: 0 }}
-           transition={{ duration: 0.2 }}
-           className={`fixed inset-0 z-[110] flex flex-col ${isDark ? 'bg-brand-bg' : 'bg-[#f4f4f4]'}`}
-         >
-           {/* Top bar */}
-           <div className="container mx-auto px-6 py-6 flex items-center justify-between w-full">
-               <Link to="/" onClick={() => setOpen(false)} className="flex items-center">
-                  <img src="logo.png" alt="Logo" className="h-10 w-auto" />
-               </Link>
-             <button
-               onClick={() => setOpen(false)}
-               className={`font-display text-[10px] uppercase tracking-widest transition-colors cursor-pointer ${mutedClass} ${isDark ? 'hover:text-white' : 'hover:text-[#111]'}`}
-             >
-               Close ✕
-             </button>
-           </div>
-           
-           {/* Mobile nav links */}
-           <nav className="flex-1 flex flex-col justify-center container mx-auto px-6 w-full">
+          <motion.div
+            initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
+            exit={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[110] bg-[#0D0D0D] flex flex-col overflow-hidden"
+          >
+            {/* Grid texture */}
+            <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.025] pointer-events-none">
+              <defs>
+                <pattern id="mnav-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+                  <path d="M 32 0 L 0 0 0 32" fill="none" stroke="white" strokeWidth="0.5" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#mnav-grid)" />
+            </svg>
+
+            {/* Purple ambient glow */}
+            <div
+              aria-hidden
+              className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(106,29,181,0.15) 0%, transparent 70%)' }}
+            />
+            <div
+              aria-hidden
+              className="absolute -bottom-24 -left-24 w-[350px] h-[350px] rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(200,241,57,0.06) 0%, transparent 70%)' }}
+            />
+
+            {/* Top bar — logo + close */}
+            <div className="relative z-10 flex items-center justify-between px-6 py-6 border-b border-white/[0.06]">
+              <Link to="/" onClick={() => setOpen(false)}>
+                <img src="logo.png" alt="Logo" className="h-9 w-auto brightness-0 invert" />
+              </Link>
+              <button
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-[11px] font-sans font-bold uppercase tracking-[0.18em] cursor-pointer"
+              >
+                Close
+                <span className="w-7 h-7 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-[13px]">✕</span>
+              </button>
+            </div>
+
+            {/* Nav links */}
+            <nav className="relative z-10 flex-1 flex flex-col justify-center px-6 sm:px-10 gap-1">
               {navLinks.map((l, i) => (
                 <motion.div
                   key={l.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.04 + i * 0.06 }}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 16 }}
+                  transition={{ duration: 0.4, delay: 0.1 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {l.isPage ? (
                     <Link
                       to={l.href}
                       onClick={() => setOpen(false)}
-                      className={`group flex items-center justify-between py-5 border-b last:border-0 ${isDark ? 'border-white/[.06]' : 'border-black/5'}`}
+                      className="group flex items-center justify-between py-5 border-b border-white/[0.06] last:border-0"
                     >
-                      <span className={`font-display font-black uppercase transition-colors duration-200 ${textClass} group-hover:text-brand-purple`} style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}>
+                      <span
+                        className="font-sans font-normal text-white/70 group-hover:text-white transition-colors duration-200 leading-none"
+                        style={{ fontSize: 'clamp(28px, 7vw, 52px)', letterSpacing: '-0.02em' }}
+                      >
                         {l.label}
                       </span>
+                      <motion.div
+                        initial={{ opacity: 0, x: -8 }}
+                        whileHover={{ opacity: 1, x: 0 }}
+                        className="w-10 h-10 rounded-full bg-[#6A1DB5]/20 border border-[#6A1DB5]/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      >
+                        <FiArrowUpRight size={16} className="text-[#6A1DB5]" />
+                      </motion.div>
                     </Link>
                   ) : (
                     <button
                       onClick={() => scrollToSection(l.href)}
-                      className={`w-full text-left group flex items-center justify-between py-5 border-b last:border-0 cursor-pointer ${isDark ? 'border-white/[.06]' : 'border-black/5'}`}
+                      className="w-full group flex items-center justify-between py-5 border-b border-white/[0.06] last:border-0 cursor-pointer text-left"
                     >
-                      <span className={`font-display font-black uppercase transition-colors duration-200 ${textClass} group-hover:text-brand-purple`} style={{ fontSize: 'clamp(24px, 4.2vw, 48px)', letterSpacing: '-1px', lineHeight: 1.1 }}>
+                      <span
+                        className="font-sans font-normal text-white/70 group-hover:text-white transition-colors duration-200 leading-none"
+                        style={{ fontSize: 'clamp(28px, 7vw, 52px)', letterSpacing: '-0.02em' }}
+                      >
                         {l.label}
                       </span>
+                      <motion.div className="w-10 h-10 rounded-full bg-[#6A1DB5]/20 border border-[#6A1DB5]/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
+                        <FiArrowUpRight size={16} className="text-[#6A1DB5]" />
+                      </motion.div>
                     </button>
                   )}
                 </motion.div>
               ))}
-           </nav>
-           </motion.div>
+            </nav>
+
+            {/* Bottom bar — CTA + socials */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 px-6 sm:px-10 py-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
+            >
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-3 bg-[#6A1DB5] hover:bg-[#4A1285] text-white font-sans font-semibold text-[13px] px-7 py-3.5 rounded-full transition-all duration-300 hover:shadow-[0_8px_28px_rgba(106,29,181,0.4)]"
+              >
+                Start a project
+                <span className="w-6 h-6 bg-white/15 rounded-full flex items-center justify-center">
+                  <FiArrowUpRight size={13} strokeWidth={2.5} />
+                </span>
+              </Link>
+
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#C8F139] inline-block" />
+                <span className="text-[11px] font-sans font-bold uppercase tracking-[0.12em] text-white/30">Available for new projects</span>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

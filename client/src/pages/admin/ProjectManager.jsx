@@ -24,6 +24,7 @@ const ProjectManager = () => {
     featured: false
   });
   const [imageFile, setImageFile] = useState(null);
+  const [innerImageFile, setInnerImageFile] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -49,7 +50,9 @@ const ProjectManager = () => {
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const { name, files } = e.target;
+    if (name === 'image') setImageFile(files[0]);
+    if (name === 'innerImage') setInnerImageFile(files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -57,6 +60,7 @@ const ProjectManager = () => {
     const data = new FormData();
     Object.keys(formData).forEach(key => data.append(key, formData[key]));
     if (imageFile) data.append('image', imageFile);
+    if (innerImageFile) data.append('innerImage', innerImageFile);
 
     try {
       if (editingId) {
@@ -122,6 +126,7 @@ const ProjectManager = () => {
       featured: false
     });
     setImageFile(null);
+    setInnerImageFile(null);
   };
 
   if (loading) return <div className="text-center py-12 text-black/40">Loading projects...</div>;
@@ -297,13 +302,32 @@ const ProjectManager = () => {
                 <div className="relative group">
                   <input
                     type="file"
+                    name="image"
                     onChange={handleFileChange}
                     accept="image/*"
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   <div className="w-full bg-white border-2 border-dashed border-black/[0.1] rounded-[20px] px-5 py-4 text-center group-hover:border-[#6A1DB5] transition-all">
                     <span className="text-[14px] text-black/40 group-hover:text-black transition-colors">
-                      {imageFile ? imageFile.name : 'Click to upload image'}
+                      {imageFile ? imageFile.name : 'Click to upload cover image'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Inner Image (Description)</label>
+                <div className="relative group">
+                  <input
+                    type="file"
+                    name="innerImage"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
+                  <div className="w-full bg-white border-2 border-dashed border-black/[0.1] rounded-[20px] px-5 py-4 text-center group-hover:border-[#6A1DB5] transition-all">
+                    <span className="text-[14px] text-black/40 group-hover:text-black transition-colors">
+                      {innerImageFile ? innerImageFile.name : 'Click to upload inner image'}
                     </span>
                   </div>
                 </div>

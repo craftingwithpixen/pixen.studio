@@ -157,6 +157,22 @@ export default function CaseStudyDetail() {
           </div>
         </div>
 
+        {project.innerImage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mt-10 sm:mt-14 rounded-[6px] overflow-hidden border border-[#6A1DB5]/20 bg-[#F5F3FF]"
+          >
+            <img
+              src={project.innerImage}
+              alt={`${project.title} inner details`}
+              className="w-full h-auto object-cover"
+            />
+          </motion.div>
+        )}
+
         <div className="mt-8 sm:mt-10 flex flex-wrap gap-2">
           {project.tags?.map((tag) => (
             <span
