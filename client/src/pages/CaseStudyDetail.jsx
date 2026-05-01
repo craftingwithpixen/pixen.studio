@@ -113,47 +113,48 @@ export default function CaseStudyDetail() {
           )}
         </motion.div>
 
-        {/* Project Overview / Detailed Description */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-            <div className="md:col-span-2 space-y-6">
-                <h2 className="text-[28px] font-semibold tracking-tight text-black flex items-center gap-3">
-                    <span className="w-1 h-8 bg-[#6A1DB5] rounded-full"></span>
-                    Project Overview
-                </h2>
-                <div className="text-[16px] text-black/70 leading-[1.8] space-y-4">
-                    {project.detailedDescription?.split('\n').map((p, i) => <p key={i}>{p}</p>) || <p>{project.description}</p>}
-                </div>
-            </div>
-            <div className="space-y-8 bg-[#F8F7FF] p-8 rounded-[20px] border border-[#6A1DB5]/5 self-start">
-                <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3">Tech Stack</h4>
-                    <div className="flex flex-wrap gap-2">
-                        {project.techStack?.map(tech => (
-                            <span key={tech} className="px-2 py-1 bg-white border border-[#6A1DB5]/10 rounded text-[11px] font-medium text-[#6A1DB5]">{tech}</span>
-                        ))}
-                    </div>
-                </div>
-                <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3">Core Features</h4>
-                    <ul className="space-y-2">
-                        {project.features?.map(feature => (
-                            <li key={feature} className="text-[13px] text-black/60 flex items-start gap-2">
-                                <FiCheckCircle className="text-[#6A1DB5] mt-0.5 shrink-0" size={14} />
-                                {feature}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="flex flex-col gap-3">
-                    {project.liveUrl && (
-                        <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-3 bg-[#6A1DB5] text-white rounded-[12px] text-[13px] font-bold hover:bg-[#6A1DB5]/90 transition-all">
-                            <FiExternalLink /> Live Preview
-                        </a>
-                    )}
-
-                </div>
+        {/* Project Overview */}
+        <div className="space-y-6 mb-16">
+            <h2 className="text-[28px] font-semibold tracking-tight text-black flex items-center gap-3">
+                <span className="w-1 h-8 bg-[#6A1DB5] rounded-full"></span>
+                Project Overview
+            </h2>
+            <div className="text-[16px] text-black/70 leading-[1.8] space-y-4">
+                {project.detailedDescription?.split('\n').map((p, i) => <p key={i}>{p}</p>) || <p>{project.description}</p>}
             </div>
         </div>
+
+        {/* Tech Stack & Core Features Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div className="bg-[#F8F7FF] p-8 rounded-[24px] border border-[#6A1DB5]/5 flex flex-col">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-6">Tech Stack</h4>
+                <div className="flex flex-wrap gap-2">
+                    {project.techStack?.map(tech => (
+                        <span key={tech} className="px-3 py-1.5 bg-white border border-[#6A1DB5]/10 rounded-lg text-[12px] font-medium text-[#6A1DB5] shadow-sm">{tech}</span>
+                    ))}
+                </div>
+            </div>
+            <div className="bg-[#F8F7FF] p-8 rounded-[24px] border border-[#6A1DB5]/5 flex flex-col">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-6">Core Features</h4>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                    {project.features?.map(feature => (
+                        <li key={feature} className="text-[13px] text-black/60 flex items-start gap-2">
+                            <FiCheckCircle className="text-[#6A1DB5] mt-0.5 shrink-0" size={14} />
+                            {feature}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+
+        {/* Live Preview Button (If exists) */}
+        {project.liveUrl && (
+            <div className="mb-16">
+                <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-4 bg-[#6A1DB5] text-white rounded-[16px] text-[15px] font-bold hover:bg-[#6A1DB5]/90 transition-all shadow-xl shadow-[#6A1DB5]/20">
+                    <FiExternalLink /> View Live Project
+                </a>
+            </div>
+        )}
 
         {/* Case Study Content (if exists) */}
         {cs && (
