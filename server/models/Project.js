@@ -24,7 +24,7 @@ const ProjectSchema = new Schema(
 
     features: [{ type: String }],
 
-    githubUrl: { type: String },
+
     liveUrl: { type: String },
 
     thumbnail: { type: String },

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiGithub, FiExternalLink, FiCheckCircle, FiCpu, FiLayers, FiTrendingUp } from 'react-icons/fi';
+import { FiArrowLeft, FiExternalLink, FiCheckCircle, FiCpu, FiLayers, FiTrendingUp } from 'react-icons/fi';
 import api from '../utils/api';
 
 function getFallbackCopy(project) {
@@ -150,11 +150,7 @@ export default function CaseStudyDetail() {
                             <FiExternalLink /> Live Preview
                         </a>
                     )}
-                    {project.githubUrl && (
-                        <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-3 bg-black text-white rounded-[12px] text-[13px] font-bold hover:bg-black/80 transition-all">
-                            <FiGithub /> Source Code
-                        </a>
-                    )}
+
                 </div>
             </div>
         </div>

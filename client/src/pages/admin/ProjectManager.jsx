@@ -18,7 +18,7 @@ const ProjectManager = () => {
     shortDescription: '',
     detailedDescription: '',
     status: 'idea',
-    githubUrl: '',
+
     liveUrl: '',
     tags: '',
     techStack: '',
@@ -67,7 +67,7 @@ const ProjectManager = () => {
             shortDescription: json.shortDescription || '',
             detailedDescription: json.detailedDescription || '',
             status: json.status || 'idea',
-            githubUrl: json.githubUrl || '',
+
             liveUrl: json.liveUrl || '',
             tags: Array.isArray(json.tags) ? json.tags.join(', ') : (json.tags || ''),
             techStack: Array.isArray(json.techStack) ? json.techStack.join(', ') : (json.techStack || ''),
@@ -121,7 +121,7 @@ const ProjectManager = () => {
       status: "completed",
       shortDescription: "A brief pitch for the project.",
       detailedDescription: "A deep dive into the project's background and execution.",
-      githubUrl: "https://github.com/...",
+
       liveUrl: "https://...",
       tags: ["React", "UI/UX", "Vite"],
       techStack: ["React", "Tailwind CSS", "Node.js", "MongoDB"],
@@ -211,7 +211,7 @@ const ProjectManager = () => {
     const data = new FormData();
     
     // Project fields
-    const projectFields = ['title', 'category', 'type', 'shortDescription', 'detailedDescription', 'status', 'githubUrl', 'liveUrl', 'tags', 'techStack', 'features', 'isFeatured', 'order'];
+    const projectFields = ['title', 'category', 'type', 'shortDescription', 'detailedDescription', 'status', 'liveUrl', 'tags', 'techStack', 'features', 'isFeatured', 'order'];
     projectFields.forEach(key => data.append(key, formData[key]));
     
     if (thumbnailFile) data.append('thumbnail', thumbnailFile);
@@ -269,7 +269,7 @@ const ProjectManager = () => {
       shortDescription: project.shortDescription || '',
       detailedDescription: project.detailedDescription || '',
       status: project.status || 'idea',
-      githubUrl: project.githubUrl || '',
+
       liveUrl: project.liveUrl || '',
       tags: project.tags?.join(', ') || '',
       techStack: project.techStack?.join(', ') || '',
@@ -433,10 +433,6 @@ const ProjectManager = () => {
                         <div className="flex-1">
                             <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Live URL</label>
                             <input type="url" name="liveUrl" value={formData.liveUrl} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none" />
-                        </div>
-                        <div className="flex-1">
-                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">GitHub URL</label>
-                            <input type="url" name="githubUrl" value={formData.githubUrl} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none" />
                         </div>
                     </div>
                 </div>
