@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiGithub, FiExternalLink, FiCheckCircle, FiCpu, FiLayers, FiTrendingUp } from 'react-icons/fi';
 import api from '../utils/api';
 
 function getFallbackCopy(project) {
@@ -58,141 +58,282 @@ export default function CaseStudyDetail() {
     );
   }
 
+  const cs = project.caseStudy;
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#F5F3FF_0%,_#FFFFFF_45%,_#ECFFFA_100%)] pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-14 px-4 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="max-w-[860px] mx-auto bg-white rounded-[14px] border border-[#6A1DB5]/15 p-4 sm:p-6 md:p-8 shadow-[0_12px_40px_rgba(106,29,181,0.08)]"
+        className="max-w-[1000px] mx-auto bg-white rounded-[24px] border border-[#6A1DB5]/15 p-6 sm:p-10 md:p-12 shadow-[0_20px_50px_rgba(106,29,181,0.06)]"
       >
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.12em] text-black/50 mb-8 sm:mb-10 gap-4">
+        {/* Header */}
+        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.12em] text-black/50 mb-10 gap-4">
           <div className="font-semibold normal-case tracking-normal text-[26px] sm:text-[30px] leading-none text-[#6A1DB5]">
             pixen
           </div>
-          <div className="hidden sm:flex items-center gap-6">
-            <span>Showcase</span>
-            <span>Studio</span>
-            <span>Research</span>
-            <span>Journal</span>
-          </div>
-          <Link to="/our-work" className="text-[#6A1DB5] font-semibold hover:opacity-70 transition-opacity">
-            Close
+          <Link to="/our-work" className="flex items-center gap-2 text-[#6A1DB5] font-bold hover:opacity-70 transition-opacity">
+            <FiArrowLeft /> Back to Work
           </Link>
         </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-[42px] sm:text-[64px] md:text-[74px] font-semibold tracking-[-0.03em] leading-[0.92] text-[#0D0D0D] mb-5 sm:mb-6 uppercase"
-        >
-          {content.title}
-        </motion.h1>
-
-        <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.1em] text-[#6A1DB5]/80 mb-3">
-          Category: {project.category || 'Project'}<br />
-          Plan label: {project.type || 'Experience'}
+        <div className="mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6A1DB5]/5 border border-[#6A1DB5]/10 text-[#6A1DB5] text-[10px] font-bold uppercase tracking-wider mb-4">
+                {project.category} • {project.status}
+            </div>
+            <motion.h1
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="text-[48px] sm:text-[72px] md:text-[84px] font-semibold tracking-[-0.04em] leading-[0.9] text-[#0D0D0D] mb-6 uppercase"
+            >
+            {project.title}
+            </motion.h1>
+            <p className="text-[18px] sm:text-[22px] text-black/60 leading-relaxed font-light max-w-[700px]">
+                {project.shortDescription}
+            </p>
         </div>
 
+        {/* Main Image */}
         <motion.div
           initial={{ opacity: 0, scale: 0.985 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
-          className="rounded-[6px] overflow-hidden border border-[#6A1DB5]/20 bg-[#F5F3FF]"
+          className="rounded-[16px] overflow-hidden border border-[#6A1DB5]/10 bg-[#F5F3FF] mb-12 shadow-xl"
         >
-          {project.image ? (
+          {project.thumbnail || project.image ? (
             <img
-              src={project.image}
+              src={project.thumbnail || project.image}
               alt={project.title}
-              className="w-full h-[240px] sm:h-[320px] md:h-[420px] object-cover"
+              className="w-full h-auto max-h-[600px] object-cover"
             />
           ) : (
-            <svg viewBox="0 0 1200 620" className="w-full h-[240px] sm:h-[320px] md:h-[420px]">
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#6A1DB5" />
-                  <stop offset="55%" stopColor="#A178FA" />
-                  <stop offset="100%" stopColor="#00C2A8" />
-                </linearGradient>
-              </defs>
-              <rect width="1200" height="620" fill="url(#g1)" />
-              <rect x="0" y="420" width="1200" height="200" fill="#F5F3FF" />
-              <rect x="140" y="170" width="920" height="250" fill="#FFFFFF" opacity="0.26" />
-              <rect x="270" y="270" width="680" height="26" fill="#C8F139" />
-              <g fill="#F5F3FF">
-                <ellipse cx="240" cy="500" rx="45" ry="24" />
-                <ellipse cx="360" cy="500" rx="45" ry="24" />
-                <ellipse cx="480" cy="500" rx="45" ry="24" />
-                <ellipse cx="600" cy="500" rx="45" ry="24" />
-                <ellipse cx="720" cy="500" rx="45" ry="24" />
-                <ellipse cx="840" cy="500" rx="45" ry="24" />
-              </g>
-              <g fill="#6A1DB5" opacity="0.5">
-                <rect x="170" y="170" width="30" height="250" />
-                <rect x="1000" y="170" width="30" height="250" />
-              </g>
-              <g fill="#C8F139" opacity="0.95">
-                <circle cx="210" cy="135" r="36" />
-                <circle cx="1020" cy="140" r="36" />
-                <circle cx="600" cy="130" r="30" />
-              </g>
-            </svg>
+             <div className="aspect-video bg-gradient-to-br from-[#6A1DB5] to-[#A178FA] flex items-center justify-center text-white/20 font-bold text-6xl">PIXEN</div>
           )}
         </motion.div>
 
-        <div className="mt-3 sm:mt-4 grid grid-cols-2 gap-4 text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-[#6A1DB5]/75">
-          <div>Artisan brief</div>
-          <div className="text-right">Client x Pixen Studio</div>
+        {/* Project Overview / Detailed Description */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+            <div className="md:col-span-2 space-y-6">
+                <h2 className="text-[28px] font-semibold tracking-tight text-black flex items-center gap-3">
+                    <span className="w-1 h-8 bg-[#6A1DB5] rounded-full"></span>
+                    Project Overview
+                </h2>
+                <div className="text-[16px] text-black/70 leading-[1.8] space-y-4">
+                    {project.detailedDescription?.split('\n').map((p, i) => <p key={i}>{p}</p>) || <p>{project.description}</p>}
+                </div>
+            </div>
+            <div className="space-y-8 bg-[#F8F7FF] p-8 rounded-[20px] border border-[#6A1DB5]/5 self-start">
+                <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3">Tech Stack</h4>
+                    <div className="flex flex-wrap gap-2">
+                        {project.techStack?.map(tech => (
+                            <span key={tech} className="px-2 py-1 bg-white border border-[#6A1DB5]/10 rounded text-[11px] font-medium text-[#6A1DB5]">{tech}</span>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3">Core Features</h4>
+                    <ul className="space-y-2">
+                        {project.features?.map(feature => (
+                            <li key={feature} className="text-[13px] text-black/60 flex items-start gap-2">
+                                <FiCheckCircle className="text-[#6A1DB5] mt-0.5 shrink-0" size={14} />
+                                {feature}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="flex flex-col gap-3">
+                    {project.liveUrl && (
+                        <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-3 bg-[#6A1DB5] text-white rounded-[12px] text-[13px] font-bold hover:bg-[#6A1DB5]/90 transition-all">
+                            <FiExternalLink /> Live Preview
+                        </a>
+                    )}
+                    {project.githubUrl && (
+                        <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-3 bg-black text-white rounded-[12px] text-[13px] font-bold hover:bg-black/80 transition-all">
+                            <FiGithub /> Source Code
+                        </a>
+                    )}
+                </div>
+            </div>
         </div>
 
-        <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          <h2 className="text-[30px] sm:text-[38px] leading-[1.05] tracking-[-0.02em] text-black font-medium">
-            {content.subtitle}
-          </h2>
-          <div className="space-y-4 text-[14px] text-black/70 leading-[1.7]">
-            <p>{project.description || project.challenge || 'This project combines structure, clarity, and a premium visual language.'}</p>
-            <p>{project.solution || 'The layout is designed to feel clean and editorial while still keeping the content easy to scan.'}</p>
-            <p>{project.results || 'The final experience keeps the project story front and center while presenting the work in a refined format.'}</p>
-          </div>
-        </div>
+        {/* Case Study Content (if exists) */}
+        {cs && (
+            <div className="space-y-24 mt-20 pt-20 border-t border-[#6A1DB5]/10">
+                {/* Problem & Objectives */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    <div className="space-y-6">
+                        <h3 className="text-[24px] font-bold text-black flex items-center gap-3">
+                            <FiLayers className="text-[#6A1DB5]" />
+                            The Challenge
+                        </h3>
+                        <p className="text-black/70 leading-relaxed italic border-l-4 border-[#6A1DB5]/20 pl-6 py-2">
+                            "{cs.problemStatement}"
+                        </p>
+                        <div className="mt-8">
+                             <h4 className="text-[13px] font-bold uppercase tracking-widest text-black/40 mb-4">Key Challenges</h4>
+                             <ul className="space-y-3">
+                                {cs.challenges?.map((item, i) => (
+                                    <li key={i} className="text-[15px] text-black/65 flex items-start gap-3">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#6A1DB5] mt-2 shrink-0" />
+                                        {item}
+                                    </li>
+                                ))}
+                             </ul>
+                        </div>
+                    </div>
+                    <div className="space-y-6 bg-[#F5F3FF]/50 p-8 rounded-[24px] border border-[#6A1DB5]/5">
+                        <h3 className="text-[24px] font-bold text-black">Strategic Objectives</h3>
+                        <div className="space-y-4">
+                            {cs.objectives?.map((obj, i) => (
+                                <div key={i} className="flex items-center gap-4 p-4 bg-white rounded-[16px] shadow-sm border border-[#6A1DB5]/5">
+                                    <div className="w-8 h-8 rounded-full bg-[#6A1DB5]/10 flex items-center justify-center text-[#6A1DB5] font-bold text-[12px]">{i+1}</div>
+                                    <span className="text-[14px] font-medium text-black/80">{obj}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
 
-        {project.innerImage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mt-10 sm:mt-14 rounded-[6px] overflow-hidden border border-[#6A1DB5]/20 bg-[#F5F3FF]"
-          >
-            <img
-              src={project.innerImage}
-              alt={`${project.title} inner details`}
-              className="w-full h-auto object-cover"
-            />
-          </motion.div>
+                {/* Solutions */}
+                <div className="space-y-10">
+                    <div className="text-center max-w-[600px] mx-auto space-y-3">
+                         <h3 className="text-[32px] font-bold text-black">Proposed Solutions</h3>
+                         <p className="text-black/50 text-[15px]">We implemented a multi-faceted approach to address the core challenges.</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {cs.solutions?.map((sol, i) => (
+                            <div key={i} className="p-8 bg-white border border-[#6A1DB5]/10 rounded-[24px] hover:border-[#6A1DB5]/30 transition-all shadow-sm hover:shadow-md">
+                                <h4 className="text-[18px] font-bold text-[#6A1DB5] mb-3">{sol.title}</h4>
+                                <p className="text-[15px] text-black/60 leading-relaxed">{sol.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Architecture & Workflow */}
+                {cs.architecture?.diagram && (
+                    <div className="space-y-10">
+                        <h3 className="text-[28px] font-bold text-black flex items-center gap-3">
+                            <FiCpu className="text-[#6A1DB5]" />
+                            System Architecture
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+                            <div className="md:col-span-4 space-y-4">
+                                <p className="text-[16px] text-black/70 leading-relaxed">
+                                    {cs.architecture.description}
+                                </p>
+                            </div>
+                            <div className="md:col-span-8">
+                                <img src={cs.architecture.diagram} alt="Architecture" className="w-full rounded-[16px] border border-[#6A1DB5]/10 shadow-lg" />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Workflow */}
+                <div className="space-y-10">
+                    <h3 className="text-[28px] font-bold text-black">Product Workflow</h3>
+                    <div className="flex flex-col gap-6">
+                        {cs.workflow?.map((step, i) => (
+                            <div key={i} className="flex gap-6 items-start relative group">
+                                {i < cs.workflow.length - 1 && (
+                                    <div className="absolute left-[24px] top-12 bottom-[-1.5rem] w-0.5 bg-gradient-to-b from-[#6A1DB5]/20 to-transparent" />
+                                )}
+                                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center shrink-0 font-bold z-10 group-hover:bg-[#6A1DB5] transition-colors">
+                                    {i+1}
+                                </div>
+                                <div className="pt-2">
+                                    <h4 className="text-[18px] font-bold text-black mb-1">{step.step}</h4>
+                                    <p className="text-[15px] text-black/50 leading-relaxed">{step.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Results & Metrics */}
+                <div className="bg-black text-white p-10 sm:p-16 rounded-[32px] overflow-hidden relative">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#6A1DB5]/20 rounded-full blur-[100px] pointer-events-none" />
+                    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-5 space-y-6">
+                            <h3 className="text-[32px] font-bold leading-tight flex items-center gap-3">
+                                <FiTrendingUp className="text-[#C8F139]" />
+                                The Outcomes
+                            </h3>
+                            <p className="text-white/60 text-[16px] leading-relaxed">
+                                {cs.results?.summary}
+                            </p>
+                        </div>
+                        <div className="lg:col-span-7 grid grid-cols-2 gap-4 sm:gap-6">
+                            {cs.results?.metrics?.map((m, i) => (
+                                <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-[20px] backdrop-blur-sm text-center">
+                                    <div className="text-[32px] sm:text-[42px] font-bold text-[#C8F139] mb-1">{m.value}</div>
+                                    <div className="text-[10px] uppercase tracking-widest text-white/40 font-bold">{m.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Learnings & Future */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pb-10">
+                    <div className="space-y-6">
+                        <h4 className="text-[20px] font-bold text-black">Key Learnings</h4>
+                        <div className="flex flex-wrap gap-3">
+                            {cs.learnings?.map((l, i) => (
+                                <div key={i} className="px-4 py-3 bg-[#F8F7FF] border border-[#6A1DB5]/5 rounded-[16px] text-[14px] text-black/70 font-medium">
+                                    {l}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="space-y-6">
+                        <h4 className="text-[20px] font-bold text-black">Future Scope</h4>
+                        <ul className="space-y-3">
+                            {cs.futureScope?.map((f, i) => (
+                                <li key={i} className="text-[14px] text-black/60 flex items-center gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-green" />
+                                    {f}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         )}
 
-        <div className="mt-8 sm:mt-10 flex flex-wrap gap-2">
-          {project.tags?.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1.5 rounded-full bg-[#F5F3FF] border border-[#6A1DB5]/10 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#6A1DB5]"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        {/* Gallery / Images */}
+        {project.images?.length > 0 && (
+            <div className="mt-20 space-y-10">
+                <h3 className="text-[24px] font-bold text-black">Project Gallery</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {project.images.map((img, i) => (
+                        <div key={i} className="rounded-[12px] overflow-hidden border border-black/5">
+                            <img src={img} alt={`Gallery ${i}`} className="w-full h-auto" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
 
-        <div className="mt-8 flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.12em] text-black/45">
-          <span>{project.client?.name || 'Client x Pixen Studio'}</span>
-          {project.link ? (
-            <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-[#6A1DB5] font-semibold hover:opacity-70 transition-opacity">
-              View live site
-            </a>
-          ) : (
-            <span>Private project</span>
-          )}
+        {/* Footer info */}
+        <div className="mt-20 pt-10 border-t border-black/5 flex flex-wrap items-center justify-between gap-6 text-[11px] uppercase tracking-widest text-black/40 font-bold">
+            <div className="flex items-center gap-2">
+                <span>Created By:</span>
+                <span className="text-black">Pixen Studio</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <span>Last Updated:</span>
+                <span className="text-black">{new Date(project.updatedAt).toLocaleDateString()}</span>
+            </div>
+            <div className="flex gap-4">
+                {project.tags?.map(tag => (
+                    <span key={tag}>#{tag}</span>
+                ))}
+            </div>
         </div>
       </motion.div>
     </div>

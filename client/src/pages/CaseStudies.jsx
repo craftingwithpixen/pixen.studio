@@ -229,14 +229,20 @@ export default function CaseStudies() {
                         </span>
                       </h3>
                       <p className="mt-3 text-[13px] sm:text-[14px] leading-[1.7] text-black/45 font-light max-w-[280px]">
-                        {project.description}
+                        {project.shortDescription}
                       </p>
                     </Link>
 
                     <Link to={`/our-work/case-study/${project.slug}`} className="lg:col-span-9 block group/pill">
                       <div className={`h-[200px] sm:h-[220px] md:h-[240px] w-full rounded-[999px] bg-gradient-to-r ${gradient} p-[3px] overflow-hidden`}>
                         <div className="relative h-full w-full rounded-[999px] overflow-hidden group-hover/pill:scale-[1.008] transition-transform duration-500">
-                         
+                          {(project.thumbnail || project.image) && (
+                            <img
+                              src={project.thumbnail || project.image}
+                              alt={project.title}
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                          )}
 
                           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/10" />
 

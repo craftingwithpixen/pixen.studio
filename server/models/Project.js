@@ -1,34 +1,53 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const projectSchema = new mongoose.Schema(
+const ProjectSchema = new Schema(
   {
-    title: { type: String, required: true, trim: true },
+    title: { type: String, required: true },
+    slug: { type: String, unique: true },
     category: { 
       type: String, 
-      required: true, 
       enum: ['MVP', 'Our Products', 'Client Project'],
       default: 'Client Project' 
     },
-    description: { type: String, trim: true },
-    challenge: { type: String, trim: true },
-    solution: { type: String, trim: true },
-    results: { type: String, trim: true },
-    image: { type: String },
-    innerImage: { type: String },
-    gallery: [{ type: String }],
-    tags: [{ type: String }],
-    link: { type: String },
-    client: {
-      name: { type: String },
-      role: { type: String },
-      feedback: { type: String }
-    },
-    slug: { type: String, unique: true, trim: true },
     type: { type: String, enum: ['in project', 'showcase'], default: 'in project' },
-    order: { type: Number, default: 0 },
-    featured: { type: Boolean, default: false },
+    shortDescription: { type: String },
+    detailedDescription: { type: String },
+
+    status: {
+      type: String,
+      enum: ["idea", "in-progress", "completed"],
+      default: "idea",
+    },
+
+    techStack: [{ type: String }], // ["React", "Node", "MongoDB"]
+
+    features: [{ type: String }],
+
+    githubUrl: { type: String },
+    liveUrl: { type: String },
+
+    thumbnail: { type: String },
+    images: [{ type: String }],
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
+    caseStudy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CaseStudy",
+    },
+
+    tags: [{ type: String }],
+
+    isFeatured: { type: Boolean, default: false },
+    
+    // Keeping category and type for compatibility if needed, or just follow user's new schema strictly
+    // The user said "take reference... and modify", so I will follow their schema.
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model("Project", ProjectSchema);
