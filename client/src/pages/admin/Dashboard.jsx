@@ -6,20 +6,15 @@ import ProjectManager from './ProjectManager';
 import TestimonialManager from './TestimonialManager';
 import toast from 'react-hot-toast';
 
+import { useAuth } from '../../context/AuthContext';
+
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('projects');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('pixen_admin_token');
-    if (!token) {
-      navigate('/admin/login');
-    }
-  }, [navigate]);
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('pixen_admin_token');
-    toast.success('Safe travels!');
+    logout();
     navigate('/admin/login');
   };
 

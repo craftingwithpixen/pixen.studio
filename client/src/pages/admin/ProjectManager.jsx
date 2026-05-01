@@ -46,6 +46,122 @@ const ProjectManager = () => {
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [diagramFile, setDiagramFile] = useState(null);
 
+  const handleBulkUpload = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    const jsonFile = files.find(f => f.name.endsWith('.json') || f.type === 'application/json');
+    const imageFiles = files.filter(f => f.type.startsWith('image/'));
+
+    if (jsonFile) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const json = JSON.parse(event.target.result);
+          
+          const newFormData = {
+            ...initialFormState,
+            title: json.title || '',
+            category: json.category || 'Client Project',
+            type: json.type || 'in project',
+            shortDescription: json.shortDescription || '',
+            detailedDescription: json.detailedDescription || '',
+            status: json.status || 'idea',
+            githubUrl: json.githubUrl || '',
+            liveUrl: json.liveUrl || '',
+            tags: Array.isArray(json.tags) ? json.tags.join(', ') : (json.tags || ''),
+            techStack: Array.isArray(json.techStack) ? json.techStack.join(', ') : (json.techStack || ''),
+            features: Array.isArray(json.features) ? json.features.join(', ') : (json.features || ''),
+            isFeatured: !!json.isFeatured,
+            order: json.order || 0,
+            cs_overview: json.caseStudy?.overview || '',
+            cs_problemStatement: json.caseStudy?.problemStatement || '',
+            cs_objectives: json.caseStudy?.objectives || [],
+            cs_targetUsers: json.caseStudy?.targetUsers || [],
+            cs_challenges: json.caseStudy?.challenges || [],
+            cs_solutions: json.caseStudy?.solutions || [],
+            cs_arch_description: json.caseStudy?.arch_description || '',
+            cs_techDetails: json.caseStudy?.techDetails || [],
+            cs_workflow: json.caseStudy?.workflow || [],
+            cs_results_metrics: json.caseStudy?.results_metrics || [],
+            cs_results_summary: json.caseStudy?.results_summary || '',
+            cs_learnings: json.caseStudy?.learnings || [],
+            cs_futureScope: json.caseStudy?.futureScope || []
+          };
+
+          setFormData(newFormData);
+
+          if (imageFiles.length > 0) {
+            const thumb = imageFiles.find(f => f.name.toLowerCase().includes('thumb') || f.name.toLowerCase().includes('cover')) || imageFiles[0];
+            setThumbnailFile(thumb);
+            const gallery = imageFiles.filter(f => f !== thumb);
+            setGalleryFiles(gallery);
+            toast.success(`Project loaded with ${imageFiles.length} images!`);
+            setActiveTab('basic');
+          } else {
+            toast.success('Information loaded! Now select your images.');
+            setActiveTab('media');
+          }
+        } catch (err) {
+          toast.error('Invalid JSON format');
+        }
+      };
+      reader.readAsText(jsonFile);
+    } else {
+      toast.error('Please include a .json file for bulk upload');
+    }
+    e.target.value = '';
+  };
+
+  const downloadTemplate = () => {
+    const template = {
+      title: "Sample Project Name",
+      category: "Client Project",
+      type: "in project",
+      status: "completed",
+      shortDescription: "A brief pitch for the project.",
+      detailedDescription: "A deep dive into the project's background and execution.",
+      githubUrl: "https://github.com/...",
+      liveUrl: "https://...",
+      tags: ["React", "UI/UX", "Vite"],
+      techStack: ["React", "Tailwind CSS", "Node.js", "MongoDB"],
+      features: ["Real-time Sync", "Multi-user Auth", "Cloud Storage"],
+      isFeatured: true,
+      order: 1,
+      caseStudy: {
+        overview: "Detailed overview of the case study.",
+        problemStatement: "The problem this project aimed to solve.",
+        objectives: ["Objective 1", "Objective 2"],
+        targetUsers: ["Developers", "Students"],
+        challenges: ["Technical Hurdle 1", "Performance Optimization"],
+        solutions: [
+          { title: "Architecture", description: "Implemented a microservices architecture." }
+        ],
+        arch_description: "System design details...",
+        techDetails: [
+          { title: "Frontend", description: "Built with React and Framer Motion." }
+        ],
+        workflow: [
+          { step: "Discovery", description: "Initial research and wireframing." }
+        ],
+        results_metrics: [
+          { label: "Performance", value: "99%" }
+        ],
+        results_summary: "Overall success summary.",
+        learnings: ["Learning 1", "Learning 2"],
+        futureScope: ["Feature A", "Expansion B"]
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'project_template.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -215,6 +331,30 @@ const ProjectManager = () => {
                 <span className="w-1.5 h-10 bg-[#6A1DB5] rounded-full"></span>
                 {editingId ? 'Refine Project' : 'New Creation'}
             </h2>
+            <div className="flex items-center gap-3">
+                <button 
+                  type="button" 
+                  onClick={downloadTemplate}
+                  className="px-4 py-2 bg-black/5 text-black/40 rounded-xl text-[10px] font-bold uppercase hover:bg-black/10 transition-all flex items-center gap-2"
+                >
+                  Template
+                </button>
+                <div className="relative">
+                  <input 
+                    type="file" 
+                    multiple
+                    onChange={handleBulkUpload} 
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    title="Upload JSON + Images"
+                  />
+                  <button 
+                    type="button"
+                    className="px-4 py-2 bg-[#6A1DB5]/10 text-[#6A1DB5] rounded-xl text-[10px] font-bold uppercase hover:bg-[#6A1DB5]/20 transition-all flex items-center gap-2"
+                  >
+                    Bulk Upload
+                  </button>
+                </div>
+            </div>
             <div className="flex bg-[#F5F3FF] p-1 rounded-2xl border border-[#6A1DB5]/10">
                 {[
                     {id: 'basic', label: 'Basic', icon: <FiFileText />},
@@ -250,18 +390,25 @@ const ProjectManager = () => {
                         <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Project Title</label>
                         <input type="text" name="title" required value={formData.title} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:ring-4 focus:ring-[#6A1DB5]/5 focus:border-[#6A1DB5] outline-none transition-all" />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                         <div>
                             <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Category</label>
-                            <select name="category" value={formData.category} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none transition-all">
+                            <select name="category" value={formData.category} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none transition-all text-xs">
                                 <option value="MVP">MVP</option>
                                 <option value="Our Products">Our Products</option>
                                 <option value="Client Project">Client Project</option>
                             </select>
                         </div>
                         <div>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Type</label>
+                            <select name="type" value={formData.type} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none transition-all text-xs">
+                                <option value="in project">In Project</option>
+                                <option value="showcase">Showcase</option>
+                            </select>
+                        </div>
+                        <div>
                             <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Status</label>
-                            <select name="status" value={formData.status} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none transition-all">
+                            <select name="status" value={formData.status} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none transition-all text-xs">
                                 <option value="idea">Idea</option>
                                 <option value="in-progress">In Progress</option>
                                 <option value="completed">Completed</option>
@@ -476,6 +623,36 @@ const ProjectManager = () => {
                             ))}
                         </div>
                         <textarea placeholder="Results summary..." name="cs_results_summary" value={formData.cs_results_summary} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none h-24" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-6 border-t border-black/5">
+                        {/* Key Learnings */}
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-black/40">Key Learnings</label>
+                                <button type="button" onClick={() => addArrayItem('cs_learnings')} className="p-1.5 bg-[#6A1DB5]/5 text-[#6A1DB5] rounded-lg hover:bg-[#6A1DB5]/10"><FiPlus size={14} /></button>
+                            </div>
+                            {formData.cs_learnings.map((item, i) => (
+                                <div key={i} className="flex gap-2">
+                                    <input value={item} onChange={(e) => handleArrayChange('cs_learnings', i, e.target.value)} className="flex-1 bg-[#F8F7FF] border border-black/5 rounded-xl px-4 py-2.5 text-[14px]" />
+                                    <button type="button" onClick={() => removeArrayItem('cs_learnings', i)} className="text-black/20 hover:text-red-500"><FiX /></button>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Future Scope */}
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-black/40">Future Scope</label>
+                                <button type="button" onClick={() => addArrayItem('cs_futureScope')} className="p-1.5 bg-[#6A1DB5]/5 text-[#6A1DB5] rounded-lg hover:bg-[#6A1DB5]/10"><FiPlus size={14} /></button>
+                            </div>
+                            {formData.cs_futureScope.map((item, i) => (
+                                <div key={i} className="flex gap-2">
+                                    <input value={item} onChange={(e) => handleArrayChange('cs_futureScope', i, e.target.value)} className="flex-1 bg-[#F8F7FF] border border-black/5 rounded-xl px-4 py-2.5 text-[14px]" />
+                                    <button type="button" onClick={() => removeArrayItem('cs_futureScope', i)} className="text-black/20 hover:text-red-500"><FiX /></button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </motion.div>
             )}
