@@ -280,32 +280,28 @@ export default function Hero() {
           <div className="hidden md:flex md:col-span-6 lg:col-span-3 flex-col justify-end">
             <motion.div
               style={{ x: x3, y: y3, rotate: r3 }}
-              className="min-h-[260px] lg:h-[300px] bg-[#C8F139] rounded-[28px] sm:rounded-[36px] p-6 sm:p-9 pb-9 text-black relative flex flex-col justify-between text-center mt-8 sm:mt-10 lg:mt-0 shadow-[0_16px_48px_rgba(200,241,57,0.25)] overflow-hidden group"
+              className="min-h-[260px] lg:h-[300px] bg-[#C8F139] rounded-[28px] sm:rounded-[36px] p-6 sm:p-9 pb-9 text-black relative flex flex-col justify-between text-center mt-8 sm:mt-10 lg:mt-0 shadow-[0_16px_48px_rgba(200,241,57,0.25)]"
             >
               {/* Floating badge */}
-              <div className="absolute -top-7 left-1/2 -translate-x-1/2 w-[60px] h-[60px] bg-white rounded-full shadow-[0_12px_28px_rgba(0,0,0,0.1)] flex items-center justify-center z-10">
-                <div className="relative flex flex-col items-center gap-0.5 opacity-75">
-                  <div className="w-2.5 h-2.5 bg-black rounded-full" />
-                  <div className="w-5 h-2.5 bg-black rounded-full" />
+              <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-gradient-to-br from-[#00D9FF] to-[#00B8D4] rounded-full shadow-[0_20px_50px_rgba(0,217,255,0.35)] flex items-center justify-center z-10 border border-[#00E8FF]/50">
+                <div className="relative flex flex-col items-center gap-1.5">
+                  <FiZap size={24} className="text-white" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* wave doodle */}
-              <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none" viewBox="0 0 200 200" aria-hidden>
+              <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none rounded-[28px] sm:rounded-[36px]" viewBox="0 0 200 200" aria-hidden>
                 <path fill="none" stroke="black" strokeWidth="7" d="M10,120 Q50,40 100,120 T190,120" />
                 <path fill="none" stroke="black" strokeWidth="7" d="M30,160 Q80,80 130,160" />
               </svg>
 
-              {/* hover shine */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: 'radial-gradient(circle at 70% 30%, rgba(255,255,255,0.3) 0%, transparent 60%)' }} />
-
-              <div className="relative z-10 flex-1 flex flex-col items-center justify-end pb-2">
-                <p className="text-[11px] font-bold opacity-60 mb-3 font-sans tracking-[0.15em] uppercase">Proven track record</p>
-                <h3 className="text-[26px] sm:text-[28px] md:text-[30px] font-sans font-bold tracking-tight leading-[1.0]">
-                  158+ successful<br />projects!
-                </h3>
-              </div>
+             
+                <div className="relative z-10 flex-1 flex flex-col items-center justify-end pb-2">
+                  <p className="text-[11px] font-bold opacity-60 mb-3 font-sans tracking-[0.15em] uppercase">Proven track record</p>
+                  <h3 className="text-[26px] sm:text-[28px] md:text-[30px] font-sans font-bold tracking-tight leading-[1.0]">
+                    158+ successful<br />projects!
+                  </h3>
+                </div>
 
               {/* mini stat row */}
               <div className="relative z-10 flex justify-center gap-6 mt-5 pt-4 border-t border-black/10">

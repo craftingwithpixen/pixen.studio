@@ -116,18 +116,18 @@ export default function Process() {
                         transition={{ duration: 0.5, delay: i * 0.1 + 0.6 }}
                         className="absolute text-left"
                         style={{
-                          left: 'calc(50% + 15px)',
+                          left: 'calc(50% + 10px)',
                           top: `calc(50% + ${item.drop === 'long' ? 275 : 125}px + 10px)`,
                           width: '180px'
                         }}
                       >
                         <h3
-                          className="font-sans font-bold text-[15px] mb-2 text-black"
+                          className="font-sans font-bold text-[18px] mb-2 text-black"
                           style={{ color: '#000' }}
                         >
                           {item.step.title}
                         </h3>
-                        <p className="text-black text-[12px] leading-[1.6]">
+                        <p className="text-black/60 text-[14px] leading-[1.65]">
                           {item.step.desc}
                         </p>
                       </motion.div>
@@ -150,7 +150,7 @@ export default function Process() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="relative flex items-start gap-4 sm:gap-6"
+                  className="relative flex items-start gap-3 sm:gap-4"
                 >
                   <div className="flex flex-col items-center gap-2 mt-0.5">
                     <div
@@ -165,10 +165,10 @@ export default function Process() {
                   </div>
 
                   <div className="flex flex-col min-w-0 pr-1">
-                    <h3 className="font-sans font-bold text-[16px] sm:text-[18px] mb-2 text-black" style={{ color: '#000' }}>
+                    <h3 className="font-sans font-bold text-[18px] sm:text-[20px] mb-2 text-black" style={{ color: '#000' }}>
                       {item.step.title}
                     </h3>
-                    <p className="text-black text-[13px] sm:text-[14px] leading-[1.6] max-w-[34ch]">
+                    <p className="text-black/60 text-[14px] sm:text-[16px] leading-[1.6] max-w-[34ch]">
                       {item.step.desc}
                     </p>
                   </div>

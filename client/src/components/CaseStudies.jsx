@@ -87,8 +87,8 @@ export default function CaseStudies() {
                 className="rounded-[32px] p-8 relative flex flex-col overflow-hidden min-h-[460px] border group bg-[#6A1DB5] border-[#6A1DB5]/20"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
-                   <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
-                   <div className="absolute inset-0 bg-black/60" />
+                  <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
+                  <div className="absolute inset-0 bg-black/60" />
                 </div>
                 <div className="flex items-center justify-between mb-5 z-10 relative">
                   <span
@@ -133,31 +133,32 @@ export default function CaseStudies() {
               {smallCards.map((sc, i) => {
                 const colors = cardColors[i % cardColors.length];
                 return (
-                <Reveal key={i} delay={i * 0.08}>
-                  <Link
-                    to={`/our-work/case-study/${sc.slug}`}
-                    className={`rounded-[28px] p-6 min-w-[252px] max-w-[252px] min-h-[280px] relative overflow-hidden flex flex-col justify-between group shrink-0 border transition-all`}
-                    style={{ backgroundColor: colors.bg, borderColor: colors.bg }}
-                  >
-                    <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
-                      <div className="absolute inset-0 bg-black/60" />
-                    </div>
-                    <div className={`z-10 relative ${colors.text} group-hover:text-white transition-colors duration-300`}>
-                      <span
-                        className={`inline-block text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-4 border ${colors.badgeBg} ${colors.badgeText} ${colors.border} group-hover:bg-white/10 group-hover:text-white group-hover:border-white/10 transition-all`}
-                      >
-                        {sc.category}
-                      </span>
-                      <p className={`text-[11px] font-bold uppercase tracking-[0.1em] mb-1.5 ${colors.muted} group-hover:text-white/60`}>{sc.title}</p>
-                      <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[17px]">{sc.title}</h4>
-                    </div>
-                    <div className={`z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold ${colors.iconColor} group-hover:text-[#C8F139] transition-colors`}>
-                      View project <FiArrowUpRight size={13} strokeWidth={2.5} />
-                    </div>
-                  </Link>
-                </Reveal>
-              )})}
+                  <Reveal key={i} delay={i * 0.08}>
+                    <Link
+                      to={`/our-work/case-study/${sc.slug}`}
+                      className={`rounded-[28px] p-6 min-w-[252px] max-w-[252px] min-h-[280px] relative overflow-hidden flex flex-col justify-between group shrink-0 border transition-all`}
+                      style={{ backgroundColor: colors.bg, borderColor: colors.bg }}
+                    >
+                      <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
+                        <div className="absolute inset-0 bg-black/60" />
+                      </div>
+                      <div className={`z-10 relative ${colors.text} group-hover:text-white transition-colors duration-300`}>
+                        <span
+                          className={`inline-block text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-4 border ${colors.badgeBg} ${colors.badgeText} ${colors.border} group-hover:bg-white/10 group-hover:text-white group-hover:border-white/10 transition-all`}
+                        >
+                          {sc.category}
+                        </span>
+                        <p className={`text-[11px] font-bold uppercase tracking-[0.1em] mb-1.5 ${colors.muted} group-hover:text-white/60`}>{sc.title}</p>
+                        <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[17px]">{sc.title}</h4>
+                      </div>
+                      <div className={`z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold ${colors.iconColor} group-hover:text-[#C8F139] transition-colors`}>
+                        View project <FiArrowUpRight size={13} strokeWidth={2.5} />
+                      </div>
+                    </Link>
+                  </Reveal>
+                )
+              })}
             </div>
 
             <Reveal delay={0.15} className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-2">
@@ -181,8 +182,8 @@ export default function CaseStudies() {
               className="rounded-[28px] p-6 sm:p-8 relative flex flex-col overflow-hidden min-h-[360px] sm:min-h-[420px] border bg-[#6A1DB5] border-[#6A1DB5]/20 group"
             >
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
-                 <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
-                 <div className="absolute inset-0 bg-black/60" />
+                <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-black/60" />
               </div>
               <div className="flex items-center justify-between mb-4 z-10 relative">
                 <span className="text-[10px] font-black uppercase tracking-[0.14em] px-3 py-1.5 rounded-full text-white bg-white/10 border border-white/10 group-hover:bg-white/10">
@@ -209,34 +210,35 @@ export default function CaseStudies() {
             {smallCards.map((sc, i) => {
               const colors = cardColors[i % cardColors.length];
               return (
-              <Reveal key={i} delay={i * 0.07}>
-                <Link
-                  to={`/our-work/case-study/${sc.slug}`}
-                  className="rounded-[24px] p-5 sm:p-6 relative overflow-hidden flex flex-col justify-between group min-h-[220px] border transition-all"
-                  style={{ backgroundColor: colors.bg, borderColor: colors.bg }}
-                >
-                  <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-black/60" />
-                  </div>
-                  <div className={`z-10 relative ${colors.text} group-hover:text-white transition-colors duration-300`}>
-                    <span
-                      className={`inline-block text-[9px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-3 border ${colors.badgeBg} ${colors.badgeText} ${colors.border} group-hover:bg-white/10 group-hover:text-white group-hover:border-white/10`}
-                    >
-                      {sc.category}
-                    </span>
-                    <p className={`text-[10px] font-bold uppercase tracking-[0.1em] mb-1 ${colors.muted} group-hover:text-white/60`}>{sc.title}</p>
-                    <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[16px]">{sc.title}</h4>
-                  </div>
-                  <div className={`z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold ${colors.iconColor} group-hover:text-[#C8F139] transition-colors`}>
-                    View project <FiArrowUpRight size={12} strokeWidth={2.5} />
-                  </div>
-                  <div className="absolute bottom-0 right-0 w-[50%] h-[50%] opacity-10 mix-blend-multiply rounded-tl-[24px] overflow-hidden z-0 group-hover:opacity-0 transition-opacity duration-300">
-                    <img src={sc.image} className="w-full h-full object-cover object-top" alt={sc.title} />
-                  </div>
-                </Link>
-              </Reveal>
-            )})}
+                <Reveal key={i} delay={i * 0.07}>
+                  <Link
+                    to={`/our-work/case-study/${sc.slug}`}
+                    className="rounded-[24px] p-5 sm:p-6 relative overflow-hidden flex flex-col justify-between group min-h-[220px] border transition-all"
+                    style={{ backgroundColor: colors.bg, borderColor: colors.bg }}
+                  >
+                    <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-black/60" />
+                    </div>
+                    <div className={`z-10 relative ${colors.text} group-hover:text-white transition-colors duration-300`}>
+                      <span
+                        className={`inline-block text-[9px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full mb-3 border ${colors.badgeBg} ${colors.badgeText} ${colors.border} group-hover:bg-white/10 group-hover:text-white group-hover:border-white/10`}
+                      >
+                        {sc.category}
+                      </span>
+                      <p className={`text-[10px] font-bold uppercase tracking-[0.1em] mb-1 ${colors.muted} group-hover:text-white/60`}>{sc.title}</p>
+                      <h4 className="font-sans font-semibold leading-[1.2] tracking-tight text-[16px]">{sc.title}</h4>
+                    </div>
+                    <div className={`z-10 relative mt-4 inline-flex items-center gap-1.5 text-[12px] font-bold ${colors.iconColor} group-hover:text-[#C8F139] transition-colors`}>
+                      View project <FiArrowUpRight size={12} strokeWidth={2.5} />
+                    </div>
+                    <div className="absolute bottom-0 right-0 w-[50%] h-[50%] opacity-10 mix-blend-multiply rounded-tl-[24px] overflow-hidden z-0 group-hover:opacity-0 transition-opacity duration-300">
+                      <img src={sc.image} className="w-full h-full object-cover object-top" alt={sc.title} />
+                    </div>
+                  </Link>
+                </Reveal>
+              )
+            })}
           </div>
 
           <Reveal className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">

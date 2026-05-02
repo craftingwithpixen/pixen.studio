@@ -61,20 +61,14 @@ export default function CaseStudies() {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-7"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-purple/5 border border-brand-purple/10 text-brand-purple text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] mb-6">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-purple opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-purple" />
-                </span>
-                Our Creative Portfolio
-              </div>
+           
 
               <h1
-                className="font-sans font-light leading-[1.02] tracking-[-0.03em]"
+                className="font-sans font-semibold leading-[1.02] tracking-[-0.04em]"
                 style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}
               >
                 Transforming{' '}
-                <span className="font-medium text-[#6A1DB5]">Inspiration</span>
+                <span className="font-semibold text-[#6A1DB5]">Inspiration</span>
                 <br />
                 into Innovation
               </h1>
@@ -95,16 +89,16 @@ export default function CaseStudies() {
               transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-3 lg:row-start-2"
             >
-              <h3 className="font-sans font-medium text-[20px] sm:text-[22px] leading-[1.2] tracking-[-0.02em]">
+              <h3 className="font-sans font-semibold text-[20px] sm:text-[22px] leading-[1.2] tracking-[-0.03em]">
                 Unleash Your Creativity
               </h3>
-              <p className="mt-3 text-[13px] leading-[1.7] text-black/50 font-light max-w-[240px]">
+              <p className="mt-3 text-[13px] leading-[1.7] text-black/50 font-sans font-normal max-w-[240px]">
                 We turn abstract ideas into polished interfaces and products that feel clear, modern, and memorable.
               </p>
               <div className="mt-5">
                 <Link
                   to="/our-work"
-                  className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#6A1DB5] hover:gap-2.5 transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#6A1DB5] hover:gap-2.5 transition-all duration-200 font-sans"
                 >
                   View case collection
                   <FiArrowUpRight size={14} strokeWidth={2.5} />
@@ -166,103 +160,113 @@ export default function CaseStudies() {
           </div>
         </section>
 
-        <section className="pb-20 sm:pb-28">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 sm:mb-14">
+        <section className="pb-32 sm:pb-48">
+          {/* ── CATEGORY FILTERS ────────────────────────── */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-20 sm:mb-28">
             {categoryOrder.map((category) => (
               <button
                 key={category}
                 type="button"
                 onClick={() => setActiveCategory(category)}
-                className={`relative px-4 py-2 md:px-7 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.18em] transition-colors duration-200 ${
-                  activeCategory === category ? 'text-white' : 'text-black/40 hover:text-black'
+                className={`relative px-8 py-3.5 md:px-11 md:py-4.5 rounded-full text-[10px] md:text-[11px] font-sans font-bold uppercase tracking-[0.25em] transition-all duration-300 ${
+                  activeCategory === category 
+                    ? 'text-white' 
+                    : 'text-black/30 hover:text-black border border-black/[0.03] hover:border-black/10 hover:bg-black/[0.01]'
                 }`}
               >
                 {activeCategory === category && (
                   <motion.div
                     layoutId="active-cat"
-                    className="absolute inset-0 bg-brand-purple rounded-full -z-10 shadow-[0_10px_20px_-5px_rgba(106,29,181,0.3)]"
+                    className="absolute inset-0 bg-brand-purple rounded-full -z-10 shadow-[0_15px_40px_-10px_rgba(106,29,181,0.5)]"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-                {category === 'All' ? 'All' : category.replace('Client Project', 'Clients').replace('Our Products', 'Products')}
+                <span className="relative z-10">
+                  {category === 'All' ? 'All' : category.replace('Client Project', 'Clients').replace('Our Products', 'Products')}
+                </span>
               </button>
             ))}
           </div>
 
-          <div className="flex flex-col gap-8 sm:gap-10">
+          {/* ── STUDIO GALLERY GRID ──────────────────────── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-20 sm:gap-y-32">
             {loading ? (
-              <div className="text-center py-20 text-gray-500 font-medium">Loading projects...</div>
+              <div className="col-span-full flex items-center justify-center py-40">
+                 <div className="w-12 h-12 border-2 border-brand-purple/10 border-t-brand-purple rounded-full animate-spin" />
+              </div>
             ) : filteredProjects.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-20"
+                className="col-span-full text-center py-40"
               >
-                <p className="text-black/30 font-sans text-2xl font-light italic">
-                  No {activeCategory.toLowerCase()} projects found yet.
+                <p className="text-black/20 font-sans text-5xl font-semibold italic tracking-tight">
+                  No {activeCategory.toLowerCase()} works to show.
                 </p>
               </motion.div>
             ) : (
               filteredProjects.map((project, idx) => {
-                const gradient = fallbackGradients[idx % fallbackGradients.length];
+                // Staggered effect: every second item is shifted down on desktop
+                const isEven = idx % 2 === 1;
 
                 return (
                   <motion.div
                     key={project._id || project.slug || idx}
-                    initial={{ opacity: 0, y: 18 }}
+                    initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.55, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                    className="grid grid-cols-1 lg:grid-cols-12 items-center gap-5 sm:gap-6"
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.8, delay: (idx % 2) * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                    className={`group ${isEven ? 'md:mt-32' : ''}`}
                   >
-                    <Link to={`/our-work/case-study/${project.slug}`} className="lg:col-span-3 block group">
-                      <p className="text-[10px] uppercase tracking-[0.14em] text-black/30 font-sans mb-1.5 font-medium">
-                        Step {String(idx + 1).padStart(2, '0')}
-                      </p>
-                      <h3
-                        className="font-sans font-light leading-[0.95] tracking-[-0.03em] inline-flex items-center gap-2 group-hover:opacity-70 transition-opacity duration-200"
-                        style={{ fontSize: 'clamp(36px, 4vw, 52px)' }}
-                      >
-                        {project.title}
-                        <span className="text-[#6A1DB5] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <FiArrowUpRight size={28} strokeWidth={1.5} />
-                        </span>
-                      </h3>
-                      <p className="mt-3 text-[13px] sm:text-[14px] leading-[1.7] text-black/45 font-light max-w-[280px]">
-                        {project.shortDescription}
-                      </p>
-                    </Link>
+                    <Link
+                      to={`/our-work/case-study/${project.slug}`}
+                      className="group block rounded-[30px] border border-black/5 bg-white p-4 sm:p-5 shadow-[0_10px_28px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_28px_64px_rgba(0,0,0,0.1)] hover:border-black/10"
+                    >
+                      {/* Image Container */}
+                      <div className="relative overflow-hidden rounded-[26px] bg-black/5 aspect-[4/5] sm:aspect-[16/11] ring-1 ring-black/5">
+                        <img
+                          src={project.thumbnail || project.image}
+                          alt={project.title}
+                          className="h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.06]"
+                        />
 
-                    <Link to={`/our-work/case-study/${project.slug}`} className="lg:col-span-9 block group/pill">
-                      <div className={`h-[200px] sm:h-[220px] md:h-[240px] w-full rounded-[999px] bg-gradient-to-r ${gradient} p-[3px] overflow-hidden`}>
-                        <div className="relative h-full w-full rounded-[999px] overflow-hidden group-hover/pill:scale-[1.008] transition-transform duration-500">
-                          {(project.thumbnail || project.image) && (
-                            <img
-                              src={project.thumbnail || project.image}
-                              alt={project.title}
-                              className="absolute inset-0 w-full h-full object-cover"
-                            />
-                          )}
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_20%,rgba(0,0,0,0.68)_100%)] opacity-85 transition-opacity duration-500 group-hover:opacity-100" />
 
-                          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/10" />
+                        <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white backdrop-blur-md">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#C8F139]" />
+                          Project {String(idx + 1).padStart(2, '0')}
+                        </div>
 
-                          <div className="absolute inset-0 flex items-center justify-between px-8 sm:px-10 md:px-14">
-                            <div>
-                              <p className="text-[10px] uppercase tracking-[0.14em] text-white/50 font-sans font-medium mb-1">
-                                {project.category}
-                              </p>
-                              <h4
-                                className="font-sans font-light tracking-[-0.03em] leading-[1.05] text-white"
-                                style={{ fontSize: 'clamp(22px, 3vw, 40px)' }}
-                              >
-                                {project.title}
-                              </h4>
-                            </div>
+                        <div className="absolute right-5 top-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-xl transition-all duration-500 group-hover:opacity-100 group-hover:rotate-45">
+                          <FiArrowUpRight size={22} strokeWidth={2.2} />
+                        </div>
 
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white opacity-0 group-hover/pill:opacity-100 group-hover/pill:bg-white/20 transition-all duration-300 shrink-0">
-                              <FiArrowUpRight size={18} strokeWidth={1.8} />
-                            </div>
+                        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                          <div className="max-w-[88%] space-y-3">
+                            <span className="inline-flex rounded-full bg-white/12 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white backdrop-blur-md">
+                              {project.category}
+                            </span>
+                            <h3 className="font-sans text-[28px] sm:text-[34px] font-semibold leading-[0.94] tracking-[-0.05em] text-white transition-transform duration-500 group-hover:translate-y-[-2px]">
+                              {project.title}
+                            </h3>
                           </div>
+                        </div>
+                      </div>
+
+                      {/* Text Content */}
+                      <div className="px-1 pt-7 sm:pt-8">
+                        <div className="mb-5 flex items-center gap-3 text-[11px] font-sans font-semibold uppercase tracking-[0.22em] text-black/35">
+                          <span>Case Study</span>
+                          <span className="h-px flex-1 bg-black/10" />
+                        </div>
+
+                        <p className="max-w-[92%] text-[15px] sm:text-[16px] leading-[1.9] tracking-[-0.01em] text-black/58 font-sans font-normal line-clamp-3">
+                          {project.shortDescription || project.description}
+                        </p>
+
+                        <div className="mt-7 flex items-center gap-3 text-[12px] font-sans font-bold uppercase tracking-[0.2em] text-brand-purple">
+                          <span className="h-px w-8 bg-brand-purple/30" />
+                          Explore case <FiArrowUpRight size={14} />
                         </div>
                       </div>
                     </Link>
