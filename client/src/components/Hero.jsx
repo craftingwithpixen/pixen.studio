@@ -228,12 +228,7 @@ export default function Hero() {
                 <h3 className="text-[26px] sm:text-[30px] md:text-[36px] font-sans font-semibold leading-[1.05] tracking-tight">
                   Flexible, tailored<br />tech solutions
                 </h3>
-                <div className="flex flex-col items-end gap-1">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-[3px] border-white/20 shadow-lg flex-shrink-0 bg-white">
-                    <img src="https://i.pravatar.cc/100?img=47" alt="avatar" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="text-[10px] text-white/40 font-bold tracking-wide">Expert team</span>
-                </div>
+                
               </div>
             </motion.div>
 
@@ -259,13 +254,7 @@ export default function Hero() {
               </p>
 
               <div className="flex items-center justify-between relative z-10 mt-4">
-                <div className="flex items-center gap-3">
-                  <img src="https://i.pravatar.cc/100?img=33" className="w-10 h-10 rounded-full object-cover border border-white/10" alt="Pixen team" />
-                  <div>
-                    <p className="text-[13px] font-bold font-sans text-white">Pixen Team</p>
-                    <p className="text-[11px] text-white/35 font-sans">Innovators</p>
-                  </div>
-                </div>
+                
                 {/* star rating */}
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
@@ -297,15 +286,15 @@ export default function Hero() {
 
              
                 <div className="relative z-10 flex-1 flex flex-col items-center justify-end pb-2">
-                  <p className="text-[11px] font-bold opacity-60 mb-3 font-sans tracking-[0.15em] uppercase">Proven track record</p>
+                  <p className="text-[11px] font-bold opacity-60 mb-3 font-sans tracking-[0.15em] uppercase">Innovating daily</p>
                   <h3 className="text-[26px] sm:text-[28px] md:text-[30px] font-sans font-bold tracking-tight leading-[1.0]">
-                    158+ successful<br />projects!
+                    Crafting Next-Gen<br />Experiences
                   </h3>
                 </div>
 
               {/* mini stat row */}
               <div className="relative z-10 flex justify-center gap-6 mt-5 pt-4 border-t border-black/10">
-                {[['42+', 'Clients'], ['5★', 'Rating']].map(([v, l]) => (
+                {[['99%', 'Quality'], ['24/7', 'Support']].map(([v, l]) => (
                   <div key={l} className="flex flex-col items-center">
                     <span className="text-[18px] font-bold leading-none">{v}</span>
                     <span className="text-[9px] uppercase tracking-widest opacity-50 font-bold mt-1">{l}</span>
