@@ -44,13 +44,16 @@ router.get('/slug/:slug', async (req, res) => {
 });
 
 // POST /api/projects
-router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
+router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'showcaseImage', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
   try {
     const data = { ...req.body };
     
     if (req.files) {
       if (req.files.thumbnail && req.files.thumbnail[0]) {
         data.thumbnail = req.files.thumbnail[0].path;
+      }
+      if (req.files.showcaseImage && req.files.showcaseImage[0]) {
+        data.showcaseImage = req.files.showcaseImage[0].path;
       }
       if (req.files.images) {
         data.images = req.files.images.map(file => file.path);
@@ -103,7 +106,7 @@ router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name
 });
 
 // PUT /api/projects/:id
-router.put('/:id', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
+router.put('/:id', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'showcaseImage', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
   try {
     const data = { ...req.body };
     
@@ -111,6 +114,9 @@ router.put('/:id', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { na
     if (req.files) {
       if (req.files.thumbnail && req.files.thumbnail[0]) {
         data.thumbnail = req.files.thumbnail[0].path;
+      }
+      if (req.files.showcaseImage && req.files.showcaseImage[0]) {
+        data.showcaseImage = req.files.showcaseImage[0].path;
       }
       if (req.files.images) {
         const newImages = req.files.images.map(file => file.path);

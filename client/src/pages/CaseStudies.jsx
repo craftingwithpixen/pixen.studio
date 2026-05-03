@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowUpRight } from 'react-icons/fi';
-import Navbar from '../components/Navbar';
 import api from '../utils/api';
 
 const categoryOrder = ['All', 'MVP', 'Our Products', 'Client Project'];
@@ -49,11 +48,8 @@ export default function CaseStudies() {
       </div>
 
       <div className="relative z-10 max-w-[1340px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-        <div className="py-6">
-          <Navbar />
-        </div>
-
-        <section className="mt-16 sm:mt-20 mb-16 sm:mb-20">
+       
+        <section className="pt-24 sm:pt-32 md:pt-40 mb-16 sm:mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-8 items-start">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
@@ -64,7 +60,7 @@ export default function CaseStudies() {
            
 
               <h1
-                className="font-sans font-semibold leading-[1.02] tracking-[-0.04em]"
+                className="font-sans font-normal leading-[1.05] tracking-[-0.03em]"
                 style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}
               >
                 Transforming{' '}

@@ -61,7 +61,7 @@ export default function CaseStudyDetail() {
   const cs = project.caseStudy;
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#F5F3FF_0%,_#FFFFFF_45%,_#ECFFFA_100%)] pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-14 px-4 sm:px-6">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#F5F3FF_0%,_#FFFFFF_45%,_#ECFFFA_100%)] pt-28 sm:pt-36 md:pt-44 pb-10 sm:pb-14 px-4 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ export default function CaseStudyDetail() {
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.05 }}
-                    className="text-[48px] sm:text-[72px] md:text-[84px] font-semibold tracking-[-0.04em] leading-[0.9] text-[#0D0D0D] uppercase max-w-[900px]"
+                    className="text-[40px] sm:text-[64px] md:text-[76px] font-sans font-semibold tracking-[-0.03em] leading-[1.05] text-[#0D0D0D] max-w-[900px]"
                 >
                     {project.title}
                 </motion.h1>
@@ -106,9 +106,9 @@ export default function CaseStudyDetail() {
           transition={{ duration: 0.7 }}
           className="rounded-[16px] overflow-hidden border border-[#6A1DB5]/10 bg-[#F5F3FF] mb-12 shadow-xl"
         >
-          {project.thumbnail || project.image ? (
+          {project.showcaseImage || project.thumbnail || project.image ? (
             <img
-              src={project.thumbnail || project.image}
+              src={project.showcaseImage || project.thumbnail || project.image}
               alt={project.title}
               className="w-full h-auto max-h-[600px] object-cover"
             />

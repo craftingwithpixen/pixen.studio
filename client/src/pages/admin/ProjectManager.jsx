@@ -43,6 +43,7 @@ const ProjectManager = () => {
 
   const [formData, setFormData] = useState(initialFormState);
   const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [showcaseFile, setShowcaseFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [diagramFile, setDiagramFile] = useState(null);
 
@@ -94,7 +95,9 @@ const ProjectManager = () => {
           if (imageFiles.length > 0) {
             const thumb = imageFiles.find(f => f.name.toLowerCase().includes('thumb') || f.name.toLowerCase().includes('cover')) || imageFiles[0];
             setThumbnailFile(thumb);
-            const gallery = imageFiles.filter(f => f !== thumb);
+            const showcase = imageFiles.find(f => f.name.toLowerCase().includes('showcase') || f.name.toLowerCase().includes('main')) || (imageFiles.length > 1 ? imageFiles[1] : null);
+            setShowcaseFile(showcase);
+            const gallery = imageFiles.filter(f => f !== thumb && f !== showcase);
             setGalleryFiles(gallery);
             toast.success(`Project loaded with ${imageFiles.length} images!`);
             setActiveTab('basic');
@@ -215,6 +218,7 @@ const ProjectManager = () => {
     projectFields.forEach(key => data.append(key, formData[key]));
     
     if (thumbnailFile) data.append('thumbnail', thumbnailFile);
+    if (showcaseFile) data.append('showcaseImage', showcaseFile);
     galleryFiles.forEach(file => data.append('images', file));
 
     // Case Study data
@@ -300,6 +304,7 @@ const ProjectManager = () => {
     setEditingCsId(null);
     setFormData(initialFormState);
     setThumbnailFile(null);
+    setShowcaseFile(null);
     setGalleryFiles([]);
     setDiagramFile(null);
     setActiveTab('basic');
@@ -479,25 +484,35 @@ const ProjectManager = () => {
                 >
                     <div className="space-y-6">
                         <div>
-                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Thumbnail Cover</label>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Thumbnail Cover (Listing)</label>
                             <div className="relative border-2 border-dashed border-black/10 rounded-3xl p-8 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group">
                                 <input type="file" onChange={(e) => setThumbnailFile(e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 <div className="space-y-2">
                                     <FiImage className="mx-auto text-black/20 group-hover:text-[#6A1DB5] transition-colors" size={32} />
-                                    <p className="text-[13px] text-black/40 font-medium">{thumbnailFile ? thumbnailFile.name : 'Drop main image here'}</p>
+                                    <p className="text-[13px] text-black/40 font-medium">{thumbnailFile ? thumbnailFile.name : 'Drop thumbnail here'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Showcase Image (Details Top)</label>
+                            <div className="relative border-2 border-dashed border-black/10 rounded-3xl p-8 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group">
+                                <input type="file" onChange={(e) => setShowcaseFile(e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer" />
+                                <div className="space-y-2">
+                                    <FiImage className="mx-auto text-black/20 group-hover:text-[#6A1DB5] transition-colors" size={32} />
+                                    <p className="text-[13px] text-black/40 font-medium">{showcaseFile ? showcaseFile.name : 'Drop showcase image here'}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="space-y-6">
                         <div>
-                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Project Gallery (Multiple)</label>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Project Gallery (Bottom Multiple)</label>
                             <div className="relative border-2 border-dashed border-black/10 rounded-3xl p-8 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group">
                                 <input type="file" multiple onChange={(e) => setGalleryFiles(Array.from(e.target.files))} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 <div className="space-y-2">
                                     <FiPlus className="mx-auto text-black/20 group-hover:text-[#6A1DB5] transition-colors" size={32} />
                                     <p className="text-[13px] text-black/40 font-medium">
-                                        {galleryFiles.length > 0 ? `${galleryFiles.length} files selected` : 'Add showcase images'}
+                                        {galleryFiles.length > 0 ? `${galleryFiles.length} files selected` : 'Add gallery images'}
                                     </p>
                                 </div>
                             </div>
