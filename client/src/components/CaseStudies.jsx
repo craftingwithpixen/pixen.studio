@@ -73,7 +73,7 @@ export default function CaseStudies() {
           </div>
 
           <p className="text-[15px] sm:text-[16px] text-black/50 leading-[1.7] font-sans sm:max-w-[340px] sm:text-right">
-            From edtech to marketplaces — every product we ship is built to perform, scale, and leave a lasting impression.
+            From edtech to marketplaces - every product we ship is built to perform, scale, and leave a lasting impression.
           </p>
         </Reveal>
 
@@ -163,7 +163,7 @@ export default function CaseStudies() {
 
             <Reveal delay={0.15} className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-2">
               <p className="text-[14px] text-black/45 leading-[1.7] font-sans max-w-[360px]">
-                Discover how we turn real-world problems into polished, high-impact digital products — on time, every time.
+                Discover how we turn real-world problems into polished, high-impact digital products - on time, every time.
               </p>
               <Link to="/our-work"
                 className="inline-flex items-center gap-2 bg-[#6A1DB5] hover:bg-[#5512A0] text-white text-[13px] font-bold px-7 py-4 rounded-full transition-all whitespace-nowrap shrink-0"
