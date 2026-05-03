@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FiArrowLeft, FiExternalLink, FiCheckCircle, FiCpu, FiLayers, FiTrendingUp, FiZap } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiArrowLeft, FiExternalLink, FiCheckCircle, FiCpu, FiLayers, FiTrendingUp, FiZap, FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import api from '../utils/api';
 
 function getFallbackCopy(project) {
@@ -20,6 +20,7 @@ export default function CaseStudyDetail() {
   const { slug } = useParams();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(null);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -36,6 +37,20 @@ export default function CaseStudyDetail() {
     fetchProject();
     window.scrollTo(0, 0);
   }, [slug]);
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    if (project?.images) {
+        setActiveIndex((prev) => (prev + 1) % project.images.length);
+    }
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    if (project?.images) {
+        setActiveIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
+    }
+  };
 
   const content = useMemo(() => getFallbackCopy(project), [project]);
 
@@ -355,9 +370,14 @@ export default function CaseStudyDetail() {
                 <h3 className="text-[24px] font-bold text-black">Project Gallery</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {project.images.map((img, i) => (
-                        <div key={i} className="rounded-[12px] overflow-hidden border border-black/5">
+                        <motion.div 
+                            key={i} 
+                            whileHover={{ scale: 1.02 }}
+                            onClick={() => setActiveIndex(i)}
+                            className="rounded-[12px] overflow-hidden border border-black/5 cursor-zoom-in"
+                        >
                             <img src={img} alt={`Gallery ${i}`} className="w-full h-auto" />
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
@@ -394,6 +414,71 @@ export default function CaseStudyDetail() {
             </div>
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {activeIndex !== null && project.images[activeIndex] && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setActiveIndex(null)}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md overflow-y-auto flex justify-center py-6 sm:py-20 px-2 sm:px-4 cursor-zoom-out"
+            >
+                {/* Navigation Controls */}
+                <div className="fixed inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-2 sm:px-10 pointer-events-none z-[120]">
+                    <motion.button
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        onClick={handlePrev}
+                        className="p-2 sm:p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all backdrop-blur-md border border-white/10 pointer-events-auto group"
+                    >
+                        <FiChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 group-hover:-translate-x-1 transition-transform" />
+                    </motion.button>
+                    <motion.button
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        onClick={handleNext}
+                        className="p-2 sm:p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all backdrop-blur-md border border-white/10 pointer-events-auto group"
+                    >
+                        <FiChevronRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
+                </div>
+
+                <motion.button
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="fixed top-4 right-4 sm:top-6 sm:right-6 p-3 sm:p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors z-[130] backdrop-blur-md border border-white/10"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveIndex(null);
+                    }}
+                >
+                    <FiX className="w-5 h-5 sm:w-6 sm:h-6" />
+                </motion.button>
+                
+                <motion.div
+                    key={activeIndex}
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    className="w-full max-w-[1100px] h-fit relative mt-12 sm:mt-0"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <img
+                        src={project.images[activeIndex]}
+                        alt="Zoomed view"
+                        className="w-full h-auto rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] cursor-default"
+                    />
+                    
+                    {/* Counter */}
+                    <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 px-3 py-1.5 sm:px-4 sm:py-2 bg-black/40 backdrop-blur-md rounded-full text-[9px] sm:text-[10px] font-bold text-white/70 uppercase tracking-widest border border-white/5">
+                        {activeIndex + 1} / {project.images.length}
+                    </div>
+                </motion.div>
+            </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

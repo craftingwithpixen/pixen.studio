@@ -25,6 +25,9 @@ const ProjectManager = () => {
     features: '',
     isFeatured: false,
     order: 0,
+    thumbnail: '',
+    showcaseImage: '',
+    images: [],
     // Case Study
     cs_overview: '',
     cs_problemStatement: '',
@@ -33,6 +36,7 @@ const ProjectManager = () => {
     cs_challenges: [],
     cs_solutions: [],
     cs_arch_description: '',
+    cs_arch_diagram: '',
     cs_techDetails: [],
     cs_workflow: [],
     cs_results_metrics: [],
@@ -214,11 +218,15 @@ const ProjectManager = () => {
     const data = new FormData();
     
     // Project fields
-    const projectFields = ['title', 'category', 'type', 'shortDescription', 'detailedDescription', 'status', 'liveUrl', 'tags', 'techStack', 'features', 'isFeatured', 'order'];
+    const projectFields = ['title', 'category', 'type', 'shortDescription', 'detailedDescription', 'status', 'liveUrl', 'tags', 'techStack', 'features', 'isFeatured', 'order', 'thumbnail', 'showcaseImage'];
     projectFields.forEach(key => data.append(key, formData[key]));
     
     if (thumbnailFile) data.append('thumbnail', thumbnailFile);
     if (showcaseFile) data.append('showcaseImage', showcaseFile);
+    
+    // Existing gallery images
+    data.append('images', JSON.stringify(formData.images));
+    // New gallery images
     galleryFiles.forEach(file => data.append('images', file));
 
     // Case Study data
@@ -230,7 +238,8 @@ const ProjectManager = () => {
         challenges: formData.cs_challenges,
         solutions: formData.cs_solutions,
         architecture: {
-            description: formData.cs_arch_description
+            description: formData.cs_arch_description,
+            diagram: formData.cs_arch_diagram
         },
         techDetails: formData.cs_techDetails,
         workflow: formData.cs_workflow,
@@ -280,6 +289,9 @@ const ProjectManager = () => {
       features: project.features?.join(', ') || '',
       isFeatured: project.isFeatured || false,
       order: project.order || 0,
+      thumbnail: project.thumbnail || '',
+      showcaseImage: project.showcaseImage || '',
+      images: project.images || [],
       // Case Study
       cs_overview: cs.overview || '',
       cs_problemStatement: cs.problemStatement || '',
@@ -288,6 +300,7 @@ const ProjectManager = () => {
       cs_challenges: cs.challenges || [],
       cs_solutions: cs.solutions || [],
       cs_arch_description: cs.architecture?.description || '',
+      cs_arch_diagram: cs.architecture?.diagram || '',
       cs_techDetails: cs.techDetails || [],
       cs_workflow: cs.workflow || [],
       cs_results_metrics: cs.results?.metrics || [],
@@ -485,6 +498,18 @@ const ProjectManager = () => {
                     <div className="space-y-6">
                         <div>
                             <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Thumbnail Cover (Listing)</label>
+                            {formData.thumbnail && (
+                                <div className="mb-4 relative group w-full aspect-video rounded-2xl overflow-hidden border border-black/5">
+                                    <img src={formData.thumbnail} alt="Thumbnail" className="w-full h-full object-cover" />
+                                    <button 
+                                        type="button" 
+                                        onClick={() => setFormData(prev => ({ ...prev, thumbnail: '' }))}
+                                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                                    >
+                                        <FiTrash2 size={14} />
+                                    </button>
+                                </div>
+                            )}
                             <div className="relative border-2 border-dashed border-black/10 rounded-3xl p-8 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group">
                                 <input type="file" onChange={(e) => setThumbnailFile(e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 <div className="space-y-2">
@@ -495,6 +520,18 @@ const ProjectManager = () => {
                         </div>
                         <div>
                             <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Showcase Image (Details Top)</label>
+                            {formData.showcaseImage && (
+                                <div className="mb-4 relative group w-full aspect-video rounded-2xl overflow-hidden border border-black/5">
+                                    <img src={formData.showcaseImage} alt="Showcase" className="w-full h-full object-cover" />
+                                    <button 
+                                        type="button" 
+                                        onClick={() => setFormData(prev => ({ ...prev, showcaseImage: '' }))}
+                                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                                    >
+                                        <FiTrash2 size={14} />
+                                    </button>
+                                </div>
+                            )}
                             <div className="relative border-2 border-dashed border-black/10 rounded-3xl p-8 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group">
                                 <input type="file" onChange={(e) => setShowcaseFile(e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 <div className="space-y-2">
@@ -507,15 +544,41 @@ const ProjectManager = () => {
                     <div className="space-y-6">
                         <div>
                             <label className="block text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 ml-1">Project Gallery (Bottom Multiple)</label>
+                            {formData.images.length > 0 && (
+                                <div className="grid grid-cols-2 gap-4 mb-6">
+                                    {formData.images.map((img, i) => (
+                                        <div key={i} className="relative group aspect-square rounded-2xl overflow-hidden border border-black/5 shadow-sm">
+                                            <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
+                                            <button 
+                                                type="button" 
+                                                onClick={() => setFormData(prev => ({ ...prev, images: prev.images.filter((_, idx) => idx !== i) }))}
+                                                className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                                            >
+                                                <FiTrash2 size={12} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                             <div className="relative border-2 border-dashed border-black/10 rounded-3xl p-8 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group">
                                 <input type="file" multiple onChange={(e) => setGalleryFiles(Array.from(e.target.files))} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 <div className="space-y-2">
                                     <FiPlus className="mx-auto text-black/20 group-hover:text-[#6A1DB5] transition-colors" size={32} />
                                     <p className="text-[13px] text-black/40 font-medium">
-                                        {galleryFiles.length > 0 ? `${galleryFiles.length} files selected` : 'Add gallery images'}
+                                        {galleryFiles.length > 0 ? `${galleryFiles.length} new files selected` : 'Add more gallery images'}
                                     </p>
                                 </div>
                             </div>
+                            {galleryFiles.length > 0 && (
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    {galleryFiles.map((file, i) => (
+                                        <div key={i} className="px-3 py-1 bg-[#6A1DB5]/5 text-[#6A1DB5] rounded-lg text-[10px] font-medium flex items-center gap-2">
+                                            {file.name}
+                                            <button type="button" onClick={() => setGalleryFiles(prev => prev.filter((_, idx) => idx !== i))} className="hover:text-red-500"><FiX size={12} /></button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </motion.div>
@@ -592,11 +655,25 @@ const ProjectManager = () => {
                         <h4 className="text-xs font-bold uppercase tracking-widest text-black/60">Architecture & Diagram</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                              <textarea placeholder="Explain the system architecture..." name="cs_arch_description" value={formData.cs_arch_description} onChange={handleChange} className="w-full bg-white border border-black/[0.1] rounded-2xl px-5 py-4 focus:border-[#6A1DB5] outline-none h-32" />
-                             <div className="relative border-2 border-dashed border-black/10 rounded-2xl p-6 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group flex flex-col justify-center">
-                                <input type="file" onChange={(e) => setDiagramFile(e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer" />
-                                <FiImage className="mx-auto text-black/20 group-hover:text-[#6A1DB5] mb-2" size={24} />
-                                <p className="text-[12px] text-black/40">{diagramFile ? diagramFile.name : 'Upload Architecture Diagram'}</p>
-                            </div>
+                             <div className="space-y-4">
+                                {formData.cs_arch_diagram && (
+                                    <div className="relative group w-full aspect-video rounded-2xl overflow-hidden border border-black/5">
+                                        <img src={formData.cs_arch_diagram} alt="Architecture Diagram" className="w-full h-full object-cover" />
+                                        <button 
+                                            type="button" 
+                                            onClick={() => setFormData(prev => ({ ...prev, cs_arch_diagram: '' }))}
+                                            className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                                        >
+                                            <FiTrash2 size={14} />
+                                        </button>
+                                    </div>
+                                )}
+                                <div className="relative border-2 border-dashed border-black/10 rounded-2xl p-6 text-center hover:border-[#6A1DB5] transition-all cursor-pointer group flex flex-col justify-center min-h-[120px]">
+                                    <input type="file" onChange={(e) => setDiagramFile(e.target.files[0])} className="absolute inset-0 opacity-0 cursor-pointer" />
+                                    <FiImage className="mx-auto text-black/20 group-hover:text-[#6A1DB5] mb-2" size={24} />
+                                    <p className="text-[12px] text-black/40">{diagramFile ? diagramFile.name : 'Upload New Diagram'}</p>
+                                </div>
+                             </div>
                         </div>
                     </div>
 
