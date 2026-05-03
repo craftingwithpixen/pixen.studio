@@ -113,7 +113,7 @@ function BentoCard({ tech, layout, index }) {
         {/* Category tag (only on big / wide cards) */}
         {(isLg || isWide) && (
           <span
-            className="text-[9px] uppercase tracking-[0.2em] mb-1 font-medium"
+            className="font-sans text-[10px] uppercase tracking-[0.2em] mb-1 font-bold"
             style={{ color: tech.accent }}
           >
             {tech.cat}
@@ -135,8 +135,8 @@ function BentoCard({ tech, layout, index }) {
 
         {/* Name */}
         <span
-          className={`font-semibold text-white/90 tracking-tight text-center transition-colors duration-300 group-hover:text-white ${
-            isLg ? "text-lg mt-1" : isTall ? "text-sm" : "text-xs"
+          className={`font-sans font-bold tracking-wide text-center transition-colors duration-300 text-white/90 group-hover:text-white ${
+            isLg ? "text-[18px] mt-1" : isTall ? "text-[15px]" : "text-[13px]"
           }`}
         >
           {tech.name}
@@ -210,42 +210,31 @@ export default function Technologies() {
   }, []);
 
   return (
-    <section className="relative bg-brand-bg py-24 px-5 sm:px-10 lg:px-16 overflow-hidden">
+    <section className="relative bg-white py-24 px-5 sm:px-10 lg:px-16 overflow-hidden">
       <FloatingOrbs />
 
-      <div className="relative z-10 max-w-[1200px] mx-auto">
+      <div className="relative z-10 max-w-[1200px] mx-auto text-black">
         {/* ── Header ── */}
         <div
           ref={headerRef}
-          className="mb-16 transition-all duration-700 ease-out"
+          className="mb-20 transition-all duration-700 ease-out"
           style={{
             opacity: headerVisible ? 1 : 0,
             transform: headerVisible ? "translateY(0)" : "translateY(30px)",
           }}
         >
-          <div className="flex items-center justify-between gap-4 mb-3">
-            <span className="font-display font-semibold text-[10px] uppercase tracking-[0.28em] text-brand-purple">
-              Our Stack
-            </span>
-            <span className="font-display text-[10px] uppercase tracking-[0.2em] text-brand-muted/40">
-              {techs.length} Technologies
-            </span>
+          <div className="flex flex-col justify-center">
+            
+            
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+              <h2 className="section-heading flex-1">
+                Technologies we've perfected
+              </h2>
+              <p className="text-gray-600 font-sans text-[15px] lg:text-[17px] leading-[1.6] max-w-sm pb-2">
+                Tools and frameworks we've truly mastered to build exceptional digital products from end to end.
+              </p>
+            </div>
           </div>
-
-          <div className="flex items-end gap-8 flex-wrap">
-            <h2
-              className="font-display font-black text-white uppercase leading-[0.9] tracking-[-2px] flex-1"
-              style={{ fontSize: 'clamp(34px, 4vw, 56px)' }}
-            >
-              Tech<br />
-              <span className="gradient-text">Stack.</span>
-            </h2>
-            <p className="text-brand-muted text-sm max-w-[240px] leading-relaxed pb-2 shrink-0">
-              Tools and technologies we've mastered to build exceptional digital products from end to end.
-            </p>
-          </div>
-
-          <div className="mt-6 h-px w-full bg-white/[.05]" />
         </div>
 
         {/* ── Bento Grid ── */}

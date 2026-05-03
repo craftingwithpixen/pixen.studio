@@ -9,7 +9,7 @@
 
 @layer base {
   body {
-    @apply bg-brand-bg text-white font-sans antialiased;
+    @apply bg-white text-black font-sans antialiased;
   }
 
   ::-webkit-scrollbar {
@@ -27,16 +27,15 @@
 
 @layer components {
   .section-heading {
-    @apply text-3xl md:text-4xl font-semibold leading-tight;
-    font-family: 'Unbounded', system-ui, sans-serif;
-    letter-spacing: -0.3px;
+    @apply text-[40px] md:text-[56px] lg:text-[64px] font-medium leading-[1.05] tracking-tight;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 
   .section-sub {
     @apply text-gray-400 text-sm md:text-base;
   }
 
-  .btn-primary {
+.btn-primary {
     @apply bg-brand-purple hover:bg-brand-violet text-white font-medium px-6 py-2.5 rounded-full transition-all duration-300 cursor-pointer text-sm;
   }
 
@@ -51,19 +50,10 @@
   .badge {
     @apply text-[9px] uppercase tracking-widest;
     color: #888888;
-    font-family: 'Unbounded', system-ui, sans-serif;
+    font-family: 'Syne', system-ui, sans-serif;
   }
 
   .icon-btn {
     @apply w-[50px] h-[50px] rounded-full bg-brand-card-2 flex items-center justify-center text-brand-muted hover:bg-brand-purple hover:text-white transition-all duration-200 cursor-pointer;
   }
 }
-
-.gradient-text {
-  background: linear-gradient(135deg, #6B35D9, #9B6BFF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-

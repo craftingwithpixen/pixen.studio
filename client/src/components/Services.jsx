@@ -1,273 +1,353 @@
-import { useState } from 'react';
-import { FiMonitor, FiPackage, FiCpu, FiSearch, FiServer } from 'react-icons/fi';
+import { useRef, useState } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { FiArrowUpRight } from 'react-icons/fi';
 
 const services = [
   {
-    id: 0,
-    title: 'Web Development',
-    shortDesc: 'Performance',
-    tag: '01',
-    icon: <FiMonitor size={28} />,
-    desc: 'Pixen creates modern, responsive websites built for performance and growth. Whether it\'s a corporate landing page or a complex web platform, we deliver seamless user experiences that turn visitors into customers.',
-    color: '#6B35D9',
-    bg: 'linear-gradient(135deg, #3b1fa8 0%, #1e0d5e 100%)',
+    id: '01',
+    title: 'Web Dev',
+    category: 'Engineering',
+    image: '/1.png',
+    desc: 'Pixen creates modern, responsive websites built for ultimate performance and rapid business growth.',
+    accent: '#6A1DB5',
+    tags: ['React', 'Next.js', 'Webflow'],
   },
   {
-    id: 1,
+    id: '02',
     title: 'SaaS Products',
-    shortDesc: 'Scalability',
-    tag: '02',
-    icon: <FiPackage size={28} />,
-    desc: 'Pixen specializes in building robust, subscription-based platforms designed for performance and scalability. From multi-tenant architecture to secure payment gateway integrations, we handle the technical foundation so you can focus on growing your subscribers.',
-    color: '#059669',
-    bg: 'linear-gradient(135deg, #065f46 0%, #022c22 100%)',
+    category: 'Product Design',
+    image: '/2.png',
+    desc: 'Robust, subscription-based platforms designed for high scalability and seamless payment flows.',
+    accent: '#C8F139',
+    tags: ['Stripe', 'Auth', 'Dashboards'],
   },
   {
-    id: 2,
+    id: '03',
     title: 'AI Agents',
-    shortDesc: 'Automation',
-    tag: '03',
-    icon: <FiCpu size={28} />,
-    desc: 'Build AI agents that automate workflows, handle repetitive tasks, and deliver faster decisions. Pixen develops secure, reliable agent systems tailored to your business operations.',
-    color: '#ea580c',
-    bg: 'linear-gradient(135deg, #9a3412 0%, #431407 100%)',
+    category: 'Intelligence',
+    image: '/3.png',
+    desc: 'Build AI agents that automate complex workflows, handle repetitive tasks, and deliver faster decisions.',
+    accent: '#A178FA',
+    tags: ['LLMs', 'Automation', 'RAG'],
   },
   {
-    id: 3,
-    title: 'SEO & Digital Visibility',
-    shortDesc: 'Visibility',
-    tag: '04',
-    icon: <FiSearch size={28} />,
-    desc: 'A beautiful product is useless if no one sees it. We implement technical SEO strategies to ensure your platform ranks at the top of search results and drives consistent organic traffic.',
-    color: '#d97706',
-    bg: 'linear-gradient(135deg, #92400e 0%, #3b1a08 100%)',
+    id: '04',
+    title: 'SEO & Search',
+    category: 'Growth',
+    image: '/4.png',
+    desc: 'Technical SEO strategies to ensure your digital platform ranks at the top and drives consistent organic traffic.',
+    accent: '#00C2A8',
+    tags: ['Analytics', 'On-page', 'Performance'],
   },
   {
-    id: 4,
-    title: 'Deployment & DevOps',
-    shortDesc: 'Reliability',
-    tag: '05',
-    icon: <FiServer size={28} />,
-    desc: 'Take your product from staging to production without friction. Pixen manages cloud deployments and DevOps infrastructure to deliver fast, secure, and highly reliable applications with 99.9% uptime.',
-    color: '#db2777',
-    bg: 'linear-gradient(135deg, #831843 0%, #3b0a25 100%)',
+    id: '05',
+    title: 'Cloud DevOps',
+    category: 'Infrastructure',
+    image: '/5.png',
+    desc: 'Cloud deployments and infrastructure management for highly reliable applications with 99.9% uptime.',
+    accent: '#A178FA',
+    tags: ['AWS', 'Docker', 'CI/CD'],
+  },
+  {
+    id: '06',
+    title: 'UI/UX Design',
+    category: 'Creative',
+    image: '/6.png',
+    desc: 'Designing intuitive, high-fidelity interfaces that prioritize user experience and brand storytelling.',
+    accent: '#FF8A65',
+    tags: ['Figma', 'Prototyping', 'Design Systems'],
   },
 ];
 
 export default function Services() {
-  const [active, setActive] = useState(0);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    }
+  };
+
+  const activeService = hoveredIndex !== null ? services[hoveredIndex] : null;
 
   return (
-    <section id="services" className="py-24 bg-brand-bg">
-      <div className="max-w-[1200px] mx-auto px-6">
+    <section
+      ref={sectionRef}
+      id="services"
+      onMouseMove={handleMouseMove}
+      className="relative bg-[#0D0D0D] mx-4 sm:mx-6 md:mx-10 lg:mx-14 xl:mx-20 rounded-[28px] sm:rounded-[40px] lg:rounded-[64px] -mt-10 sm:-mt-12 z-20 overflow-hidden border border-white/[0.07] shadow-[0_40px_120px_rgba(0,0,0,0.5)]"
+    >
+      {/* ── Dynamic ambient glow that follows the cursor ─────────── */}
+      <AnimatePresence>
+        {activeService && (
+          <motion.div
+            key={activeService.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="absolute pointer-events-none z-0"
+            style={{
+              left: mousePos.x - 300,
+              top: mousePos.y - 300,
+              width: 600,
+              height: 600,
+              borderRadius: '50%',
+              background: `radial-gradient(circle, ${activeService.accent}22 0%, transparent 70%)`,
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-        {/* ── HEADER ── */}
-        <div className="mb-16">
-          <div className="flex gap-8 items-stretch">
-            {/* Left vertical accent */}
-            <div className="hidden md:flex flex-col items-center gap-3 shrink-0">
-              <div className="w-px h-10 bg-brand-purple/50" />
-              <span
-                className="font-display font-black text-[9px] uppercase tracking-[0.3em] text-brand-purple/50"
-                style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-              >
-                Services
-              </span>
-              <div className="w-px flex-1 min-h-[40px] bg-white/[.04]" />
-            </div>
-
-            {/* Main content */}
-            <div className="flex-1">
-              <p className="font-display font-semibold text-[11px] uppercase tracking-[0.25em] text-brand-purple mb-4">
-                What We Do
-              </p>
-              <h2
-                className="font-display font-black text-white uppercase leading-[0.88] tracking-[-2px]"
-                style={{ fontSize: 'clamp(48px, 6.5vw, 88px)' }}
-              >
-                Digital<br />
-                <span className="text-transparent" style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.2)' }}>Solutions</span><br />
-                <span className="gradient-text">Built to Scale.</span>
-              </h2>
-              <p className="text-brand-muted text-[13px] leading-relaxed mt-6 max-w-lg">
-                At Pixen, we craft high-performance websites and scalable SaaS platforms built with modern technology to ensure speed, security, and future-ready growth.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* ── MOBILE STACK (always expanded) ── */}
-        <div className="flex flex-col gap-4 lg:hidden">
-          {services.map((s) => (
-            <div
-              key={s.id}
-              className="relative overflow-hidden rounded-3xl"
-              style={{
-                background: s.bg,
-                border: `1px solid ${s.color}66`,
-                padding: '28px 32px',
-                boxShadow: `0 0 40px ${s.color}33`,
-              }}
-            >
-              <span
-                className="absolute font-display font-black select-none pointer-events-none leading-none"
-                style={{ bottom: -20, right: -10, fontSize: 130, color: '#fff', opacity: 0.04 }}
-              >
-                {s.tag}
-              </span>
-              <div className="relative z-10">
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 text-white"
-                  style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.15)' }}
-                >
-                  {s.icon}
-                </div>
-                <p className="font-display font-bold text-xs uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  {s.shortDesc}
+      {/* ── Floating image card that follows mouse ───────────────── */}
+      <AnimatePresence>
+        {hoveredIndex !== null && (
+          <motion.div
+            key={`preview-${hoveredIndex}`}
+            initial={{ opacity: 0, scale: 0.88, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.88, y: 20 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute pointer-events-none z-50 hidden lg:block"
+            style={{
+              left: mousePos.x + 30,
+              top: mousePos.y - 120,
+              width: 260,
+              height: 180,
+            }}
+          >
+            <div className="relative w-full h-full rounded-[20px] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.7)]">
+              <img
+                src={services[hoveredIndex].image}
+                alt={services[hoveredIndex].title}
+                className="w-full h-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(135deg, ${services[hoveredIndex].accent}55 0%, transparent 60%)`,
+                }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                <p className="text-white text-[11px] font-bold tracking-widest uppercase opacity-80">
+                  {services[hoveredIndex].category}
                 </p>
-                <h3 className="font-display font-bold text-white text-xl leading-tight mb-4">{s.title}</h3>
-                <p className="text-white/75 text-[15px] leading-relaxed">{s.desc}</p>
-                <div className="mt-4 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <span className="w-5 h-px inline-block" style={{ background: 'rgba(255,255,255,0.4)' }} />
-                  Step {s.tag}
-                </div>
               </div>
             </div>
-          ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Header ───────────────────────────────────────────────── */}
+      <div className="relative z-10 px-6 sm:px-10 lg:px-16 pt-16 sm:pt-20 lg:pt-24 pb-10 sm:pb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/30 mb-4 font-sans">
+            What we do
+          </p>
+          <h2 className="text-[38px] sm:text-[52px] lg:text-[64px] font-sans font-medium leading-[1.0] tracking-tight text-white">
+            Our <span className="text-[#6A1DB5]">services</span>
+          </h2>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="text-[#666] text-[14px] sm:text-[15px] leading-[1.65] font-sans max-w-[340px] pb-1"
+        >
+          We craft digital experiences across every layer of the stack — from design to deployment.
+        </motion.p>
+      </div>
+
+      {/* ── Divider ──────────────────────────────────────────────── */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={isInView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        style={{ originX: 0 }}
+        className="h-px bg-white/[0.07] mx-6 sm:mx-10 lg:mx-16"
+      />
+
+      {/* ── Service rows ─────────────────────────────────────────── */}
+      <div className="relative z-10 px-6 sm:px-10 lg:px-16 pb-16 sm:pb-20 lg:pb-24">
+        {services.map((service, index) => (
+          <ServiceRow
+            key={service.id}
+            service={service}
+            index={index}
+            isInView={isInView}
+            onHover={() => setHoveredIndex(index)}
+            onLeave={() => setHoveredIndex(null)}
+          />
+        ))}
+      </div>
+
+      {/* ── Bottom CTA bar ───────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 mx-6 sm:mx-10 lg:mx-16 mb-12 mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-8 border-t border-white/[0.07]"
+      >
+        <div className="flex items-center gap-4">
+          <div className="flex -space-x-2">
+            {['11', '33', '44'].map((n) => (
+              <img
+                key={n}
+                src={`https://i.pravatar.cc/100?img=${n}`}
+                className="w-9 h-9 rounded-full border-2 border-[#0D0D0D] object-cover"
+                alt="client"
+              />
+            ))}
+          </div>
+          <span className="text-white/40 text-[12px] font-sans font-medium">
+            158+ projects delivered globally
+          </span>
         </div>
 
-        {/* ── DESKTOP ACCORDION ── */}
-        <div
-          className="hidden lg:flex flex-row gap-3 lg:h-[540px]"
+        <a
+          href="#contact"
+          className="group flex items-center gap-3 bg-white text-black px-7 py-3.5 rounded-full text-[13px] font-bold font-sans hover:bg-[#C8F139] transition-colors duration-300"
         >
-          {services.map((s, idx) => {
-            const isActive = active === idx;
-            return (
-              <div
-                key={s.id}
-                onMouseEnter={() => setActive(idx)}
-                onClick={() => setActive(idx)}
-                className="relative overflow-hidden rounded-3xl cursor-pointer flex flex-col"
-                style={{
-                  background: s.bg,
-                  border: isActive ? `1px solid ${s.color}66` : '1px solid rgba(255,255,255,0.06)',
-                  flex: isActive ? '3' : '1',
-                  transition: 'flex 0.6s cubic-bezier(0.4,0,0.2,1), border-color 0.3s ease',
-                  padding: '28px 32px',
-                  boxShadow: isActive ? `0 0 40px ${s.color}33` : 'none',
-                }}
+          Start a project
+          <span className="w-6 h-6 bg-black/10 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
+            <FiArrowUpRight size={13} strokeWidth={2.5} />
+          </span>
+        </a>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ── Individual service row ──────────────────────────────────── */
+function ServiceRow({ service, index, isInView, onHover, onLeave }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleEnter = () => {
+    setIsHovered(true);
+    onHover();
+  };
+  const handleLeave = () => {
+    setIsHovered(false);
+    onLeave();
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, delay: 0.1 + index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      className="group relative cursor-pointer"
+    >
+      {/* Hover background fill */}
+      <motion.div
+        initial={false}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="absolute inset-0 rounded-[20px] pointer-events-none"
+        style={{ background: `${service.accent}0D` }}
+      />
+
+      <div className="relative flex items-center gap-4 sm:gap-8 lg:gap-12 py-6 sm:py-7 border-b border-white/[0.07]">
+
+        {/* Ghost number */}
+        <motion.span
+          animate={{ opacity: isHovered ? 0.12 : 0.04, scale: isHovered ? 1.1 : 1 }}
+          transition={{ duration: 0.4 }}
+          className="font-sans font-bold text-[52px] sm:text-[64px] lg:text-[80px] leading-none text-white select-none w-[72px] sm:w-[88px] lg:w-[108px] shrink-0 text-center"
+        >
+          {service.id}
+        </motion.span>
+
+        {/* Title & category */}
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center gap-3 mb-1.5">
+            <motion.span
+              animate={{
+                color: isHovered ? service.accent : 'rgba(255,255,255,0.25)',
+              }}
+              transition={{ duration: 0.3 }}
+              className="text-[10px] font-bold tracking-[0.2em] uppercase font-sans"
+            >
+              {service.category}
+            </motion.span>
+          </div>
+
+          <motion.h3
+            animate={{ x: isHovered ? 6 : 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[22px] sm:text-[28px] lg:text-[36px] font-sans font-medium leading-[1.05] tracking-tight text-white"
+          >
+            {service.title}
+          </motion.h3>
+
+          {/* Description — slides in on hover */}
+          <AnimatePresence>
+            {isHovered && (
+              <motion.p
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginTop: 10 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[#888] text-[14px] sm:text-[15px] leading-[1.6] font-sans max-w-[600px] overflow-hidden"
               >
-                {/* Background watermark number */}
-                <span
-                  className="absolute font-display font-black select-none pointer-events-none leading-none"
+                {service.desc}
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Tags — visible on hover (hidden on mobile) */}
+        <div className="hidden md:flex items-center gap-2 shrink-0">
+          <AnimatePresence>
+            {isHovered &&
+              service.tags.map((tag, i) => (
+                <motion.span
+                  key={tag}
+                  initial={{ opacity: 0, scale: 0.8, y: 8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 8 }}
+                  transition={{ duration: 0.25, delay: i * 0.05 }}
+                  className="px-3 py-1.5 rounded-full text-[11px] font-bold font-sans border"
                   style={{
-                    bottom: -20,
-                    right: -10,
-                    fontSize: 160,
-                    color: '#fff',
-                    opacity: 0.04,
-                    transition: 'transform 0.6s ease',
-                    transform: isActive ? 'scale(1.1)' : 'scale(1)',
+                    borderColor: `${service.accent}40`,
+                    color: service.accent === '#ffffff' ? '#ffffff' : service.accent,
+                    background: `${service.accent}10`,
                   }}
                 >
-                  {s.tag}
-                </span>
-
-                {/* Content */}
-                <div className="relative z-10 h-full flex flex-col justify-between">
-
-                  {/* Top */}
-                  <div>
-                    {/* Icon */}
-                    <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 text-white"
-                      style={{
-                        background: 'rgba(255,255,255,0.12)',
-                        border: '1px solid rgba(255,255,255,0.15)',
-                      }}
-                    >
-                      {s.icon}
-                    </div>
-
-                    {/* Expanded title */}
-                    <div
-                      style={{
-                        opacity: isActive ? 1 : 0,
-                        transform: isActive ? 'translateX(0)' : 'translateX(-12px)',
-                        transition: 'opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s',
-                        display: isActive ? 'block' : 'none',
-                      }}
-                    >
-                      <p
-                        className="font-display font-bold text-xs uppercase tracking-widest mb-2"
-                        style={{ color: 'rgba(255,255,255,0.5)' }}
-                      >
-                        {s.shortDesc}
-                      </p>
-                      <h3 className="font-display font-bold text-white text-xl leading-tight">
-                        {s.title}
-                      </h3>
-                    </div>
-
-                    {/* Collapsed — vertical title */}
-                    <div
-                      className="hidden lg:flex items-center justify-center"
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        opacity: isActive ? 0 : 1,
-                        transition: 'opacity 0.3s ease',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      <h3
-                        className="font-display font-bold text-white text-base uppercase tracking-widest whitespace-nowrap"
-                        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)' }}
-                      >
-                        {s.title}
-                      </h3>
-                    </div>
-
-                    {/* Mobile always-visible title (hidden when active to avoid duplication) */}
-                    {!isActive && (
-                      <div className="lg:hidden mt-2">
-                        <h3 className="font-display font-semibold text-white text-base">{s.title}</h3>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Bottom — description, visible when active */}
-                  <div
-                    style={{
-                      opacity: isActive ? 1 : 0,
-                      transform: isActive ? 'translateY(0)' : 'translateY(16px)',
-                      transition: 'opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s',
-                      marginTop: 24,
-                    }}
-                  >
-                    <p className="text-white/75 text-[16px] leading-relaxed" style={{ maxWidth: 420 }}>
-                      {s.desc}
-                    </p>
-                    <div
-                      className="mt-5 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest"
-                      style={{ color: 'rgba(255,255,255,0.5)' }}
-                    >
-                      <span
-                        className="w-5 h-px"
-                        style={{ background: 'rgba(255,255,255,0.4)', display: 'inline-block' }}
-                      />
-                      Step {s.tag}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                  {tag}
+                </motion.span>
+              ))}
+          </AnimatePresence>
         </div>
 
+        {/* Arrow CTA */}
+        <motion.div
+          animate={{
+            scale: isHovered ? 1.1 : 1,
+            rotate: isHovered ? 0 : -45,
+            backgroundColor: isHovered ? service.accent : 'rgba(255,255,255,0.06)',
+          }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] rounded-full flex items-center justify-center shrink-0"
+        >
+          <FiArrowUpRight
+            size={18}
+            strokeWidth={2}
+            style={{ color: isHovered && service.accent !== '#ffffff' ? (service.accent === '#C8F139' ? '#000' : '#fff') : '#fff' }}
+          />
+        </motion.div>
       </div>
-    </section>
+    </motion.div>
   );
 }

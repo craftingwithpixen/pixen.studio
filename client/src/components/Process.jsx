@@ -1,251 +1,194 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiLayout, FiCode, FiShield, FiZap, FiTrendingUp, FiArrowRight } from 'react-icons/fi';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { FiSearch, FiLayout, FiCode, FiShield, FiZap, FiTrendingUp } from 'react-icons/fi';
 
-const steps = [
-  {
-    num: '01',
-    title: 'Discovery',
-    desc: 'We dive deep into your business goals, target audience, and technical requirements to create a strategic roadmap.',
-    icon: FiSearch,
-    color: '#7B3FE4',
-  },
-  {
-    num: '02',
-    title: 'Architecture & Design',
-    desc: 'We craft the UX/UI and design the interface while our architects set up the database and server logic (MERN/Next.js).',
-    icon: FiLayout,
-    color: '#6B35D9',
-  },
-  {
-    num: '03',
-    title: 'Development & Testing',
-    desc: 'We build your product using the MERN stack or Next.js, with daily stand-ups and rigorous QA testing along the way.',
-    icon: FiCode,
-    color: '#5a28c4',
-  },
-  {
-    num: '04',
-    title: 'Security Audit',
-    desc: 'Before launch we run comprehensive security scans and penetration tests to lock down your application cold.',
-    icon: FiShield,
-    color: '#4a1fa8',
-  },
-  {
-    num: '05',
-    title: 'Deployment & Launch',
-    desc: 'We deploy to production and monitor performance metrics in real time to ensure a buttery-smooth rollout.',
-    icon: FiZap,
-    color: '#6B35D9',
-  },
-  {
-    num: '06',
-    title: 'Maintenance & Growth',
-    desc: 'Post-launch we continue to support, update, and optimize your product so it scales with your ambitions.',
-    icon: FiTrendingUp,
-    color: '#7B3FE4',
-  },
+// All colors from brand palette only — no off-brand hues
+const timelineData = [
+  { type: 'node', label: 'JAN', step: { title: 'Discovery', desc: 'Dive deep into your business goals, target audience, and requirements.', icon: FiSearch }, color: '#6A1DB5', textColor: '#FFFFFF', drop: 'long' },
+  { type: 'dot', label: 'FEB' },
+  { type: 'node', label: 'MAR', step: { title: 'Architecture', desc: 'Craft the UX/UI and design system while our architects set up.', icon: FiLayout }, color: '#C8F139', textColor: '#000000', drop: 'short' },
+  { type: 'dot', label: 'APR' },
+  { type: 'node', label: 'MAY', step: { title: 'Development', desc: 'Build the product using the MERN stack with rigorous QA testing.', icon: FiCode }, color: '#A178FA', textColor: '#000000', drop: 'long' },
+  { type: 'dot', label: 'JUN' },
+  { type: 'node', label: 'JUL', step: { title: 'Security Audit', desc: 'Comprehensive security scans and tests to lock down your app.', icon: FiShield }, color: '#00C2A8', textColor: '#000000', drop: 'short' },
+  { type: 'dot', label: 'AUG' },
+  { type: 'node', label: 'SEP', step: { title: 'Deployment', desc: 'Deploy to production and monitor real-time performance metrics.', icon: FiZap }, color: '#F5F3FF', textColor: '#000000', drop: 'long' },
+  { type: 'dot', label: 'OCT' },
+  { type: 'node', label: 'NOV', step: { title: 'Training & Scale', desc: 'Post-launch support and optimization so your product scales.', icon: FiTrendingUp }, color: '#F5A623', textColor: '#000000', drop: 'short' },
 ];
 
 export default function Process() {
-  const [active, setActive] = useState(null);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const timelineNodes = timelineData.filter((x) => x.type === 'node');
 
   return (
-    <section id="process" className="py-28 relative overflow-hidden bg-brand-bg">
-
-      {/* Subtle dot grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(155,107,255,0.15) 1px, transparent 1px)',
-          backgroundSize: '36px 36px',
-          opacity: 0.4,
-        }}
-      />
-
-      {/* Purple radial glow — center */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(107,53,217,0.07), transparent 65%)' }}
-      />
-
-      <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-
-        {/* ── HEADER ── */}
+    <section
+      id="process"
+      className="bg-white py-16 sm:py-24 md:py-32 relative z-10 font-sans text-black border-t border-white/5"
+      style={{ color: '#000' }}
+    >
+      <div className="overflow-hidden relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          ref={ref}
+          initial={{ opacity: 0, y: 36 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="mb-16"
+          viewport={{ once: false, amount: 0.25 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-[1300px] mx-auto px-4 sm:px-6"
         >
-          <div className="flex items-center justify-between gap-4 mb-5">
-            <span className="font-display font-semibold text-[11px] uppercase tracking-[0.28em] text-brand-muted/50">
-              How We Work
-            </span>
-            <span className="font-display font-semibold text-[11px] uppercase tracking-[0.2em] text-brand-purple/60">
-              {steps.length} Steps
-            </span>
+
+          {/* ── HEADER ── */}
+          <div className="mb-12 sm:mb-16 md:mb-24 flex flex-col items-center text-center">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="section-heading text-black"
+            >
+              How we turn ideas<br />
+              <span className="text-[#6A1DB5]">into reality.</span>
+            </motion.h2>
           </div>
 
-          {/* Headline with staggered two-line layout */}
-          <div className="relative overflow-hidden">
-            {/* Ghost background text */}
-            <span
-              className="absolute -top-4 left-0 font-display font-black uppercase select-none pointer-events-none leading-none text-white/[0.03]"
-              style={{ fontSize: 'clamp(80px, 14vw, 180px)', letterSpacing: '-4px' }}
-            >
-              PROCESS
-            </span>
+          {/* ── HORIZONTAL TIMELINE (DESKTOP) ── */}
+          <div className="relative hidden xl:block mt-20 w-full h-[550px]">
 
-            <div className="relative z-10">
-              {/* Line 1 */}
-              <div className="flex items-center gap-5">
-                <h2
-                  className="font-display font-black text-white uppercase leading-[0.88] tracking-[-3px]"
-                  style={{ fontSize: 'clamp(52px, 7.5vw, 112px)' }}
-                >
-                  From Idea
-                </h2>
-              </div>
+            {/* Main horizontal line */}
+            <div className="absolute left-[2%] right-[8%] top-[60px] h-[1px] bg-black/10 z-0">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={inView ? { scaleX: 1 } : {}}
+                transition={{ duration: 1.5, ease: 'easeOut', transformOrigin: 'left' }}
+                className="h-full w-full bg-black/30"
+              />
+            </div>
 
-              {/* Line 2 — indented + decorative line before */}
-              <div className="flex items-center gap-5 mt-1 ml-6 sm:ml-14">
-                <div className="hidden sm:block w-10 h-[2px] rounded-full bg-gradient-to-r from-brand-purple to-transparent shrink-0" />
-                <h2
-                  className="font-display font-black uppercase leading-[0.88] tracking-[-3px] text-transparent"
-                  style={{ fontSize: 'clamp(52px, 7.5vw, 112px)', WebkitTextStroke: '2px rgba(107,53,217,0.75)' }}
-                >
-                  to Launch.
-                </h2>
-              </div>
+            {/* Nodes Container */}
+            <div className="absolute left-[2%] right-[8%] top-[60px] flex justify-between items-center -translate-y-1/2 z-10 w-auto">
+              {timelineData.map((item, i) => (
+                <div key={i} className="relative flex flex-col items-center">
 
-              {/* Description row */}
-              <p className="text-brand-muted text-[13px] leading-relaxed max-w-md mt-6 pl-1 border-l-2 border-brand-purple/30 pl-4">
-                A transparent, agile methodology built to deliver on time and exceed every expectation.
-              </p>
+                  {item.type === 'dot' ? (
+                    <div className="w-[6px] h-[6px] rounded-full bg-white/30 z-10" />
+                  ) : (
+                    <>
+                      {/* Circle node */}
+                      <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={inView ? { scale: 1, opacity: 1 } : {}}
+                        transition={{ duration: 0.4, delay: i * 0.1, type: 'spring' }}
+                        className="w-[52px] h-[52px] rounded-full flex items-center justify-center relative z-20"
+                        style={{
+                          background: item.color,
+                          boxShadow: `0 0 20px ${item.color}44`,
+                        }}
+                      >
+                        <item.step.icon size={20} color={item.textColor} strokeWidth={1.5} />
+                      </motion.div>
+
+                      {/* Curved drop line */}
+                      <div
+                        className="absolute left-[50%] top-[50%] z-0 pointer-events-none overflow-visible"
+                        style={{ height: item.drop === 'long' ? '300px' : '150px', width: '200px' }}
+                      >
+                        <motion.div
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+                          transition={{ duration: 0.7, delay: i * 0.1 + 0.3 }}
+                          className="w-full h-full"
+                        >
+                          <svg width="200" height={item.drop === 'long' ? 280 : 130} fill="none" className="overflow-visible">
+                            <path
+                              d={`M 0 0 L 0 ${item.drop === 'long' ? 260 : 110} Q 0 ${item.drop === 'long' ? 275 : 125} 15 ${item.drop === 'long' ? 275 : 125} L 60 ${item.drop === 'long' ? 275 : 125}`}
+                              stroke="rgba(0,0,0,0.50)"
+                              strokeWidth="1.5"
+                              fill="transparent"
+                            />
+                          </svg>
+                        </motion.div>
+                      </div>
+
+                      {/* Content text */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={inView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.5, delay: i * 0.1 + 0.6 }}
+                        className="absolute text-left"
+                        style={{
+                          left: 'calc(50% + 10px)',
+                          top: `calc(50% + ${item.drop === 'long' ? 275 : 125}px + 10px)`,
+                          width: '180px'
+                        }}
+                      >
+                        <h3
+                          className="font-sans font-bold text-[18px] mb-2 text-black"
+                          style={{ color: '#000' }}
+                        >
+                          {item.step.title}
+                        </h3>
+                        <p className="text-black/60 text-[14px] leading-[1.65]">
+                          {item.step.desc}
+                        </p>
+                      </motion.div>
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-        </motion.div>
 
-        {/* ── STEP ROWS ── */}
-        <div className="flex flex-col">
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            const isActive = active === i;
+          {/* ── MOBILE VERTICAL TIMELINE ── */}
+          <div className="xl:hidden relative mt-10 sm:mt-14">
+            <div className="absolute left-[17px] sm:left-[19px] top-3 bottom-3 w-px bg-white/10" />
 
-            return (
-              <motion.div
-                key={s.num}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="relative group"
-                onMouseEnter={() => setActive(i)}
-                onMouseLeave={() => setActive(null)}
-              >
-                {/* Divider */}
-                {i > 0 && (
-                  <div
-                    className="h-px w-full transition-colors duration-300"
-                    style={{ background: isActive ? 'rgba(107,53,217,0.4)' : 'rgba(255,255,255,0.06)' }}
-                  />
-                )}
-
-                <div
-                  className="relative flex items-center gap-6 md:gap-10 px-6 py-7 rounded-2xl cursor-default transition-all duration-300 overflow-hidden"
-                  style={{
-                    background: isActive ? 'rgba(107,53,217,0.07)' : 'transparent',
-                  }}
+            <div className="flex flex-col gap-8 sm:gap-10">
+              {timelineNodes.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="relative flex items-start gap-3 sm:gap-4"
                 >
-                  {/* Left accent bar */}
-                  <div
-                    className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full transition-all duration-300"
-                    style={{
-                      background: isActive ? s.color : 'transparent',
-                      boxShadow: isActive ? `0 0 12px ${s.color}` : 'none',
-                    }}
-                  />
-
-                  {/* Step number — large watermark */}
-                  <span
-                    className="font-display font-black select-none flex-shrink-0 transition-all duration-300 w-14 text-right leading-none"
-                    style={{
-                      fontSize: 40,
-                      color: isActive ? s.color : 'rgba(255,255,255,0.07)',
-                      textShadow: isActive ? `0 0 30px ${s.color}66` : 'none',
-                    }}
-                  >
-                    {s.num}
-                  </span>
-
-                  {/* Icon */}
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                    style={{
-                      background: isActive ? s.color : 'rgba(255,255,255,0.05)',
-                      border: isActive ? 'none' : '1px solid rgba(255,255,255,0.08)',
-                      boxShadow: isActive ? `0 0 24px ${s.color}66` : 'none',
-                    }}
-                  >
-                    <Icon size={18} color={isActive ? '#fff' : '#555'} />
-                  </div>
-
-                  {/* Title + animated description */}
-                  <div className="flex-1 min-w-0">
-                    <h3
-                      className="font-display font-bold text-base md:text-lg leading-tight transition-colors duration-300"
-                      style={{ color: isActive ? '#fff' : 'rgba(255,255,255,0.55)' }}
-                    >
-                      {s.title}
-                    </h3>
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                          animate={{ opacity: 1, height: 'auto', marginTop: 8 }}
-                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                          transition={{ duration: 0.25, ease: 'easeOut' }}
-                          className="text-brand-muted text-sm leading-relaxed overflow-hidden"
-                        >
-                          {s.desc}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Right side — step tag + arrow */}
-                  <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-                    <span
-                      className="font-display text-[10px] uppercase tracking-widest transition-colors duration-300"
-                      style={{ color: isActive ? s.color : 'rgba(255,255,255,0.12)' }}
-                    >
-                      Step {s.num}
-                    </span>
+                  <div className="flex flex-col items-center gap-2 mt-0.5">
                     <div
-                      className="w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300"
+                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center z-10 shrink-0"
                       style={{
-                        borderColor: isActive ? s.color : 'rgba(255,255,255,0.08)',
-                        background: isActive ? s.color : 'transparent',
-                        transform: isActive ? 'translateX(4px)' : 'translateX(0)',
+                        background: item.color,
+                        boxShadow: `0 0 16px ${item.color}44`,
                       }}
                     >
-                      <FiArrowRight size={13} color={isActive ? '#fff' : '#444'} />
+                      <item.step.icon size={15} color={item.textColor} strokeWidth={1.5} />
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
 
-        {/* Closing divider */}
-        <div className="h-px w-full" style={{ background: 'rgba(255,255,255,0.06)' }} />
+                  <div className="flex flex-col min-w-0 pr-1">
+                    <h3 className="font-sans font-bold text-[18px] sm:text-[20px] mb-2 text-black" style={{ color: '#000' }}>
+                      {item.step.title}
+                    </h3>
+                    <p className="text-black/60 text-[14px] sm:text-[16px] leading-[1.6] max-w-[34ch]">
+                      {item.step.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
 
+        </motion.div>
       </div>
+
+      {/* White scoop arch — transitions to light section */}
+      <div
+        className="absolute bottom-0 left-0 right-0 bg-white"
+        style={{
+          height: 'clamp(52px, 10vw, 80px)',
+          borderTopLeftRadius: 'clamp(52px, 10vw, 80px)',
+          borderTopRightRadius: 'clamp(52px, 10vw, 80px)',
+        }}
+      />
     </section>
   );
 }
-
-

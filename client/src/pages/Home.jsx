@@ -7,6 +7,7 @@ import WhyUs from '../components/WhyUs';
 import Technologies from '../components/Technologies';
 import Testimonials from '../components/Testimonials';
 import CTA from '../components/CTA';
+import CaseStudies from '../components/CaseStudies';
 
 export default function Home() {
   const { hash } = useLocation();
@@ -28,9 +29,11 @@ export default function Home() {
       <Hero />
       <Services />
       <Process />
-      <Technologies />
+      {/* <Technologies /> */}
       <WhyUs />
-      <Testimonials />
+      <CaseStudies />
+      
+      {/* <Testimonials /> */}
       <CTA />
     </>
   );
