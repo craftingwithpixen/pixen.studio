@@ -38,32 +38,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Right: Links */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 sm:gap-20 lg:gap-24">
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Product</h4>
-              <a href="#services" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Features</a>
-              <a href="#pricing" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Pricing</a>
-              <a href="#integrations" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Integrations</a>
-              <a href="#changelog" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Changelog</a>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Resources</h4>
-              <a href="#docs" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Documentation</a>
-              <a href="#tutorials" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Tutorials</a>
-              <a href="#blog" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Blog</a>
-              <a href="#support" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Support</a>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-sans font-semibold text-[15px] mb-3">Company</h4>
-              <a href="#about" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">About</a>
-              <a href="#careers" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Careers</a>
-              <Link to="/contact" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Contact</Link>
-              <a href="#partners" className="text-white/40 text-[13px] font-sans hover:text-[#C8F139] transition-colors">Partners</a>
-            </div>
-          </div>
+         
         </div>
 
         {/* Divider */}

@@ -81,20 +81,6 @@ export default function Contact() {
             </p>
           </motion.div>
 
-          {/* stat strip */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-wrap gap-4 mt-10"
-          >
-            {[['158+', 'Projects delivered'], ['42+', 'Happy clients'], ['< 24h', 'Response time']].map(([v, l]) => (
-              <div key={l} className="flex items-center gap-3 bg-black/[0.03] border border-black/[0.07] rounded-2xl px-5 py-3">
-                <span className="text-[20px] font-sans font-semibold text-black leading-none">{v}</span>
-                <span className="text-[11px] uppercase tracking-widest text-black/40 font-bold font-sans">{l}</span>
-              </div>
-            ))}
-          </motion.div>
         </div>
       </section>
 

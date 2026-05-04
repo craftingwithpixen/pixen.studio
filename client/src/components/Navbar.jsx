@@ -8,7 +8,7 @@ const navLinks = [
   { label: 'About us', href: '/#about' },
   { label: 'Services', href: '/#services' },
   { label: 'Our Work', href: '/our-work', isPage: true },
-  { label: 'Contacts', href: '/contact', isPage: true },
+  { label: 'Contact us', href: '/contact', isPage: true },
 ];
 
 /* ── Animated hamburger icon ────────────────────────────── */
