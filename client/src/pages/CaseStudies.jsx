@@ -108,20 +108,12 @@ export default function CaseStudies() {
               transition={{ duration: 0.8, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-6 lg:row-start-2"
             >
-              <div className="rounded-[20px] overflow-hidden bg-[#efefef] border border-black/5">
-                <svg viewBox="0 0 860 440" className="w-full h-[240px] sm:h-[290px] md:h-[330px]">
-                  <rect x="0" y="0" width="860" height="440" fill="#ececec" />
-                  <g fill="none" stroke="#ffffff" strokeWidth="1" opacity="0.45">
-                    <path d="M0 40 L860 360" />
-                    <path d="M0 180 L760 0" />
-                    <path d="M90 440 L860 80" />
-                  </g>
-                  <g transform="translate(110,70)">
-                    <path d="M130,260 C40,160 20,80 110,50 C180,30 220,70 230,140 C240,190 300,220 340,170 C390,100 500,80 560,150 C620,220 550,290 470,280 C380,270 310,320 230,330 C180,336 156,300 130,260 Z" fill="#C8F139" />
-                    <path d="M210,230 C190,190 200,150 245,145 C285,141 308,168 300,200 C293,229 258,246 230,246 C221,246 215,241 210,230 Z" fill="#A178FA" />
-                    <path d="M230,210 C220,190 228,172 248,170 C267,168 279,182 276,200 C272,218 258,228 242,228 C236,228 232,222 230,210 Z" fill="#6A1DB5" />
-                  </g>
-                </svg>
+              <div className="rounded-[20px] overflow-hidden bg-[#efefef] border border-black/5 h-[240px] sm:h-[290px] md:h-[330px]">
+                <img 
+                  src="/work2.jpg" 
+                  alt="Creative Showcase 1" 
+                  className="w-full h-full object-cover" 
+                />
               </div>
             </motion.div>
 
@@ -131,19 +123,12 @@ export default function CaseStudies() {
               transition={{ duration: 0.65, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-3 lg:row-start-2"
             >
-              <div className="rounded-[16px] overflow-hidden bg-[#1b1b1b]">
-                <svg viewBox="0 0 260 180" className="w-full h-[170px] sm:h-[190px]">
-                  <defs>
-                    <linearGradient id="stackGlow" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#C8F139" />
-                      <stop offset="100%" stopColor="#6A1DB5" />
-                    </linearGradient>
-                  </defs>
-                  <rect x="0" y="0" width="260" height="180" fill="#151515" />
-                  <ellipse cx="125" cy="52" rx="74" ry="24" fill="url(#stackGlow)" />
-                  <ellipse cx="130" cy="86" rx="74" ry="24" fill="url(#stackGlow)" opacity="0.85" />
-                  <ellipse cx="133" cy="120" rx="74" ry="24" fill="url(#stackGlow)" opacity="0.65" />
-                </svg>
+              <div className="rounded-[16px] overflow-hidden bg-[#1b1b1b] h-[170px] sm:h-[190px]">
+                <img 
+                  src="/work1.jpg" 
+                  alt="Creative Showcase 2" 
+                  className="w-full h-full object-cover" 
+                />
               </div>
               <h4
                 className="mt-4 font-sans font-light leading-[1.1] tracking-[-0.03em]"

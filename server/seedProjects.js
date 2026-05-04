@@ -87,15 +87,15 @@ const seedDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB...');
-    
+
     // Clear existing projects
     await Project.deleteMany({});
     console.log('Cleared existing projects.');
-    
+
     // Insert demo projects
     await Project.insertMany(demoProjects);
     console.log('Successfully seeded demo projects!');
-    
+
     process.exit();
   } catch (err) {
     console.error('Error seeding database:', err);

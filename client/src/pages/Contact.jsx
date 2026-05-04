@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 /* ─── Contact info items ──────────────────────────────────── */
 const CONTACT_ITEMS = [
-  { icon: <FiMail size={16} />, label: 'Email us', val: 'hello@pixen.studio', link: 'mailto:hello@pixen.studio' },
+  { icon: <FiMail size={16} />, label: 'Email us', val: 'craftiingwithpixen@gmail.com', link: 'mailto:craftiingwithpixen@gmail.com' },
   { icon: <FiPhone size={16} />, label: 'Call us', val: '+91 98765 43210', link: 'tel:+919876543210' },
   { icon: <FiMapPin size={16} />, label: 'Studio', val: 'Pune, Maharashtra, India', link: '#' },
 ];
@@ -125,7 +125,7 @@ export default function Contact() {
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-0">
 
-              {/* ── Left info panel ────────────────────────────── */}
+              {/* ── Left info panel ──────────── */}
               <div className="lg:col-span-4 p-8 sm:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/[0.07] flex flex-col justify-between gap-10">
                 <div>
                   <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/30 mb-5 font-sans">Contact us</p>
@@ -136,7 +136,6 @@ export default function Contact() {
                     We respond within 24 hours. Let's talk about how Pixen can help you grow.
                   </p>
                 </div>
-
                 {/* contact items */}
                 <div className="flex flex-col gap-5">
                   {CONTACT_ITEMS.map((item, i) => (

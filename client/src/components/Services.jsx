@@ -7,7 +7,7 @@ const services = [
     id: '01',
     title: 'Web Dev',
     category: 'Engineering',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+    image: '/1.png',
     desc: 'Pixen creates modern, responsive websites built for ultimate performance and rapid business growth.',
     accent: '#6A1DB5',
     tags: ['React', 'Next.js', 'Webflow'],
@@ -16,7 +16,7 @@ const services = [
     id: '02',
     title: 'SaaS Products',
     category: 'Product Design',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
+    image: '/2.png',
     desc: 'Robust, subscription-based platforms designed for high scalability and seamless payment flows.',
     accent: '#C8F139',
     tags: ['Stripe', 'Auth', 'Dashboards'],
@@ -25,7 +25,7 @@ const services = [
     id: '03',
     title: 'AI Agents',
     category: 'Intelligence',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80',
+    image: '/3.png',
     desc: 'Build AI agents that automate complex workflows, handle repetitive tasks, and deliver faster decisions.',
     accent: '#A178FA',
     tags: ['LLMs', 'Automation', 'RAG'],
@@ -34,7 +34,7 @@ const services = [
     id: '04',
     title: 'SEO & Search',
     category: 'Growth',
-    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=900&q=80',
+    image: '/4.png',
     desc: 'Technical SEO strategies to ensure your digital platform ranks at the top and drives consistent organic traffic.',
     accent: '#00C2A8',
     tags: ['Analytics', 'On-page', 'Performance'],
@@ -43,10 +43,19 @@ const services = [
     id: '05',
     title: 'Cloud DevOps',
     category: 'Infrastructure',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80',
+    image: '/5.png',
     desc: 'Cloud deployments and infrastructure management for highly reliable applications with 99.9% uptime.',
-    accent: '#ffffff',
+    accent: '#A178FA',
     tags: ['AWS', 'Docker', 'CI/CD'],
+  },
+  {
+    id: '06',
+    title: 'UI/UX Design',
+    category: 'Creative',
+    image: '/6.png',
+    desc: 'Designing intuitive, high-fidelity interfaces that prioritize user experience and brand storytelling.',
+    accent: '#FF8A65',
+    tags: ['Figma', 'Prototyping', 'Design Systems'],
   },
 ];
 
@@ -181,39 +190,6 @@ export default function Services() {
         ))}
       </div>
 
-      {/* ── Bottom CTA bar ───────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 mx-6 sm:mx-10 lg:mx-16 mb-12 mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-8 border-t border-white/[0.07]"
-      >
-        <div className="flex items-center gap-4">
-          <div className="flex -space-x-2">
-            {['11', '33', '44'].map((n) => (
-              <img
-                key={n}
-                src={`https://i.pravatar.cc/100?img=${n}`}
-                className="w-9 h-9 rounded-full border-2 border-[#0D0D0D] object-cover"
-                alt="client"
-              />
-            ))}
-          </div>
-          <span className="text-white/40 text-[12px] font-sans font-medium">
-            158+ projects delivered globally
-          </span>
-        </div>
-
-        <a
-          href="#contact"
-          className="group flex items-center gap-3 bg-white text-black px-7 py-3.5 rounded-full text-[13px] font-bold font-sans hover:bg-[#C8F139] transition-colors duration-300"
-        >
-          Start a project
-          <span className="w-6 h-6 bg-black/10 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
-            <FiArrowUpRight size={13} strokeWidth={2.5} />
-          </span>
-        </a>
-      </motion.div>
     </section>
   );
 }
