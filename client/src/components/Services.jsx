@@ -190,39 +190,6 @@ export default function Services() {
         ))}
       </div>
 
-      {/* ── Bottom CTA bar ───────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 mx-6 sm:mx-10 lg:mx-16 mb-12 mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-8 border-t border-white/[0.07]"
-      >
-        <div className="flex items-center gap-4">
-          <div className="flex -space-x-2">
-            {['11', '33', '44'].map((n) => (
-              <img
-                key={n}
-                src={`https://i.pravatar.cc/100?img=${n}`}
-                className="w-9 h-9 rounded-full border-2 border-[#0D0D0D] object-cover"
-                alt="client"
-              />
-            ))}
-          </div>
-          <span className="text-white/40 text-[12px] font-sans font-medium">
-            158+ projects delivered globally
-          </span>
-        </div>
-
-        <a
-          href="#contact"
-          className="group flex items-center gap-3 bg-white text-black px-7 py-3.5 rounded-full text-[13px] font-bold font-sans hover:bg-[#C8F139] transition-colors duration-300"
-        >
-          Start a project
-          <span className="w-6 h-6 bg-black/10 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
-            <FiArrowUpRight size={13} strokeWidth={2.5} />
-          </span>
-        </a>
-      </motion.div>
     </section>
   );
 }
