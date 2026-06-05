@@ -6,12 +6,12 @@ import { useState, useEffect, useRef } from 'react';
 
 /* ─── Marquee data ────────────────────────────────────────── */
 const MARQUEE_ITEMS = [
-  { label: 'Web Development', icon: <FiCode size={13} /> },
-  { label: 'SaaS Products', icon: <FiLayers size={13} /> },
-  { label: 'AI Agents', icon: <FiZap size={13} /> },
-  { label: 'Cloud DevOps', icon: <FiStar size={13} /> },
-  { label: 'UI / UX Design', icon: <FiCode size={13} /> },
-  { label: 'SEO & Growth', icon: <FiArrowUpRight size={13} /> },
+  { label: 'Custom CRM Systems', icon: <FiCode size={13} /> },
+  { label: 'Workflow Automation', icon: <FiLayers size={13} /> },
+  { label: 'Business Websites', icon: <FiZap size={13} /> },
+  { label: 'Digital Platforms', icon: <FiStar size={13} /> },
+  { label: 'Agency Partnerships', icon: <FiCode size={13} /> },
+  { label: 'Product Development', icon: <FiArrowUpRight size={13} /> },
 ];
 
 /* ─── Stat counter hook ───────────────────────────────────── */
@@ -159,13 +159,9 @@ export default function Hero() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="text-[34px] sm:text-[44px] md:text-[58px] lg:text-[72px] xl:text-[82px] font-sans font-normal leading-[1.05] tracking-[-0.02em] text-gray-900 max-w-[900px]"
             >
-              Crafting{" "}
-              <span className="relative inline-block">
-                <span className="font-semibold text-[#6A1DB5]">bold</span>
-              </span>{" "}
-              ideas into
+              Build Smarter Business Systems,
               <br className="hidden sm:block" />
-              digital products
+              Websites &amp; Digital Products
             </motion.h1>
           </div>
 
@@ -177,7 +173,7 @@ export default function Hero() {
             className="w-full max-w-[400px] lg:max-w-[300px] flex flex-col gap-6 pb-2"
           >
             <p className="text-[15px] text-black/60 font-sans leading-[1.6] font-medium">
-              Pixen turns bold concepts into powerful platforms. Achieve your goals with our state-of-the-art solutions.
+              We help businesses streamline operations through custom CRM systems, workflow automation, modern websites, and scalable digital platforms.
             </p>
 
 
@@ -226,9 +222,9 @@ export default function Hero() {
 
               <div className="relative z-10 flex justify-between items-end w-full">
                 <h3 className="text-[26px] sm:text-[30px] md:text-[36px] font-sans font-semibold leading-[1.05] tracking-tight">
-                  Flexible, tailored<br />tech solutions
+                  Custom Systems Built<br />Around Your Workflow
                 </h3>
-                
+                <p className="text-white/90 mt-3 max-w-[320px]">Every business operates differently. We design CRM systems, dashboards, and digital tools that fit the way your team works.</p>
               </div>
             </motion.div>
 
@@ -249,8 +245,9 @@ export default function Hero() {
 
               <span className="text-[100px] font-serif text-white/[0.06] absolute -top-3 left-3 leading-none select-none">"</span>
 
-              <p className="text-white/70 text-[14px] leading-[1.7] font-sans relative z-10 max-w-[500px] font-medium mt-2">
-                Our cutting-edge technology adapts to your needs and provides a tailored platform that helps you succeed in a competitive market.
+              <h3 className="text-[20px] sm:text-[22px] font-sans font-bold text-white relative z-10 max-w-[500px] mt-2">We Don't Just Build Software. We Solve Operational Problems.</h3>
+              <p className="text-white/70 text-[14px] leading-[1.7] font-sans relative z-10 max-w-[500px] font-medium mt-3">
+                Whether you're managing leads, projects, clients, or internal processes, we build systems that simplify operations and improve visibility.
               </p>
 
               <div className="flex items-center justify-between relative z-10 mt-4">
@@ -286,10 +283,11 @@ export default function Hero() {
 
              
                 <div className="relative z-10 flex-1 flex flex-col items-center justify-end pb-2">
-                  <p className="text-[11px] font-bold opacity-60 mb-3 font-sans tracking-[0.15em] uppercase">Innovating daily</p>
+                  <p className="text-[11px] font-bold opacity-60 mb-3 font-sans tracking-[0.15em] uppercase">Transforming Business Workflows</p>
                   <h3 className="text-[26px] sm:text-[28px] md:text-[30px] font-sans font-bold tracking-tight leading-[1.0]">
-                    Crafting Next-Gen<br />Experiences
+                    Transforming Business<br />Workflows
                   </h3>
+                  <p className="mt-3 text-[13px] text-black/60">CRM Systems<br/>Automation<br/>Internal Tools<br/>Digital Platforms</p>
                 </div>
 
               {/* mini stat row */}
@@ -328,9 +326,9 @@ export default function Hero() {
                   Let's talk
                 </div>
 
-                <h4 className="text-[24px] sm:text-[26px] font-sans font-bold mb-3 tracking-tight leading-[1.1]">Need a custom app?</h4>
+                <h4 className="text-[24px] sm:text-[26px] font-sans font-bold mb-3 tracking-tight leading-[1.1]">Need a Custom CRM or Business System?</h4>
                 <p className="text-[14px] text-black/55 leading-[1.6] font-sans font-medium sm:pr-4">
-                  Priority development &amp; dedicated support from our expert team. Experience the future of web tech.
+                  Let's turn your spreadsheets, manual processes, and disconnected tools into one streamlined platform.
                 </p>
               </div>
 
@@ -349,7 +347,7 @@ export default function Hero() {
                   to="/contact"
                   className="flex-1 bg-black hover:bg-[#6A1DB5] text-white py-3.5 rounded-full text-center text-[13px] font-bold transition-colors duration-300"
                 >
-                  Get started
+                  Book a Free Consultation
                 </Link>
                 <div className="w-[46px] h-[46px] bg-white/60 rounded-full flex items-center justify-center text-black shadow-sm border border-black/10 flex-shrink-0 cursor-pointer hover:bg-white transition-colors duration-200">
                   <FiStar size={17} strokeWidth={1.5} />
