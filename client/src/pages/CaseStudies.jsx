@@ -96,7 +96,7 @@ export default function CaseStudies() {
                   to="/our-work"
                   className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#6A1DB5] hover:gap-2.5 transition-all duration-200 font-sans"
                 >
-                  Explore Our Work
+                  View case collection
                   <FiArrowUpRight size={14} strokeWidth={2.5} />
                 </Link>
               </div>

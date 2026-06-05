@@ -64,16 +64,16 @@ export default function CaseStudies() {
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-black/30 mb-4">
               <span className="w-4 h-px bg-black/30" />
-              Portfolio
+              Our Work
             </span>
             <h2 className="section-heading text-black">
-              Business Systems &amp; Digital Products<br />
-              <span className="font-semibold text-[#6A1DB5]">We've Built</span>
+              Explore Our{' '}
+              <span className="font-semibold text-[#6A1DB5]">Work</span>
             </h2>
           </div>
 
           <p className="text-[15px] sm:text-[16px] text-black/50 leading-[1.7] font-sans sm:max-w-[340px] sm:text-right">
-            Each project highlights the client, the problem, the solution we built, and the outcome achieved.
+            From edtech to marketplaces - every product we ship is built to perform, scale, and leave a lasting impression.
           </p>
         </Reveal>
 
@@ -163,12 +163,12 @@ export default function CaseStudies() {
 
             <Reveal delay={0.15} className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-2">
               <p className="text-[14px] text-black/45 leading-[1.7] font-sans max-w-[360px]">
-                Business systems, workflows, and platforms we've delivered for real clients.
+                Discover how we turn real-world problems into polished, high-impact digital products - on time, every time.
               </p>
               <Link to="/our-work"
                 className="inline-flex items-center gap-2 bg-[#6A1DB5] hover:bg-[#5512A0] text-white text-[13px] font-bold px-7 py-4 rounded-full transition-all whitespace-nowrap shrink-0"
                 style={{ boxShadow: '0 6px 20px rgba(106,29,181,0.25)' }}>
-                View Case Studies <FiArrowUpRight size={14} strokeWidth={2.2} />
+                All case studies <FiArrowUpRight size={14} strokeWidth={2.2} />
               </Link>
             </Reveal>
           </div>

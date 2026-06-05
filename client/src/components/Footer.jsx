@@ -22,7 +22,7 @@ export default function Footer() {
               <img src="/logo-white.png" className="h-[40px] md:h-[48px] object-contain hover:scale-105 transition-transform duration-300" alt="Pixen Logo" />
             </Link>
             <p className="text-white/40 text-[14px] leading-[1.6] mb-8 font-sans">
-              Pixen Studio helps businesses streamline operations through custom CRM systems, workflow automation, websites, and scalable digital platforms.
+              Pixen empowers brands to transform raw ideas into bold, compelling digital platforms — making your vision easier to scale, understand, and launch.
             </p>
             <div className="flex items-center gap-5">
               {SOCIALS.map((s) => (

@@ -5,57 +5,57 @@ import { FiArrowUpRight } from 'react-icons/fi';
 const services = [
   {
     id: '01',
-    title: 'Custom CRM Systems',
-    category: 'Business Systems',
+    title: 'Web Dev',
+    category: 'Engineering',
     image: '/1.png',
-    desc: 'Build centralized platforms to manage leads, clients, operations, and reporting.',
+    desc: 'Pixen creates modern, responsive websites built for ultimate performance and rapid business growth.',
     accent: '#6A1DB5',
-    tags: ['CRM', 'Dashboards', 'Reporting'],
+    tags: ['React', 'Next.js', 'Webflow'],
   },
   {
     id: '02',
-    title: 'Workflow Automation',
-    category: 'Automation',
+    title: 'SaaS Products',
+    category: 'Product Design',
     image: '/2.png',
-    desc: 'Reduce manual work and automate repetitive business processes.',
+    desc: 'Robust, subscription-based platforms designed for high scalability and seamless payment flows.',
     accent: '#C8F139',
-    tags: ['Zapier', 'Integromat', 'Serverless'],
+    tags: ['Stripe', 'Auth', 'Dashboards'],
   },
   {
     id: '03',
-    title: 'Business Websites',
-    category: 'Web',
+    title: 'AI Agents',
+    category: 'Intelligence',
     image: '/3.png',
-    desc: 'Modern websites designed to generate trust, leads, and growth.',
+    desc: 'Build AI agents that automate complex workflows, handle repetitive tasks, and deliver faster decisions.',
     accent: '#A178FA',
-    tags: ['React', 'Next.js', 'SEO'],
+    tags: ['LLMs', 'Automation', 'RAG'],
   },
   {
     id: '04',
-    title: 'Digital Platforms',
-    category: 'Platforms',
+    title: 'SEO & Search',
+    category: 'Growth',
     image: '/4.png',
-    desc: 'Portals, dashboards, internal tools, and customer-facing applications.',
+    desc: 'Technical SEO strategies to ensure your digital platform ranks at the top and drives consistent organic traffic.',
     accent: '#00C2A8',
-    tags: ['Portals', 'APIs', 'UX'],
+    tags: ['Analytics', 'On-page', 'Performance'],
   },
   {
     id: '05',
-    title: 'Product Development',
-    category: 'MVP & SaaS',
+    title: 'Cloud DevOps',
+    category: 'Infrastructure',
     image: '/5.png',
-    desc: 'MVPs and scalable SaaS products built for founders and startups.',
+    desc: 'Cloud deployments and infrastructure management for highly reliable applications with 99.9% uptime.',
     accent: '#A178FA',
-    tags: ['MVP', 'SaaS', 'Scaling'],
+    tags: ['AWS', 'Docker', 'CI/CD'],
   },
   {
     id: '06',
-    title: 'Agency Partnerships',
-    category: 'White-label',
+    title: 'UI/UX Design',
+    category: 'Creative',
     image: '/6.png',
-    desc: 'White-label development support for marketing and creative agencies.',
+    desc: 'Designing intuitive, high-fidelity interfaces that prioritize user experience and brand storytelling.',
     accent: '#FF8A65',
-    tags: ['White-label', 'Support', 'Collaboration'],
+    tags: ['Figma', 'Prototyping', 'Design Systems'],
   },
 ];
 
@@ -103,6 +103,45 @@ export default function Services() {
         )}
       </AnimatePresence>
 
+      {/* ── Floating image card that follows mouse ───────────────── */}
+      <AnimatePresence>
+        {hoveredIndex !== null && (
+          <motion.div
+            key={`preview-${hoveredIndex}`}
+            initial={{ opacity: 0, scale: 0.88, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.88, y: 20 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute pointer-events-none z-50 hidden lg:block"
+            style={{
+              left: mousePos.x + 30,
+              top: mousePos.y - 120,
+              width: 260,
+              height: 180,
+            }}
+          >
+            <div className="relative w-full h-full rounded-[20px] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.7)]">
+              <img
+                src={services[hoveredIndex].image}
+                alt={services[hoveredIndex].title}
+                className="w-full h-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(135deg, ${services[hoveredIndex].accent}55 0%, transparent 60%)`,
+                }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                <p className="text-white text-[11px] font-bold tracking-widest uppercase opacity-80">
+                  {services[hoveredIndex].category}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── Header ───────────────────────────────────────────────── */}
       <div className="relative z-10 px-6 sm:px-10 lg:px-16 pt-16 sm:pt-20 lg:pt-24 pb-10 sm:pb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
         <motion.div
@@ -124,7 +163,7 @@ export default function Services() {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="text-[#666] text-[14px] sm:text-[15px] leading-[1.65] font-sans max-w-[340px] pb-1"
         >
-          We help businesses streamline operations through custom CRM systems, workflow automation, modern websites, and scalable digital platforms.
+          We craft digital experiences across every layer of the stack — from design to deployment.
         </motion.p>
       </div>
 
