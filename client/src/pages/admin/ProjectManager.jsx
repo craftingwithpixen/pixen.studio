@@ -1,8 +1,70 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiEdit2, FiTrash2, FiStar, FiPlus, FiX, FiCheck, FiLayers, FiImage, FiSettings, FiFileText } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiStar, FiPlus, FiX, FiCheck, FiLayers, FiImage, FiSettings, FiFileText, FiMove } from 'react-icons/fi';
+import { DndContext, closestCenter, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
+
+const SortableProjectCard = ({ project, index, isRearranging, onEdit, onDelete }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: project._id,
+    disabled: !isRearranging,
+  });
+
+  return (
+    // dnd-kit owns this wrapper's transform; framer-motion animates the inner card
+    <div
+      ref={setNodeRef}
+      style={{ transform: CSS.Translate.toString(transform), transition }}
+      className={`relative rounded-[32px] outline-none focus-visible:ring-4 focus-visible:ring-[#6A1DB5]/30 ${isDragging ? 'z-20' : ''} ${isRearranging ? 'cursor-grab active:cursor-grabbing select-none touch-manipulation' : ''}`}
+      {...(isRearranging ? { ...attributes, ...listeners } : {})}
+    >
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.05 }}
+            className={`group h-full bg-white rounded-[32px] border overflow-hidden transition-all ${
+                isDragging
+                    ? 'border-[#6A1DB5] shadow-[0_30px_60px_-15px_rgba(106,29,181,0.35)]'
+                    : isRearranging
+                        ? 'border-dashed border-[#6A1DB5]/30 hover:border-[#6A1DB5]/60'
+                        : 'border-black/[0.06] hover:border-[#6A1DB5]/20 hover:shadow-2xl'
+            }`}
+        >
+            <div className="aspect-[4/3] relative bg-black/5 overflow-hidden">
+                <img src={project.thumbnail || project.image} alt={project.title} draggable={false} className={`w-full h-full object-cover transition-transform duration-700 ${isRearranging ? '' : 'group-hover:scale-105'}`} />
+                {!isRearranging && (
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
+                        <button onClick={() => onEdit(project)} className="p-4 bg-white text-[#6A1DB5] rounded-2xl hover:bg-[#6A1DB5] hover:text-white transition-all shadow-xl"><FiEdit2 size={20} /></button>
+                        <button onClick={() => onDelete(project._id)} className="p-4 bg-white text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-xl"><FiTrash2 size={20} /></button>
+                    </div>
+                )}
+                <div className="absolute top-6 left-6 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-black shadow-sm">
+                    {project.category}
+                </div>
+                {project.isFeatured && (
+                    <div className="absolute top-6 right-6 w-10 h-10 bg-[#6A1DB5] text-white rounded-full flex items-center justify-center shadow-lg"><FiStar fill="white" /></div>
+                )}
+            </div>
+            <div className="p-8">
+                <div className="flex items-center gap-2 mb-3">
+                    <div className={`w-2 h-2 rounded-full ${project.status === 'completed' ? 'bg-green-500' : project.status === 'in-progress' ? 'bg-orange-500' : 'bg-blue-500'}`} />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-black/30">{project.status}</span>
+                    {isRearranging && (
+                        <span className="ml-auto flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#6A1DB5]">
+                            <FiMove size={12} /> #{String(index + 1).padStart(2, '0')}
+                        </span>
+                    )}
+                </div>
+                <h4 className={`text-xl font-bold text-black mb-3 transition-colors ${isRearranging ? '' : 'group-hover:text-[#6A1DB5]'}`}>{project.title}</h4>
+                <p className="text-sm text-black/50 line-clamp-2 leading-relaxed">{project.shortDescription}</p>
+            </div>
+        </motion.div>
+    </div>
+  );
+};
 
 const ProjectManager = () => {
   const [projects, setProjects] = useState([]);
@@ -10,6 +72,16 @@ const ProjectManager = () => {
   const [editingId, setEditingId] = useState(null);
   const [editingCsId, setEditingCsId] = useState(null);
   const [activeTab, setActiveTab] = useState('basic');
+  // Working copy of the list while in rearrange mode; null when not rearranging
+  const [draftOrder, setDraftOrder] = useState(null);
+  const [savingOrder, setSavingOrder] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 6 } }),
+    // Long-press to pick up on touch so normal scrolling still works
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
 
   const initialFormState = {
     title: '',
@@ -24,7 +96,6 @@ const ProjectManager = () => {
     techStack: '',
     features: '',
     isFeatured: false,
-    order: 0,
     // Case Study
     cs_overview: '',
     cs_problemStatement: '',
@@ -73,7 +144,6 @@ const ProjectManager = () => {
             techStack: Array.isArray(json.techStack) ? json.techStack.join(', ') : (json.techStack || ''),
             features: Array.isArray(json.features) ? json.features.join(', ') : (json.features || ''),
             isFeatured: !!json.isFeatured,
-            order: json.order || 0,
             cs_overview: json.caseStudy?.overview || '',
             cs_problemStatement: json.caseStudy?.problemStatement || '',
             cs_objectives: json.caseStudy?.objectives || [],
@@ -127,7 +197,6 @@ const ProjectManager = () => {
       techStack: ["React", "Tailwind CSS", "Node.js", "MongoDB"],
       features: ["Real-time Sync", "Multi-user Auth", "Cloud Storage"],
       isFeatured: true,
-      order: 1,
       caseStudy: {
         overview: "Detailed overview of the case study.",
         problemStatement: "The problem this project aimed to solve.",
@@ -211,7 +280,7 @@ const ProjectManager = () => {
     const data = new FormData();
     
     // Project fields
-    const projectFields = ['title', 'category', 'type', 'shortDescription', 'detailedDescription', 'status', 'liveUrl', 'tags', 'techStack', 'features', 'isFeatured', 'order'];
+    const projectFields = ['title', 'category', 'type', 'shortDescription', 'detailedDescription', 'status', 'liveUrl', 'tags', 'techStack', 'features', 'isFeatured'];
     projectFields.forEach(key => data.append(key, formData[key]));
     
     if (thumbnailFile) data.append('thumbnail', thumbnailFile);
@@ -275,7 +344,6 @@ const ProjectManager = () => {
       techStack: project.techStack?.join(', ') || '',
       features: project.features?.join(', ') || '',
       isFeatured: project.isFeatured || false,
-      order: project.order || 0,
       // Case Study
       cs_overview: cs.overview || '',
       cs_problemStatement: cs.problemStatement || '',
@@ -313,6 +381,37 @@ const ProjectManager = () => {
       fetchProjects();
     } catch (err) {
       toast.error('Delete failed');
+    }
+  };
+
+  const isRearranging = draftOrder !== null;
+  const displayedProjects = draftOrder ?? projects;
+  const orderChanged = isRearranging && draftOrder.some((p, i) => p._id !== projects[i]?._id);
+
+  const handleDragEnd = ({ active, over }) => {
+    if (!over || active.id === over.id) return;
+    setDraftOrder(items => {
+      const oldIndex = items.findIndex(p => p._id === active.id);
+      const newIndex = items.findIndex(p => p._id === over.id);
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  };
+
+  const saveOrder = async () => {
+    setSavingOrder(true);
+    try {
+      await api.put('/projects/reorder', { ids: draftOrder.map(p => p._id) });
+      setProjects(draftOrder);
+      setDraftOrder(null);
+      toast.success('Project order saved');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to save order');
+      if (err.response?.status === 409) {
+        setDraftOrder(null);
+        fetchProjects();
+      }
+    } finally {
+      setSavingOrder(false);
     }
   };
 
@@ -462,10 +561,6 @@ const ProjectManager = () => {
                         <input type="checkbox" name="isFeatured" checked={formData.isFeatured} onChange={handleChange} className="hidden" />
                         <span className="text-xs font-bold uppercase tracking-widest text-black/60">Featured Project</span>
                     </label>
-                    <div className="flex items-center gap-3">
-                        <label className="text-xs font-bold uppercase tracking-widest text-black/40">Display Order</label>
-                        <input type="number" name="order" value={formData.order} onChange={handleChange} className="w-20 bg-white border border-black/[0.1] rounded-xl px-4 py-2 focus:border-[#6A1DB5] outline-none" />
-                    </div>
                  </div>
                </motion.div>
             )}
@@ -670,43 +765,65 @@ const ProjectManager = () => {
 
       {/* Projects Display */}
       <div className="space-y-10">
-        <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-sans font-medium text-black">Current Archive</h3>
-            <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{projects.length} Entries</span>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, idx) => (
-                <motion.div
-                    key={project._id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className="group bg-white rounded-[32px] border border-black/[0.06] overflow-hidden hover:border-[#6A1DB5]/20 hover:shadow-2xl transition-all"
-                >
-                    <div className="aspect-[4/3] relative bg-black/5 overflow-hidden">
-                        <img src={project.thumbnail || project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
-                            <button onClick={() => handleEdit(project)} className="p-4 bg-white text-[#6A1DB5] rounded-2xl hover:bg-[#6A1DB5] hover:text-white transition-all shadow-xl"><FiEdit2 size={20} /></button>
-                            <button onClick={() => handleDelete(project._id)} className="p-4 bg-white text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-xl"><FiTrash2 size={20} /></button>
-                        </div>
-                        <div className="absolute top-6 left-6 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-black shadow-sm">
-                            {project.category}
-                        </div>
-                        {project.isFeatured && (
-                            <div className="absolute top-6 right-6 w-10 h-10 bg-[#6A1DB5] text-white rounded-full flex items-center justify-center shadow-lg"><FiStar fill="white" /></div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h3 className="text-2xl font-sans font-medium text-black">Current Archive</h3>
+                {isRearranging && (
+                    <p className="text-[13px] text-black/40 mt-1">Drag cards into the order they should appear on the site.</p>
+                )}
+            </div>
+            <div className="flex items-center gap-3">
+                {isRearranging ? (
+                    <>
+                        <button
+                          type="button"
+                          onClick={() => setDraftOrder(null)}
+                          disabled={savingOrder}
+                          className="px-4 py-2 bg-black/5 text-black/40 rounded-xl text-[10px] font-bold uppercase hover:bg-black/10 transition-all disabled:opacity-40"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={saveOrder}
+                          disabled={!orderChanged || savingOrder}
+                          className="px-4 py-2 bg-[#6A1DB5] text-white rounded-xl text-[10px] font-bold uppercase hover:bg-[#5a189a] transition-all flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          <FiCheck /> {savingOrder ? 'Saving...' : 'Save Order'}
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{projects.length} Entries</span>
+                        {projects.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => setDraftOrder(projects)}
+                              className="px-4 py-2 bg-[#6A1DB5]/10 text-[#6A1DB5] rounded-xl text-[10px] font-bold uppercase hover:bg-[#6A1DB5]/20 transition-all flex items-center gap-2"
+                            >
+                              <FiMove /> Rearrange
+                            </button>
                         )}
-                    </div>
-                    <div className="p-8">
-                        <div className="flex items-center gap-2 mb-3">
-                            <div className={`w-2 h-2 rounded-full ${project.status === 'completed' ? 'bg-green-500' : project.status === 'in-progress' ? 'bg-orange-500' : 'bg-blue-500'}`} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-black/30">{project.status}</span>
-                        </div>
-                        <h4 className="text-xl font-bold text-black mb-3 group-hover:text-[#6A1DB5] transition-colors">{project.title}</h4>
-                        <p className="text-sm text-black/50 line-clamp-2 leading-relaxed">{project.shortDescription}</p>
-                    </div>
-                </motion.div>
-            ))}
+                    </>
+                )}
+            </div>
         </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={displayedProjects.map(p => p._id)} strategy={rectSortingStrategy}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {displayedProjects.map((project, idx) => (
+                        <SortableProjectCard
+                            key={project._id}
+                            project={project}
+                            index={idx}
+                            isRearranging={isRearranging}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                        />
+                    ))}
+                </div>
+            </SortableContext>
+        </DndContext>
       </div>
     </div>
   );

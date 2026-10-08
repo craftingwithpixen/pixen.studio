@@ -43,7 +43,10 @@ const ProjectSchema = new Schema(
     tags: [{ type: String }],
 
     isFeatured: { type: Boolean, default: false },
-    
+
+    // Manual display position (ascending), set via drag-and-drop in the admin panel
+    order: { type: Number, default: 0, index: true },
+
     // Keeping category and type for compatibility if needed, or just follow user's new schema strictly
     // The user said "take reference... and modify", so I will follow their schema.
   },
