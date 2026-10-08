@@ -64,16 +64,16 @@ export default function CaseStudies() {
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-black/30 mb-4">
               <span className="w-4 h-px bg-black/30" />
-              Our Work
+              Portfolio
             </span>
             <h2 className="section-heading text-black">
-              Explore Our{' '}
-              <span className="font-semibold text-[#6A1DB5]">Work</span>
+              Business Systems &amp; Digital Products<br />
+              <span className="font-semibold text-[#6A1DB5]">We've Built</span>
             </h2>
           </div>
 
           <p className="text-[15px] sm:text-[16px] text-black/50 leading-[1.7] font-sans sm:max-w-[340px] sm:text-right">
-            From edtech to marketplaces — every product we ship is built to perform, scale, and leave a lasting impression.
+            Each project highlights the client, the problem, the solution we built, and the outcome achieved.
           </p>
         </Reveal>
 
@@ -87,7 +87,7 @@ export default function CaseStudies() {
                 className="rounded-[32px] p-8 relative flex flex-col overflow-hidden min-h-[460px] border group bg-[#6A1DB5] border-[#6A1DB5]/20"
               >
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
-                  <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
+                  <img src={featured.thumbnail || featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-black/60" />
                 </div>
                 <div className="flex items-center justify-between mb-5 z-10 relative">
@@ -140,7 +140,7 @@ export default function CaseStudies() {
                       style={{ backgroundColor: colors.bg, borderColor: colors.bg }}
                     >
                       <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                        <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
+                        <img src={sc.thumbnail || sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-black/60" />
                       </div>
                       <div className={`z-10 relative ${colors.text} group-hover:text-white transition-colors duration-300`}>
@@ -163,12 +163,12 @@ export default function CaseStudies() {
 
             <Reveal delay={0.15} className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-2">
               <p className="text-[14px] text-black/45 leading-[1.7] font-sans max-w-[360px]">
-                Discover how we turn real-world problems into polished, high-impact digital products — on time, every time.
+                Business systems, workflows, and platforms we've delivered for real clients.
               </p>
               <Link to="/our-work"
                 className="inline-flex items-center gap-2 bg-[#6A1DB5] hover:bg-[#5512A0] text-white text-[13px] font-bold px-7 py-4 rounded-full transition-all whitespace-nowrap shrink-0"
                 style={{ boxShadow: '0 6px 20px rgba(106,29,181,0.25)' }}>
-                All case studies <FiArrowUpRight size={14} strokeWidth={2.2} />
+                View Case Studies <FiArrowUpRight size={14} strokeWidth={2.2} />
               </Link>
             </Reveal>
           </div>
@@ -182,7 +182,7 @@ export default function CaseStudies() {
               className="rounded-[28px] p-6 sm:p-8 relative flex flex-col overflow-hidden min-h-[360px] sm:min-h-[420px] border bg-[#6A1DB5] border-[#6A1DB5]/20 group"
             >
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
-                <img src={featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
+                <img src={featured.thumbnail || featured.image} alt={featured.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-black/60" />
               </div>
               <div className="flex items-center justify-between mb-4 z-10 relative">
@@ -200,7 +200,7 @@ export default function CaseStudies() {
               </div>
               <div className="absolute -bottom-8 -right-6 w-[48%] sm:w-[44%] origin-bottom-right rotate-[-5deg] z-0 group-hover:opacity-0 transition-opacity duration-300">
                 <div className="rounded-[18px] overflow-hidden shadow-2xl border-[4px] border-white/20">
-                  <img src={featured.image} alt={featured.title} className="w-full h-auto object-cover object-top aspect-[4/5]" />
+                  <img src={featured.thumbnail || featured.image} alt={featured.title} className="w-full h-auto object-cover object-top aspect-[4/5]" />
                 </div>
               </div>
             </Link>
@@ -217,7 +217,7 @@ export default function CaseStudies() {
                     style={{ backgroundColor: colors.bg, borderColor: colors.bg }}
                   >
                     <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <img src={sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
+                      <img src={sc.thumbnail || sc.image} alt={sc.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-black/60" />
                     </div>
                     <div className={`z-10 relative ${colors.text} group-hover:text-white transition-colors duration-300`}>
@@ -233,7 +233,7 @@ export default function CaseStudies() {
                       View project <FiArrowUpRight size={12} strokeWidth={2.5} />
                     </div>
                     <div className="absolute bottom-0 right-0 w-[50%] h-[50%] opacity-10 mix-blend-multiply rounded-tl-[24px] overflow-hidden z-0 group-hover:opacity-0 transition-opacity duration-300">
-                      <img src={sc.image} className="w-full h-full object-cover object-top" alt={sc.title} />
+                      <img src={sc.thumbnail || sc.image} className="w-full h-full object-cover object-top" alt={sc.title} />
                     </div>
                   </Link>
                 </Reveal>

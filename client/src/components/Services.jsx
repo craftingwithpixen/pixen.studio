@@ -5,48 +5,57 @@ import { FiArrowUpRight } from 'react-icons/fi';
 const services = [
   {
     id: '01',
-    title: 'Web Dev',
-    category: 'Engineering',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
-    desc: 'Pixen creates modern, responsive websites built for ultimate performance and rapid business growth.',
+    title: 'Custom CRM Systems',
+    category: 'Business Systems',
+    image: '/1.png',
+    desc: 'Build centralized platforms to manage leads, clients, operations, and reporting.',
     accent: '#6A1DB5',
-    tags: ['React', 'Next.js', 'Webflow'],
+    tags: ['CRM', 'Dashboards', 'Reporting'],
   },
   {
     id: '02',
-    title: 'SaaS Products',
-    category: 'Product Design',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
-    desc: 'Robust, subscription-based platforms designed for high scalability and seamless payment flows.',
+    title: 'Workflow Automation',
+    category: 'Automation',
+    image: '/2.png',
+    desc: 'Reduce manual work and automate repetitive business processes.',
     accent: '#C8F139',
-    tags: ['Stripe', 'Auth', 'Dashboards'],
+    tags: ['Zapier', 'Integromat', 'Serverless'],
   },
   {
     id: '03',
-    title: 'AI Agents',
-    category: 'Intelligence',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80',
-    desc: 'Build AI agents that automate complex workflows, handle repetitive tasks, and deliver faster decisions.',
+    title: 'Business Websites',
+    category: 'Web',
+    image: '/3.png',
+    desc: 'Modern websites designed to generate trust, leads, and growth.',
     accent: '#A178FA',
-    tags: ['LLMs', 'Automation', 'RAG'],
+    tags: ['React', 'Next.js', 'SEO'],
   },
   {
     id: '04',
-    title: 'SEO & Search',
-    category: 'Growth',
-    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=900&q=80',
-    desc: 'Technical SEO strategies to ensure your digital platform ranks at the top and drives consistent organic traffic.',
+    title: 'Digital Platforms',
+    category: 'Platforms',
+    image: '/4.png',
+    desc: 'Portals, dashboards, internal tools, and customer-facing applications.',
     accent: '#00C2A8',
-    tags: ['Analytics', 'On-page', 'Performance'],
+    tags: ['Portals', 'APIs', 'UX'],
   },
   {
     id: '05',
-    title: 'Cloud DevOps',
-    category: 'Infrastructure',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80',
-    desc: 'Cloud deployments and infrastructure management for highly reliable applications with 99.9% uptime.',
-    accent: '#ffffff',
-    tags: ['AWS', 'Docker', 'CI/CD'],
+    title: 'Product Development',
+    category: 'MVP & SaaS',
+    image: '/5.png',
+    desc: 'MVPs and scalable SaaS products built for founders and startups.',
+    accent: '#A178FA',
+    tags: ['MVP', 'SaaS', 'Scaling'],
+  },
+  {
+    id: '06',
+    title: 'Agency Partnerships',
+    category: 'White-label',
+    image: '/6.png',
+    desc: 'White-label development support for marketing and creative agencies.',
+    accent: '#FF8A65',
+    tags: ['White-label', 'Support', 'Collaboration'],
   },
 ];
 
@@ -94,45 +103,6 @@ export default function Services() {
         )}
       </AnimatePresence>
 
-      {/* ── Floating image card that follows mouse ───────────────── */}
-      <AnimatePresence>
-        {hoveredIndex !== null && (
-          <motion.div
-            key={`preview-${hoveredIndex}`}
-            initial={{ opacity: 0, scale: 0.88, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.88, y: 20 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute pointer-events-none z-50 hidden lg:block"
-            style={{
-              left: mousePos.x + 30,
-              top: mousePos.y - 120,
-              width: 260,
-              height: 180,
-            }}
-          >
-            <div className="relative w-full h-full rounded-[20px] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.7)]">
-              <img
-                src={services[hoveredIndex].image}
-                alt={services[hoveredIndex].title}
-                className="w-full h-full object-cover"
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: `linear-gradient(135deg, ${services[hoveredIndex].accent}55 0%, transparent 60%)`,
-                }}
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                <p className="text-white text-[11px] font-bold tracking-widest uppercase opacity-80">
-                  {services[hoveredIndex].category}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* ── Header ───────────────────────────────────────────────── */}
       <div className="relative z-10 px-6 sm:px-10 lg:px-16 pt-16 sm:pt-20 lg:pt-24 pb-10 sm:pb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
         <motion.div
@@ -154,7 +124,7 @@ export default function Services() {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="text-[#666] text-[14px] sm:text-[15px] leading-[1.65] font-sans max-w-[340px] pb-1"
         >
-          We craft digital experiences across every layer of the stack — from design to deployment.
+          We help businesses streamline operations through custom CRM systems, workflow automation, modern websites, and scalable digital platforms.
         </motion.p>
       </div>
 
@@ -181,39 +151,6 @@ export default function Services() {
         ))}
       </div>
 
-      {/* ── Bottom CTA bar ───────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 mx-6 sm:mx-10 lg:mx-16 mb-12 mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-8 border-t border-white/[0.07]"
-      >
-        <div className="flex items-center gap-4">
-          <div className="flex -space-x-2">
-            {['11', '33', '44'].map((n) => (
-              <img
-                key={n}
-                src={`https://i.pravatar.cc/100?img=${n}`}
-                className="w-9 h-9 rounded-full border-2 border-[#0D0D0D] object-cover"
-                alt="client"
-              />
-            ))}
-          </div>
-          <span className="text-white/40 text-[12px] font-sans font-medium">
-            158+ projects delivered globally
-          </span>
-        </div>
-
-        <a
-          href="#contact"
-          className="group flex items-center gap-3 bg-white text-black px-7 py-3.5 rounded-full text-[13px] font-bold font-sans hover:bg-[#C8F139] transition-colors duration-300"
-        >
-          Start a project
-          <span className="w-6 h-6 bg-black/10 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
-            <FiArrowUpRight size={13} strokeWidth={2.5} />
-          </span>
-        </a>
-      </motion.div>
     </section>
   );
 }

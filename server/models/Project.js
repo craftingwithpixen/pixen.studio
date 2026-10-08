@@ -28,6 +28,7 @@ const ProjectSchema = new Schema(
     liveUrl: { type: String },
 
     thumbnail: { type: String },
+    showcaseImage: { type: String },
     images: [{ type: String }],
 
     createdBy: {

@@ -108,11 +108,6 @@ const Login = () => {
               )}
             </motion.button>
           </form>
-
-          {/* Footer Note */}
-          <p className="text-center text-[12px] text-black/40 mt-8 font-medium">
-            Default credentials: admin / adminpassword123
-          </p>
         </div>
       </motion.div>
     </div>

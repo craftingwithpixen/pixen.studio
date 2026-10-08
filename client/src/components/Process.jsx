@@ -4,17 +4,15 @@ import { FiSearch, FiLayout, FiCode, FiShield, FiZap, FiTrendingUp } from 'react
 
 // All colors from brand palette only — no off-brand hues
 const timelineData = [
-  { type: 'node', label: 'JAN', step: { title: 'Discovery', desc: 'Dive deep into your business goals, target audience, and requirements.', icon: FiSearch }, color: '#6A1DB5', textColor: '#FFFFFF', drop: 'long' },
-  { type: 'dot', label: 'FEB' },
-  { type: 'node', label: 'MAR', step: { title: 'Architecture', desc: 'Craft the UX/UI and design system while our architects set up.', icon: FiLayout }, color: '#C8F139', textColor: '#000000', drop: 'short' },
-  { type: 'dot', label: 'APR' },
-  { type: 'node', label: 'MAY', step: { title: 'Development', desc: 'Build the product using the MERN stack with rigorous QA testing.', icon: FiCode }, color: '#A178FA', textColor: '#000000', drop: 'long' },
-  { type: 'dot', label: 'JUN' },
-  { type: 'node', label: 'JUL', step: { title: 'Security Audit', desc: 'Comprehensive security scans and tests to lock down your app.', icon: FiShield }, color: '#00C2A8', textColor: '#000000', drop: 'short' },
-  { type: 'dot', label: 'AUG' },
-  { type: 'node', label: 'SEP', step: { title: 'Deployment', desc: 'Deploy to production and monitor real-time performance metrics.', icon: FiZap }, color: '#F5F3FF', textColor: '#000000', drop: 'long' },
-  { type: 'dot', label: 'OCT' },
-  { type: 'node', label: 'NOV', step: { title: 'Training & Scale', desc: 'Post-launch support and optimization so your product scales.', icon: FiTrendingUp }, color: '#F5A623', textColor: '#000000', drop: 'short' },
+  { type: 'node', label: '01', step: { title: 'Discovery & Workflow Analysis', desc: "We understand your business operations, bottlenecks, and goals.", icon: FiSearch }, color: '#6A1DB5', textColor: '#FFFFFF', drop: 'long' },
+  { type: 'dot', label: ' ' },
+  { type: 'node', label: '02', step: { title: 'System Architecture', desc: 'We design the workflow, data structure, and user experience.', icon: FiLayout }, color: '#C8F139', textColor: '#000000', drop: 'short' },
+  { type: 'dot', label: ' ' },
+  { type: 'node', label: '03', step: { title: 'Design & Development', desc: 'Our team builds scalable solutions tailored to your needs.', icon: FiCode }, color: '#A178FA', textColor: '#000000', drop: 'long' },
+  { type: 'dot', label: ' ' },
+  { type: 'node', label: '04', step: { title: 'Testing & Security', desc: 'Every feature is validated for reliability and performance.', icon: FiShield }, color: '#00C2A8', textColor: '#000000', drop: 'short' },
+  { type: 'dot', label: ' ' },
+  { type: 'node', label: '05', step: { title: 'Deployment & Support', desc: 'Launch confidently with ongoing maintenance and support.', icon: FiZap }, color: '#F5F3FF', textColor: '#000000', drop: 'long' },
 ];
 
 export default function Process() {
@@ -46,8 +44,8 @@ export default function Process() {
               transition={{ duration: 0.6 }}
               className="section-heading text-black"
             >
-              How we turn ideas<br />
-              <span className="text-[#6A1DB5]">into reality.</span>
+              How We Transform Business<br />
+              <span className="text-[#6A1DB5]">Challenges Into Scalable Systems</span>
             </motion.h2>
           </div>
 

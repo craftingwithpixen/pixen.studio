@@ -33,7 +33,7 @@ export default function Home() {
       <WhyUs />
       <CaseStudies />
       
-      <Testimonials />
+      {/* <Testimonials /> */}
       <CTA />
     </>
   );

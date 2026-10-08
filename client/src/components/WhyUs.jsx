@@ -21,14 +21,14 @@ export default function WhyUs() {
           {/* ── Column 1 ── */}
           <div className="order-2 lg:order-1 lg:col-span-3 flex flex-col gap-4 sm:gap-5">
 
-            {/* Card 1: Full-Cycle Expertise */}
+            {/* Card 1: Business-First Approach */}
             <motion.div
               {...getInViewProps(0.05)}
               whileHover={{ scale: 1.02 }}
               className="bg-[#F5F3FF] rounded-[24px] sm:rounded-[32px] p-6 sm:p-8 relative overflow-hidden border border-[#6A1DB5]/10 flex flex-col justify-start min-h-[240px]"
             >
-              <h3 className="text-[24px] sm:text-[26px] font-sans font-medium leading-[1.1] text-black mt-2">Full-Cycle<br/>Expertise</h3>
-              <p className="text-black/50 text-[13px] font-medium mt-3 leading-relaxed max-w-[220px]">We handle the MERN stack, Next.js, cloud deployment, and security — end to end.</p>
+              <h3 className="text-[24px] sm:text-[26px] font-sans font-medium leading-[1.1] text-black mt-2">Business-First<br/>Approach</h3>
+              <p className="text-black/50 text-[13px] font-medium mt-3 leading-relaxed max-w-[220px]">We understand workflows before writing code.</p>
 
               {/* Faint rings */}
               <div className="absolute right-[-60px] top-[10%] w-[200px] h-[200px] rounded-full border border-[#6A1DB5]/10 pointer-events-none" />
@@ -42,7 +42,7 @@ export default function WhyUs() {
               </div>
             </motion.div>
 
-            {/* Card 2: Security First — Vivid Violet solid */}
+            {/* Card 2: Tailored Solutions — Vivid Violet solid */}
             <motion.div
               {...getInViewProps(0.1)}
               whileHover={{ scale: 1.02 }}
@@ -53,8 +53,8 @@ export default function WhyUs() {
                 <path d="M0,50 Q25,30 50,60 T100,50 L100,100 L0,100 Z" fill="white"/>
               </svg>
 
-              <h3 className="text-[32px] sm:text-[36px] font-sans font-medium leading-[1.1] text-white mb-2 relative z-10">Security<br/>First</h3>
-              <p className="text-white/60 text-[13px] font-medium leading-snug relative z-10">We build fortresses,<br/>not just features.</p>
+              <h3 className="text-[32px] sm:text-[36px] font-sans font-medium leading-[1.1] text-white mb-2 relative z-10">Tailored<br/>Solutions</h3>
+              <p className="text-white/60 text-[13px] font-medium leading-snug relative z-10">Every system is designed around your business.</p>
             </motion.div>
           </div>
 
@@ -93,7 +93,7 @@ export default function WhyUs() {
               </div>
 
               <h3 className="text-white text-[20px] font-medium text-center leading-[1.2] relative z-10">Transparent<br/>Communication</h3>
-              <p className="text-white/50 text-center text-[13px] mt-3 leading-relaxed px-2 sm:px-4 relative z-10">No confusing jargon. We speak your language and keep you in the loop at every stage.</p>
+              <p className="text-white/50 text-center text-[13px] mt-3 leading-relaxed px-2 sm:px-4 relative z-10">Clear updates, timelines, and expectations.</p>
             </motion.div>
           </div>
 
@@ -106,7 +106,7 @@ export default function WhyUs() {
                 {...getInViewProps(0.1)}
                 className="section-heading text-white"
               >
-                Why Us?
+                Why Businesses Choose Pixen
               </motion.h2>
             </div>
 
@@ -119,8 +119,8 @@ export default function WhyUs() {
                 whileHover={{ scale: 1.02 }}
                 className="bg-[#C8F139] rounded-[24px] sm:rounded-[32px] p-5 sm:p-6 relative overflow-hidden flex-1 flex flex-row items-center justify-between sm:justify-between min-h-[100px] sm:h-[120px]"
               >
-                <h3 className="text-[32px] sm:text-[44px] font-sans font-medium leading-none text-black mb-0 relative z-10">100%</h3>
-                <p className="text-black/60 text-[10px] sm:text-[11px] font-bold leading-[1.3] text-right relative z-10 uppercase tracking-wide">In-House<br/>Development</p>
+                <h3 className="text-[18px] sm:text-[20px] font-sans font-bold leading-none text-black mb-0 relative z-10">Long-Term<br/>Support</h3>
+                <p className="text-black/60 text-[10px] sm:text-[11px] font-bold leading-[1.3] text-right relative z-10 uppercase tracking-wide">We're your technology partner, not just a project vendor.</p>
               </motion.div>
 
               {/* Circle Explore Button */}
@@ -157,9 +157,9 @@ export default function WhyUs() {
                 </div>
                 <span className="text-[#6A1DB5] text-[10px] uppercase tracking-[0.15em] font-bold mb-2 sm:mb-3 block">Always within reach</span>
                 <h3 className="text-black text-[22px] sm:text-[26px] lg:text-[28px] font-sans font-medium leading-[1.15]">
-                  Post-Launch Support & Maintenance
+                  Scalable Foundations
                 </h3>
-                <p className="text-black/50 text-[13px] leading-relaxed mt-3 max-w-[280px]">Our relationship doesn't end at launch. We offer ongoing maintenance, SEO adjustments, and scaling support.</p>
+                <p className="text-black/50 text-[13px] leading-relaxed mt-3 max-w-[280px]">Systems designed to grow with your business.</p>
               </div>
 
               {/* Phone Mockup - hidden completely on small screens to avoid overflow clashing */}

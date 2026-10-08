@@ -61,13 +61,16 @@ router.get('/slug/:slug', async (req, res) => {
 });
 
 // POST /api/projects
-router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
+router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'showcaseImage', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
   try {
     const data = { ...req.body };
     
     if (req.files) {
       if (req.files.thumbnail && req.files.thumbnail[0]) {
         data.thumbnail = req.files.thumbnail[0].path;
+      }
+      if (req.files.showcaseImage && req.files.showcaseImage[0]) {
+        data.showcaseImage = req.files.showcaseImage[0].path;
       }
       if (req.files.images) {
         data.images = req.files.images.map(file => file.path);
@@ -78,10 +81,8 @@ router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name
     const parseArray = (field) => {
       if (data[field] && typeof data[field] === 'string') {
         try {
-          // Try parsing as JSON first (if sent from a controlled component)
           data[field] = JSON.parse(data[field]);
         } catch (e) {
-          // Fallback to comma-separated string
           data[field] = data[field].split(',').map(item => item.trim()).filter(item => item !== '');
         }
       }
@@ -90,6 +91,7 @@ router.post('/', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name
     parseArray('tags');
     parseArray('techStack');
     parseArray('features');
+    parseArray('images');
 
     if (!data.slug && data.title) {
       data.slug = data.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
@@ -153,30 +155,12 @@ router.put('/reorder', auth, async (req, res) => {
 });
 
 // PUT /api/projects/:id
-router.put('/:id', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
+router.put('/:id', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'showcaseImage', maxCount: 1 }, { name: 'images', maxCount: 10 }, { name: 'diagram', maxCount: 1 }]), async (req, res) => {
   try {
     const data = { ...req.body };
     delete data.order; // position is only changed via PUT /reorder
 
     // ... existing image handling ...
-    if (req.files) {
-      if (req.files.thumbnail && req.files.thumbnail[0]) {
-        data.thumbnail = req.files.thumbnail[0].path;
-      }
-      if (req.files.images) {
-        const newImages = req.files.images.map(file => file.path);
-        let existingImages = [];
-        if (data.images) {
-          try {
-            existingImages = typeof data.images === 'string' ? JSON.parse(data.images) : data.images;
-          } catch (e) {
-            existingImages = [data.images];
-          }
-        }
-        data.images = [...existingImages, ...newImages];
-      }
-    }
-
     // Helper to handle array fields
     const parseArray = (field) => {
       if (data[field] && typeof data[field] === 'string') {
@@ -191,6 +175,21 @@ router.put('/:id', auth, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { na
     parseArray('tags');
     parseArray('techStack');
     parseArray('features');
+    parseArray('images');
+
+    if (req.files) {
+      if (req.files.thumbnail && req.files.thumbnail[0]) {
+        data.thumbnail = req.files.thumbnail[0].path;
+      }
+      if (req.files.showcaseImage && req.files.showcaseImage[0]) {
+        data.showcaseImage = req.files.showcaseImage[0].path;
+      }
+      if (req.files.images) {
+        const newImages = req.files.images.map(file => file.path);
+        const existingImages = Array.isArray(data.images) ? data.images : [];
+        data.images = [...existingImages, ...newImages];
+      }
+    }
 
     if (!data.slug && data.title) {
       data.slug = data.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
