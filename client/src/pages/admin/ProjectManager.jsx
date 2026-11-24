@@ -167,6 +167,9 @@ const ProjectManager = () => {
     features: "",
     isFeatured: false,
     order: 0,
+    thumbnail: "",
+    showcaseImage: "",
+    images: [],
     // Case Study
     cs_overview: "",
     cs_problemStatement: "",
@@ -472,6 +475,9 @@ const ProjectManager = () => {
       features: project.features?.join(", ") || "",
       isFeatured: project.isFeatured || false,
       order: project.order || 0,
+      thumbnail: project.thumbnail || "",
+      showcaseImage: project.showcaseImage || "",
+      images: project.images || [],
       // Case Study
       cs_overview: cs.overview || "",
       cs_problemStatement: cs.problemStatement || "",
