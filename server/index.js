@@ -27,6 +27,15 @@ app.get('/', (req, res) => {
   res.send('Pixen Studio API is running...');
 });
 
+// Error handler: surfaces errors thrown by middleware (multer/Cloudinary uploads)
+// as JSON so the client can show the real message instead of a bare 500.
+app.use((err, req, res, next) => {
+  console.error(err);
+  const code = err.status || err.http_code;
+  const status = code >= 400 && code < 600 ? code : err.name === 'MulterError' ? 400 : 500;
+  res.status(status).json({ message: err.message || 'Server error' });
+});
+
 const PORT = process.env.PORT || 5000;
 
 // Only listen if not running as a serverless function

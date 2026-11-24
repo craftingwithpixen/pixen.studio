@@ -452,7 +452,13 @@ const ProjectManager = () => {
       resetForm();
       fetchProjects();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Operation failed");
+      console.error("Project save failed:", err.response?.status, err.response?.data);
+      toast.error(
+        err.response?.data?.message ||
+          (err.response?.status === 413
+            ? "Images are too large to upload (limit ~4.5MB total)"
+            : `Operation failed (${err.response?.status || err.message})`),
+      );
     }
   };
 
